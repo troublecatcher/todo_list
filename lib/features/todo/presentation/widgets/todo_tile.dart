@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/domain/todo_bloc.dart';
-import 'package:todo_list/features/todo/presentation/layout/new_todo_screen.dart';
+import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
+import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
@@ -13,22 +16,26 @@ class TodoTile extends StatelessWidget {
   });
 
   final Todo todo;
-  final TodoBloc todoBloc;
+  final TodoController todoBloc;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       background: Container(
-        color: Colors.green,
+        color: switch (todo.isDone!) {
+          true => Theme.of(context).dividerColor,
+          false => AppColors.green,
+        },
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: const Icon(Icons.check, color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Icon(todo.isDone! ? Icons.close_rounded : Icons.check,
+            color: AppColors.white),
       ),
       secondaryBackground: Container(
-        color: Colors.red,
+        color: AppColors.red,
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: const Icon(Icons.delete, color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: const Icon(Icons.delete, color: AppColors.white),
       ),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
@@ -49,27 +56,120 @@ class TodoTile extends StatelessWidget {
         }
         return false;
       },
-      key: ValueKey(todo.hashCode),
-      child: ListTile(
-        leading: todo.isDone!
-            ? const Icon(Icons.check_box)
-            : const Icon(Icons.check_box_outline_blank_rounded),
-        title: Text(
-          todo.content ?? '',
-          style: TextStyle(
-            decoration: todo.isDone! ? TextDecoration.lineThrough : null,
-          ),
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: todo.deadline != null
-            ? Text(todo.deadline!.toIso8601String())
-            : null,
-        trailing: IconButton(
-          onPressed: () async {
-            await _editTodo(context);
-          },
-          icon: const Icon(Icons.info_outline),
+      key: ValueKey(todo),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (todo.isDone!)
+              const Icon(
+                Icons.check_box,
+                color: AppColors.green,
+              )
+            else
+              switch (todo.priority) {
+                TodoPriority.high => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 16,
+                        height: 16,
+                        color: AppColors.red.withOpacity(0.16),
+                      ),
+                      const Icon(
+                        Icons.check_box_outline_blank_rounded,
+                        color: AppColors.red,
+                      ),
+                    ],
+                  ),
+                _ => Icon(
+                    Icons.check_box_outline_blank,
+                    color: Theme.of(context).dividerColor,
+                  ),
+              },
+            const SizedBox(width: 12),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        if (!todo.isDone!)
+                          switch (todo.priority) {
+                            TodoPriority.high => Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/priority/high.svg'),
+                                  const SizedBox(width: 3),
+                                ],
+                              ),
+                            TodoPriority.low => Row(
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/icons/priority/low.svg'),
+                                  const SizedBox(width: 3),
+                                ],
+                              ),
+                            TodoPriority.none => const SizedBox.shrink(),
+                          },
+                        Expanded(
+                          child: Text(
+                            todo.content!,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: switch (todo.isDone!) {
+                                    true =>
+                                      Theme.of(context).colorScheme.tertiary,
+                                    false => null,
+                                  },
+                                  decoration: switch (todo.isDone!) {
+                                    true => TextDecoration.lineThrough,
+                                    false => TextDecoration.none,
+                                  },
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (todo.deadline != null)
+                      Column(
+                        children: [
+                          const SizedBox(height: 4),
+                          Text(
+                            todo.deadline!.toIso8601String(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: () async {
+                await _editTodo(context);
+              },
+              icon: Icon(
+                Icons.info_outline,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -109,11 +209,11 @@ class TodoTile extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
+                child: const Text('НЕТ'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Yes'),
+                child: const Text('ДА'),
               ),
             ],
           ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/domain/todo_bloc.dart';
-import 'package:todo_list/features/todo/presentation/widgets/todo_count_text.dart';
+import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
 
 class DoneTodoCountWidget extends StatelessWidget {
   const DoneTodoCountWidget({
@@ -9,7 +8,7 @@ class DoneTodoCountWidget extends StatelessWidget {
     required this.todoBloc,
   });
 
-  final TodoBloc todoBloc;
+  final TodoController todoBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +16,33 @@ class DoneTodoCountWidget extends StatelessWidget {
       stream: todoBloc.todos,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const TodoCountText(count: 0);
+          return const _TodoCountText(count: 0);
         } else if (snapshot.hasError) {
           return Text('Ошибка: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const TodoCountText(count: 0);
+          return const _TodoCountText(count: 0);
         }
         final doneCount = snapshot.data!.where((todo) => todo.isDone!).length;
-        return TodoCountText(count: doneCount);
+        return _TodoCountText(count: doneCount);
       },
+    );
+  }
+}
+
+class _TodoCountText extends StatelessWidget {
+  final int count;
+  const _TodoCountText({
+    required this.count,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Выполнено — $count',
+      style: Theme.of(context)
+          .textTheme
+          .bodyMedium!
+          .copyWith(color: Theme.of(context).colorScheme.tertiary),
     );
   }
 }

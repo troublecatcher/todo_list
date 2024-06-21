@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/config/theme/app_colors.dart';
 
-final theme = ThemeData(
-  useMaterial3: false,
-  scaffoldBackgroundColor: const Color.fromRGBO(247, 246, 242, 1),
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Color.fromRGBO(247, 246, 242, 1),
-  ),
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color.fromRGBO(0, 122, 255, 1),
-  ),
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(
-      fontWeight: FontWeight.w500,
-      fontSize: 32,
+ThemeData getLightTheme() {
+  final lightThemeColors = LightThemeColors();
+  return ThemeData(
+    brightness: Brightness.light,
+    useMaterial3: false,
+    scaffoldBackgroundColor: lightThemeColors.backgroundPrimary,
+    textTheme: const TextTheme(
+      displayLarge: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 32,
+      ),
+      titleMedium: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 20,
+      ),
+      bodyMedium: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 16,
+      ),
+      labelMedium: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+      ),
     ),
-  ),
-  // colorScheme: const ColorScheme(
-  //   brightness: Brightness.light,
-  //   primary: Color.fromRGBO(0, 122, 255, 1),
-  //   onPrimary: Colors.transparent,
-  //   secondary: Colors.transparent,
-  //   onSecondary: Colors.transparent,
-  //   error: Colors.transparent,
-  //   onError: Colors.transparent,
-  //   background: Colors.transparent,
-  //   onBackground: Colors.transparent,
-  //   surface: Colors.transparent,
-  //   onSurface: Colors.transparent,
-  // ),
-);
+    disabledColor: lightThemeColors.labelDisabled,
+    appBarTheme: AppBarTheme(
+      backgroundColor: lightThemeColors.backgroundPrimary,
+    ),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      foregroundColor: AppColors.white,
+    ),
+    dividerColor: lightThemeColors.supportSeparator,
+    colorScheme: ColorScheme.light(
+      primary: AppColors.blue,
+      secondary: AppColors.blue,
+      background: lightThemeColors.backgroundPrimary,
+      surface: lightThemeColors.backgroundElevated,
+      tertiary: lightThemeColors.labelTertiary,
+    ),
+  );
+}

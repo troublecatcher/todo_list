@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 
-class TodoBloc {
+class TodoController {
   final GetTodos getTodos;
   final AddTodo addTodo;
   final UpdateTodo updateTodo;
@@ -13,7 +13,7 @@ class TodoBloc {
 
   Stream<List<Todo>> get todos => _todoStream;
 
-  TodoBloc({
+  TodoController({
     required this.getTodos,
     required this.addTodo,
     required this.updateTodo,

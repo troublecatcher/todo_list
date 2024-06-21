@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/custom_card.dart';
 import 'package:todo_list/features/todo/data/isar_service.dart';
-import 'package:todo_list/features/todo/domain/todo_bloc.dart';
+import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/layout/new_todo_screen.dart';
+import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/widgets/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/widgets/todo_tile.dart';
@@ -16,17 +17,27 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
-  late Future<TodoBloc> todoBlocFuture;
+  late Future<TodoController> todoBlocFuture;
+  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     todoBlocFuture = IsarService().initializeBloc();
+    scrollController.addListener(() {
+      print(scrollController.offset);
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<TodoBloc>(
+    return FutureBuilder<TodoController>(
       future: todoBlocFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -40,11 +51,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
         return Scaffold(
           body: SafeArea(
+            bottom: false,
             child: CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: MySliverAppBar(
+                  delegate: _MySliverPersistentHeaderDelegate(
                       expandedHeight: 116,
                       collapsedHeight: 56,
                       todoBloc: todoBloc),
@@ -67,19 +79,30 @@ class _TodoListScreenState extends State<TodoListScreen> {
                     }
                     final todos = snapshot.data!;
                     return SliverToBoxAdapter(
-                      child: Card(
-                        margin: const EdgeInsets.all(16.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: todos.length,
-                            itemBuilder: (context, index) {
-                              final todo = todos[index];
-                              return TodoTile(todo: todo, todoBloc: todoBloc);
-                            },
-                          ),
+                      child: CustomCard(
+                        margin: const EdgeInsets.only(
+                          top: 16,
+                          right: 16,
+                          left: 16,
+                          bottom: 120,
+                        ),
+                        child: ListView.builder(
+                          controller: scrollController,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: todos.length,
+                          itemBuilder: (context, index) {
+                            final todo = todos[index];
+                            return ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: switch (index) {
+                                  0 => const Radius.circular(8),
+                                  _ => Radius.zero,
+                                },
+                              ),
+                              child: TodoTile(todo: todo, todoBloc: todoBloc),
+                            );
+                          },
                         ),
                       ),
                     );
@@ -99,7 +122,8 @@ class _TodoListScreenState extends State<TodoListScreen> {
     );
   }
 
-  Future<void> _createTodo(BuildContext context, TodoBloc todoBloc) async {
+  Future<void> _createTodo(
+      BuildContext context, TodoController todoBloc) async {
     final newTodo = await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => NewTodoScreen(action: CreateTodo()),
     )) as Todo?;
@@ -109,12 +133,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 }
 
-class MySliverAppBar extends SliverPersistentHeaderDelegate {
+class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
-  final TodoBloc todoBloc;
+  final TodoController todoBloc;
 
-  MySliverAppBar(
+  _MySliverPersistentHeaderDelegate(
       {required this.expandedHeight,
       required this.collapsedHeight,
       required this.todoBloc});
@@ -127,7 +151,6 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         (1 - collapsePercent) * (expandedHeight - minExtent) + minExtent;
     final double subtitleHeight = 24.0 * (1 - collapsePercent);
 
-    // Calculate the effective shadow percent
     final shadowPercent =
         (collapsePercent >= 0.7) ? (collapsePercent - 0.7) / 0.3 : 0.0;
 
@@ -185,8 +208,6 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               constraints: const BoxConstraints(),
               icon: const Icon(Icons.remove_red_eye),
               onPressed: () {},
-              color: Theme.of(context).primaryColor,
-              tooltip: 'Отобразить выполненные',
             ),
           ),
         ],

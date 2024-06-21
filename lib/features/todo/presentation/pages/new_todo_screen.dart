@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/custom_card.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
@@ -118,29 +119,30 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: TextField(
-                    controller: contentController,
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                      ),
-                      hintText: 'Что надо сделать...',
+              CustomCard(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  controller: contentController,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
                     ),
-                    minLines: 1,
-                    maxLines: null,
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                    ),
+                    hintText: 'Что надо сделать...',
+                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary),
                   ),
+                  minLines: 4,
+                  maxLines: null,
                 ),
               ),
               Builder(
                 builder: (ctx) {
                   return ListTile(
-                    title: const Text('Важность'),
+                    title: const Text('Приоритет'),
                     subtitle: Text(priority.displayName),
                     onTap: () => _onPriorityTileTap(ctx),
                   );
