@@ -18,20 +18,15 @@ class TodoListScreen extends StatefulWidget {
 
 class _TodoListScreenState extends State<TodoListScreen> {
   late Future<TodoController> todoBlocFuture;
-  final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     todoBlocFuture = IsarService().initializeBloc();
-    scrollController.addListener(() {
-      print(scrollController.offset);
-    });
   }
 
   @override
   void dispose() {
-    scrollController.dispose();
     super.dispose();
   }
 
@@ -87,7 +82,6 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           bottom: 120,
                         ),
                         child: ListView.builder(
-                          controller: scrollController,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: todos.length,
@@ -200,6 +194,17 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
+            // child: CustomIconButton(
+            //   icon: Icons.remove_red_eye,
+            //   onPressed: () {},
+            //   color: Colors.black,
+            //   padding: EdgeInsets.only(
+            //     right: lerpDouble(24, 18, collapsePercent)!,
+            //     bottom: lerpDouble(0, 16, collapsePercent)!,
+            //     left: 0,
+            //     top: 0,
+            //   ),
+            // ),
             child: IconButton(
               padding: EdgeInsets.only(
                 right: lerpDouble(24, 18, collapsePercent)!,
@@ -223,4 +228,49 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+}
+
+class CustomIconButton extends StatefulWidget {
+  final IconData icon;
+  final Function() onPressed;
+  final Color color;
+  final EdgeInsets? padding;
+  final double? side;
+  const CustomIconButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+    required this.color,
+    this.padding,
+    this.side,
+  });
+
+  @override
+  State<CustomIconButton> createState() => _CustomIconButtonState();
+}
+
+class _CustomIconButtonState extends State<CustomIconButton> {
+  bool shrank = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: shrank ? 0.8 : 1,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOutExpo,
+      child: GestureDetector(
+        onTapDown: (details) => setState(() => shrank = true),
+        onTapUp: (details) => setState(() => shrank = false),
+        onTapCancel: () => setState(() => shrank = false),
+        onTap: widget.onPressed,
+        child: Container(
+          color: Colors.blue,
+          padding: widget.padding ?? EdgeInsets.zero,
+          width: widget.side ?? 48,
+          height: widget.side ?? 48,
+          child: Icon(widget.icon),
+        ),
+      ),
+    );
+  }
 }
