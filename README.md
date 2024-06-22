@@ -1,8 +1,9 @@
 # JUST TODO IT app
 Last updated 23 Jun, 2024
 
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/960073d1-e883-4f0c-8eb6-4efbf37e434e" width="25%" height="25%"/>
+
 Приложение для отслеживания выполненных дел. Что может быть проще? А вот и посмотрим, так ли это легко!
-<img src="https://github.com/troublecatcher/todo_list/assets/91335963/425934dc-b2a8-4315-8e45-ba8f1db02d43" width="25%" height="25%"/>
 Ссылка на apk: [тык](https://drive.google.com/file/d/1ljbRdxCcROk3fxESbb7u2CLMnyH8nONP/view?usp=sharing)!
 
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/7db161f5-8295-4eb3-aeef-99ab1a6e7ad5" width="25%" height="25%"/>
