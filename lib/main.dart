@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
+import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
 import 'package:todo_list/features/todo/presentation/screens/home_screen.dart';
@@ -13,16 +14,16 @@ import 'package:todo_list/core/services/isar_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await FormattingHelper.init();
+
   final isarService = IsarService();
   final isar = await isarService.initializeIsar();
   final todoRepository = IsarTodoRepository(isar);
-
   runApp(
     BlocProvider(
-      create: (context) => TodoBloc(todoRepository: todoRepository)
-        ..add(
-          LoadTodos(),
-        ),
+      create: (context) =>
+          TodoBloc(todoRepository: todoRepository)..add(LoadTodos()),
       child: const MainApp(),
     ),
   );
@@ -38,6 +39,7 @@ class MainApp extends StatelessWidget {
       theme: getLightTheme(),
       darkTheme: getDarkTheme(),
       debugShowCheckedModeBanner: false,
+      locale: const Locale('ru', 'RU'),
       navigatorObservers: [
         NavigationLogger(),
       ],

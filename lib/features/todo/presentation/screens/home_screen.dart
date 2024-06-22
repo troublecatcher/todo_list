@@ -53,13 +53,19 @@ class HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.done_outline,
+                            Icons.done_all_rounded,
                             size: 100,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           const SizedBox(height: 20),
-                          const Text('Дел нет'),
-                          const Text('Счастливый Вы человек!'),
+                          Text(
+                            'Дел нет',
+                            style: Theme.of(context).textTheme.displayLarge,
+                          ),
+                          Text(
+                            'Счастливый Вы человек!',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
                           const SizedBox(height: 100),
                         ],
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
@@ -150,7 +151,7 @@ class _TodoTileState extends State<TodoTile> {
                       children: [
                         const SizedBox(height: 4),
                         Text(
-                          widget.todo.deadline!.toIso8601String(),
+                          FormattingHelper.formatDate(widget.todo.deadline!),
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!

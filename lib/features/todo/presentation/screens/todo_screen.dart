@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
@@ -85,169 +86,169 @@ class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 5,
-        leading: CustomIconButton(
-          icon: Icons.close,
-          onPressed: () => Navigator.of(context).pop(),
-          color: Theme.of(context).colorScheme.onBackground,
-        ),
-        actions: [
-          TextButton(
-            onPressed: contentController.text.isNotEmpty
-                ? () {
-                    final todo = Todo(
-                      content: contentController.text,
-                      priority: priority,
-                      deadline: deadline,
-                      done: switch (widget.action) {
-                        CreateTodo _ => false,
-                        EditTodo action => action.todo.done,
-                      },
-                    );
-                    switch (widget.action) {
-                      case CreateTodo _:
-                        Navigator.of(context).pop(todo);
-                        break;
-                      case EditTodo _:
-                        Navigator.of(context).pop(EditedTodo(todo: todo));
-                        break;
-                    }
-                  }
-                : null,
-            child: const Text('СОХРАНИТЬ'),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    CustomCard(
-                      padding: const EdgeInsets.all(16),
-                      child: TextField(
-                        controller: contentController,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        decoration: InputDecoration(
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                          hintText: 'Что надо сделать...',
-                          hintStyle: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                        ),
-                        minLines: 4,
-                        maxLines: null,
-                        onChanged: (_) => setState(() {}),
-                      ),
-                    ),
-                    Builder(
-                      builder: (ctx) {
-                        return ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            'Приоритет',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                          subtitle: Text(priority.displayName),
-                          onTap: () => _onPriorityTileTap(ctx),
-                        );
-                      },
-                    ),
-                    const Divider(height: 0),
-                    AnimatedSize(
-                      duration: Durations.medium1,
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        titleTextStyle: Theme.of(context).textTheme.bodyMedium,
-                        title: const Text('Сделать до'),
-                        subtitle: deadline != null
-                            ? Text(deadline!.toIso8601String())
-                            : null,
-                        subtitleTextStyle: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(
-                                color: Theme.of(context).colorScheme.primary),
-                        trailing: Switch(
-                          value: deadline != null,
-                          onChanged: (value) async {
-                            if (value) {
-                              final newDeadline = await showDatePicker(
-                                context: context,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
-                              );
-                              if (newDeadline != null) {
-                                deadline = newDeadline;
-                                Log.i(
-                                    'added deadline ${deadline?.toIso8601String()}');
-                              }
-                            } else {
-                              Log.i('removed deadline');
-                              deadline = null;
-                            }
-                            setState(() {});
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            elevation: 0,
+            scrolledUnderElevation: 5,
+            leading: CustomIconButton(
+              icon: Icons.close,
+              onPressed: () => Navigator.of(context).pop(),
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            actions: [
+              TextButton(
+                onPressed: contentController.text.isNotEmpty
+                    ? () {
+                        final todo = Todo(
+                          content: contentController.text,
+                          priority: priority,
+                          deadline: deadline,
+                          done: switch (widget.action) {
+                            CreateTodo _ => false,
+                            EditTodo action => action.todo.done,
                           },
+                        );
+                        switch (widget.action) {
+                          case CreateTodo _:
+                            Navigator.of(context).pop(todo);
+                            break;
+                          case EditTodo _:
+                            Navigator.of(context).pop(EditedTodo(todo: todo));
+                            break;
+                        }
+                      }
+                    : null,
+                child: const Text('СОХРАНИТЬ'),
+              ),
+            ],
+            pinned: true,
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 8, right: 16, left: 16),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  CustomCard(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      controller: contentController,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      decoration: InputDecoration(
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
                         ),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        hintText: 'Что надо сделать...',
+                        hintStyle: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(
+                                color: Theme.of(context).colorScheme.tertiary),
                       ),
+                      minLines: 4,
+                      maxLines: null,
+                      onChanged: (_) => setState(() {}),
+                    ),
+                  ),
+                  Builder(
+                    builder: (ctx) {
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          'Приоритет',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        subtitle: Text(priority.displayName),
+                        onTap: () => _onPriorityTileTap(ctx),
+                      );
+                    },
+                  ),
+                  const Divider(height: 0),
+                  AnimatedSize(
+                    duration: Durations.medium1,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      titleTextStyle: Theme.of(context).textTheme.bodyMedium,
+                      title: const Text('Сделать до'),
+                      subtitle: deadline != null
+                          ? Text(FormattingHelper.formatDate(deadline!))
+                          : null,
+                      subtitleTextStyle: Theme.of(context)
+                          .textTheme
+                          .labelMedium!
+                          .copyWith(
+                              color: Theme.of(context).colorScheme.primary),
+                      trailing: Switch(
+                        value: deadline != null,
+                        onChanged: (value) async {
+                          if (value) {
+                            final newDeadline = await showDatePicker(
+                              context: context,
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2100),
+                            );
+                            if (newDeadline != null) {
+                              deadline = newDeadline;
+                              Log.i(
+                                  'added deadline ${deadline?.toIso8601String()}');
+                            }
+                          } else {
+                            Log.i('removed deadline');
+                            deadline = null;
+                          }
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: Divider(),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: 8, right: 16, left: 16),
+            sliver: SliverToBoxAdapter(
+              child: TextButton(
+                onPressed: switch (widget.action) {
+                  CreateTodo _ => null,
+                  EditTodo todoAction => () async {
+                      DialogManager.showDeleteConfirmationDialog(context)
+                          .then((result) {
+                        if (result != null && result) {
+                          Navigator.of(context).pop(DeletedTodo());
+                        } else {
+                          Log.i(
+                              'rejected to delete todo (id ${todoAction.todo.id})');
+                        }
+                      });
+                    }
+                },
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.delete,
+                      color: AppColors.red,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Удалить',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.red),
                     ),
                   ],
                 ),
               ),
-              const Divider(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextButton(
-                  onPressed: switch (widget.action) {
-                    CreateTodo _ => null,
-                    EditTodo todoAction => () async {
-                        DialogManager.showDeleteConfirmationDialog(context)
-                            .then((result) {
-                          if (result != null && result) {
-                            Navigator.of(context).pop(DeletedTodo());
-                          } else {
-                            Log.i(
-                                'rejected to delete todo (id ${todoAction.todo.id})');
-                          }
-                        });
-                      }
-                  },
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.delete,
-                        color: AppColors.red,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Удалить',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(color: AppColors.red),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
