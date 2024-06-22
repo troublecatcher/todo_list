@@ -82,6 +82,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           left: 16,
                           bottom: 120,
                         ),
+                        // this is most likely to be refactored in the future
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
@@ -201,7 +202,7 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               onPressed: () {},
               color: Theme.of(context).colorScheme.primary,
               margin: EdgeInsets.only(
-                right: lerpDouble(12, 0, collapsePercent)!,
+                right: lerpDouble(24, 0, collapsePercent)!,
                 bottom: lerpDouble(0, 6, collapsePercent)!,
               ),
             ),

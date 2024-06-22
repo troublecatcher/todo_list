@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:todo_list/common/ui/custom_card.dart';
+import 'package:todo_list/common/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
@@ -84,13 +86,18 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 5,
-        leading: IconButton(
+        leading: CustomIconButton(
+          icon: Icons.close,
           onPressed: () => Navigator.of(context).pop(),
-          icon: Icon(
-            Icons.close_rounded,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
+          color: Theme.of(context).colorScheme.onBackground,
         ),
+        // leading: IconButton(
+        // onPressed: () => Navigator.of(context).pop(),
+        //   icon: Icon(
+        //     Icons.close_rounded,
+        //     color: Theme.of(context).colorScheme.secondary,
+        //   ),
+        // ),
         actions: [
           TextButton(
             onPressed: () {
@@ -118,109 +125,135 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomCard(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: contentController,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  decoration: InputDecoration(
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    hintText: 'Что надо сделать...',
-                    hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary),
-                  ),
-                  minLines: 4,
-                  maxLines: null,
-                ),
-              ),
-              Builder(
-                builder: (ctx) {
-                  return ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      'Приоритет',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    subtitle: Text(priority.displayName),
-                    onTap: () => _onPriorityTileTap(ctx),
-                  );
-                },
-              ),
-              const Divider(height: 0),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
                   children: [
-                    const Text('Сделать до'),
-                    AnimatedSwitcher(
-                      transitionBuilder: (child, animation) => FadeTransition(
-                        opacity: animation,
-                        child: child,
+                    CustomCard(
+                      padding: const EdgeInsets.all(16),
+                      child: TextField(
+                        controller: contentController,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        decoration: InputDecoration(
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                          ),
+                          hintText: 'Что надо сделать...',
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.tertiary),
+                        ),
+                        minLines: 4,
+                        maxLines: null,
                       ),
-                      duration: Durations.medium1,
-                      child: deadline != null
-                          ? Text(deadline!.toIso8601String())
-                          : const SizedBox.shrink(),
                     ),
-                  ],
-                ),
-                trailing: Switch(
-                  value: deadline != null,
-                  onChanged: (value) async {
-                    if (value) {
-                      final newDeadline = await showDatePicker(
-                        context: context,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-                      if (newDeadline != null) {
-                        deadline = newDeadline;
-                      }
-                    } else {
-                      deadline = null;
-                    }
-                    setState(() {});
-                  },
-                ),
-              ),
-              TextButton(
-                onPressed: switch (widget.action) {
-                  CreateTodo _ => null,
-                  EditTodo _ => () => showDialog<bool>(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Уверены?'),
-                          content: const Text('Хотите удалить это дело?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('НЕТ'),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.of(context)
-                                ..pop()
-                                ..pop(DeletedTodo()),
-                              child: const Text('ДА'),
-                            ),
-                          ],
+                    Builder(
+                      builder: (ctx) {
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            'Приоритет',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                          subtitle: Text(priority.displayName),
+                          onTap: () => _onPriorityTileTap(ctx),
+                        );
+                      },
+                    ),
+                    const Divider(height: 0),
+                    AnimatedSize(
+                      duration: Durations.medium1,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        titleTextStyle: Theme.of(context).textTheme.bodyMedium,
+                        title: const Text('Сделать до'),
+                        subtitle: deadline != null
+                            ? Text(deadline!.toIso8601String())
+                            : null,
+                        subtitleTextStyle: Theme.of(context)
+                            .textTheme
+                            .labelMedium!
+                            .copyWith(
+                                color: Theme.of(context).colorScheme.primary),
+                        trailing: Switch(
+                          value: deadline != null,
+                          onChanged: (value) async {
+                            if (value) {
+                              final newDeadline = await showDatePicker(
+                                context: context,
+                                firstDate: DateTime(2000),
+                                lastDate: DateTime(2100),
+                              );
+                              if (newDeadline != null) {
+                                deadline = newDeadline;
+                              }
+                            } else {
+                              deadline = null;
+                            }
+                            setState(() {});
+                          },
                         ),
                       ),
-                },
-                child: const Row(
-                  children: [
-                    Icon(Icons.delete),
-                    Text('Удалить'),
+                    ),
                   ],
+                ),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextButton(
+                  onPressed: switch (widget.action) {
+                    CreateTodo _ => null,
+                    EditTodo _ => () => showDialog<bool>(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text(
+                              'Уверены, что хотите удалить дело?',
+                            ),
+                            content: const Text(
+                              'Это действие необратимо',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('НЕТ'),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.of(context)
+                                  ..pop()
+                                  ..pop(DeletedTodo()),
+                                child: const Text('ДА'),
+                              ),
+                            ],
+                          ),
+                        ),
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.delete,
+                        color: AppColors.red,
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Удалить',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: AppColors.red),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

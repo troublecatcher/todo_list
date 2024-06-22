@@ -237,8 +237,12 @@ class _TodoTileState extends State<TodoTile> {
     return await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Уверены?'),
-            content: const Text('Хотите удалить это дело?'),
+            title: const Text(
+              'Уверены, что хотите удалить дело?',
+            ),
+            content: const Text(
+              'Это действие необратимо',
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),

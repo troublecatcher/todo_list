@@ -14,6 +14,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       title: 'JUST TODO IT',
       theme: getLightTheme(),
+      darkTheme: getDarkTheme(),
       debugShowCheckedModeBanner: false,
       home: const TodoListScreen(),
     );
