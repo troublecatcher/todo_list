@@ -105,6 +105,7 @@ class _TodoTileState extends State<TodoTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (!widget.todo.done!)
                         switch (widget.todo.priority) {
