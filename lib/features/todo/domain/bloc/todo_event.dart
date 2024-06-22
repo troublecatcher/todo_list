@@ -3,7 +3,7 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 abstract class TodoEvent extends Equatable {
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class LoadTodos extends TodoEvent {}
@@ -14,7 +14,7 @@ class AddTodoEvent extends TodoEvent {
   AddTodoEvent(this.todo);
 
   @override
-  List<Object> get props => [todo];
+  List<Object?> get props => [todo];
 }
 
 class UpdateTodoEvent extends TodoEvent {
@@ -23,7 +23,7 @@ class UpdateTodoEvent extends TodoEvent {
   UpdateTodoEvent(this.todo);
 
   @override
-  List<Object> get props => [todo];
+  List<Object?> get props => [todo];
 }
 
 class DeleteTodoEvent extends TodoEvent {
@@ -32,5 +32,7 @@ class DeleteTodoEvent extends TodoEvent {
   DeleteTodoEvent(this.id);
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id];
 }
+
+class ToggleVisibilityMode extends TodoEvent {}

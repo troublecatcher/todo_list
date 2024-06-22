@@ -17,10 +17,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,7 +220,13 @@ class _ToggleVisibilityButton extends StatefulWidget {
 }
 
 class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
-  VisibilityMode mode = VisibilityMode.undone;
+  late VisibilityMode mode;
+
+  @override
+  void didChangeDependencies() {
+    mode = context.watch<TodoBloc>().mode;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,19 +236,7 @@ class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
         VisibilityMode.all => Icons.visibility_off,
       },
       onPressed: () {
-        Log.i('toggle todo visibility to ${mode.name}');
-        setState(() {
-          switch (mode) {
-            case VisibilityMode.undone:
-              mode = VisibilityMode.all;
-              // widget.todoBloc.allTodos();
-              break;
-            case VisibilityMode.all:
-              mode = VisibilityMode.undone;
-              // widget.todoBloc.undoneTodos();
-              break;
-          }
-        });
+        context.read<TodoBloc>().add(ToggleVisibilityMode());
       },
       color: Theme.of(context).colorScheme.primary,
       margin: EdgeInsets.only(
@@ -252,5 +246,3 @@ class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
     );
   }
 }
-
-enum VisibilityMode { undone, all }

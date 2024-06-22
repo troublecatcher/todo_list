@@ -7,6 +7,7 @@ import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/presentation/utility/dialog_manager.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
@@ -183,16 +184,9 @@ class _TodoTileState extends State<TodoTile> {
       DismissDirection direction, BuildContext context) async {
     if (direction == DismissDirection.startToEnd) {
       final todo = widget.todo;
-      print(todo.id);
       context.read<TodoBloc>().add(
             UpdateTodoEvent(
-              widget.todo.copyWith(
-                id: todo.id,
-                content: todo.content,
-                done: !todo.done!,
-                deadline: todo.deadline,
-                priority: todo.priority,
-              ),
+              widget.todo.copyWith(done: !todo.done!),
             ),
           );
       Log.i(
@@ -200,14 +194,13 @@ class _TodoTileState extends State<TodoTile> {
       return false;
     } else if (direction == DismissDirection.endToStart) {
       Log.i('prompted to delete todo (id ${widget.todo.id})');
-      final shouldDelete = await _showConfirmationDialog(context);
-      if (shouldDelete != null && shouldDelete) {
+      final result = await DialogManager.showDeleteConfirmationDialog(context);
+      if (result != null && result) {
         context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
-        Log.i('deleted todo (id ${widget.todo.id})');
       } else {
         Log.i('rejected to delete todo (id ${widget.todo.id})');
       }
-      return shouldDelete ?? false;
+      return result ?? false;
     }
     return false;
   }
@@ -225,43 +218,16 @@ class _TodoTileState extends State<TodoTile> {
                 widget.todo.copyWith(
                   id: resultTodo.id,
                   content: resultTodo.content,
-                  done: !resultTodo.done!,
+                  done: resultTodo.done!,
                   deadline: resultTodo.deadline,
                   priority: resultTodo.priority,
                 ),
               ),
             );
-        Log.i('updated todo (id ${widget.todo.id})');
       }
     } else if (result is DeletedTodo) {
       context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
-      Log.i('deleted todo (id ${widget.todo.id})');
     }
-  }
-
-  Future<bool?> _showConfirmationDialog(BuildContext context) async {
-    return await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text(
-              'Уверены, что хотите удалить дело?',
-            ),
-            content: const Text(
-              'Это действие необратимо',
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('НЕТ'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('ДА'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
   }
 }
 

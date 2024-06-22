@@ -4,6 +4,7 @@ import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/presentation/utility/dialog_manager.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
@@ -217,35 +218,15 @@ class _TodoScreenState extends State<TodoScreen> {
                     EditTodo todoAction => () async {
                         Log.i(
                             'prompted to delete todo (id ${todoAction.todo.id})');
-                        final result = await showDialog<bool>(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text(
-                              'Уверены, что хотите удалить дело?',
-                            ),
-                            content: const Text(
-                              'Это действие необратимо',
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                child: const Text('НЕТ'),
-                              ),
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(true),
-                                child: const Text('ДА'),
-                              ),
-                            ],
-                          ),
-                        );
-                        if (result != null && result) {
-                          Navigator.of(context).pop(DeletedTodo());
-                        } else {
-                          Log.i(
-                              'rejected to delete todo (id ${todoAction.todo.id})');
-                        }
+                        DialogManager.showDeleteConfirmationDialog(context)
+                            .then((result) {
+                          if (result != null && result) {
+                            Navigator.of(context).pop(DeletedTodo());
+                          } else {
+                            Log.i(
+                                'rejected to delete todo (id ${todoAction.todo.id})');
+                          }
+                        });
                       }
                   },
                   child: Row(

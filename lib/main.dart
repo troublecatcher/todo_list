@@ -7,7 +7,7 @@ import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
 import 'package:todo_list/features/todo/presentation/pages/home_screen.dart';
 import 'package:todo_list/features/todo/presentation/pages/todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
-import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
+import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
 
 // Import your Isar service
 import 'package:todo_list/core/services/isar_service.dart';
@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final isarService = IsarService();
   final isar = await isarService.initializeIsar();
-  final todoRepository = TodoRepositoryImpl(isar);
+  final todoRepository = IsarTodoRepository(isar);
 
   runApp(
     BlocProvider(

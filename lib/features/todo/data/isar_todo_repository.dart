@@ -2,14 +2,24 @@ import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 
-class TodoRepositoryImpl implements TodoRepository {
+class IsarTodoRepository implements TodoRepository {
   final Isar isar;
 
-  TodoRepositoryImpl(this.isar);
+  IsarTodoRepository(this.isar);
 
   @override
   Stream<List<Todo>> getTodos() {
     return isar.todos.where().watch(fireImmediately: true);
+  }
+
+  @override
+  Stream<List<Todo>> getUndoneTodos() {
+    final query = isar.todos
+        .where()
+        .filter()
+        .doneEqualTo(false)
+        .watch(fireImmediately: true);
+    return query;
   }
 
   @override

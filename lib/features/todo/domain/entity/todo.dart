@@ -27,9 +27,9 @@ class Todo {
   }) {
     return Todo(
       content: content ?? this.content,
-      priority: this.priority,
+      priority: priority ?? this.priority,
       deadline: deadline,
-      done: this.done,
+      done: done ?? this.done,
     )..id = this.id;
   }
 }
