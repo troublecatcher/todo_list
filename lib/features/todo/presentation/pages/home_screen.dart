@@ -1,34 +1,30 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:todo_list/common/ui/custom_card.dart';
-import 'package:todo_list/common/ui/custom_icon_button.dart';
+import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/ui/custom_card.dart';
+import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/data/isar_service.dart';
 import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/widgets/done_todo_count_widget.dart';
+import 'package:todo_list/features/todo/presentation/widgets/fast_todo_creation_tile.dart';
 import 'package:todo_list/features/todo/presentation/widgets/todo_tile.dart';
 
-class TodoListScreen extends StatefulWidget {
-  const TodoListScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<TodoListScreen> createState() => _TodoListScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _TodoListScreenState extends State<TodoListScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   late Future<TodoController> todoBlocFuture;
 
   @override
   void initState() {
     super.initState();
     todoBlocFuture = IsarService().initializeBloc();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -53,24 +49,38 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _CustomHeaderDelegate(
-                      expandedHeight: 116,
-                      collapsedHeight: 56,
-                      todoBloc: todoBloc),
+                    expandedHeight: 116,
+                    collapsedHeight: 56,
+                    todoBloc: todoBloc,
+                  ),
                 ),
                 StreamBuilder<List<Todo>>(
                   stream: todoBloc.todos,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const SliverToBoxAdapter(
-                        child: Center(child: Text('Дел нет.')),
+                        child: Center(child: CircularProgressIndicator()),
                       );
                     } else if (snapshot.hasError) {
                       return SliverToBoxAdapter(
                         child: Center(child: Text('Ошибка: ${snapshot.error}')),
                       );
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const SliverToBoxAdapter(
-                        child: Center(child: Text('Дел нет.')),
+                      return const SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.done_outline,
+                              size: 100,
+                            ),
+                            SizedBox(height: 20),
+                            Text('Дел нет'),
+                            Text('Счастливый Вы человек!'),
+                            SizedBox(height: 100),
+                          ],
+                        ),
                       );
                     }
                     final todos = snapshot.data!;
@@ -87,18 +97,21 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: todos.length,
+                          itemCount: todos.length + 1,
                           itemBuilder: (context, index) {
-                            final todo = todos[index];
-                            return ClipRRect(
-                              borderRadius: BorderRadius.vertical(
-                                top: switch (index) {
-                                  0 => const Radius.circular(8),
-                                  _ => Radius.zero,
-                                },
-                              ),
-                              child: TodoTile(todo: todo, todoBloc: todoBloc),
-                            );
+                            if (index == todos.length) {
+                              return FastTodoCreationTile(todoBloc: todoBloc);
+                            } else {
+                              final Todo todo = todos[index];
+                              return ClipRRect(
+                                borderRadius: BorderRadius.vertical(
+                                  top: index == 0
+                                      ? const Radius.circular(8)
+                                      : Radius.zero,
+                                ),
+                                child: TodoTile(todo: todo, todoBloc: todoBloc),
+                              );
+                            }
                           },
                         ),
                       ),
@@ -121,11 +134,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
 
   Future<void> _createTodo(
       BuildContext context, TodoController todoBloc) async {
-    final newTodo = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => NewTodoScreen(action: CreateTodo()),
-    )) as Todo?;
+    final newTodo = await Navigator.of(context).pushNamed(
+      '/todo',
+      arguments: CreateTodo(),
+    ) as Todo?;
     if (newTodo != null) {
-      todoBloc.addTodo(newTodo);
+      await todoBloc.addTodo(newTodo);
     }
   }
 }
@@ -197,14 +211,9 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: CustomIconButton(
-              icon: Icons.remove_red_eye,
-              onPressed: () {},
-              color: Theme.of(context).colorScheme.primary,
-              margin: EdgeInsets.only(
-                right: lerpDouble(24, 0, collapsePercent)!,
-                bottom: lerpDouble(0, 6, collapsePercent)!,
-              ),
+            child: _ToggleVisibilityButton(
+              collapsePercent: collapsePercent,
+              todoBloc: todoBloc,
             ),
           ),
         ],
@@ -221,3 +230,54 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
+
+class _ToggleVisibilityButton extends StatefulWidget {
+  final TodoController todoBloc;
+
+  const _ToggleVisibilityButton({
+    required this.collapsePercent,
+    required this.todoBloc,
+  });
+
+  final double collapsePercent;
+
+  @override
+  State<_ToggleVisibilityButton> createState() =>
+      _ToggleVisibilityButtonState();
+}
+
+class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
+  VisibilityMode mode = VisibilityMode.undone;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomIconButton(
+      icon: switch (mode) {
+        VisibilityMode.undone => Icons.visibility,
+        VisibilityMode.all => Icons.visibility_off,
+      },
+      onPressed: () {
+        Log.i('toggle todo visibility to ${mode.name}');
+        setState(() {
+          switch (mode) {
+            case VisibilityMode.undone:
+              mode = VisibilityMode.all;
+              widget.todoBloc.allTodos();
+              break;
+            case VisibilityMode.all:
+              mode = VisibilityMode.undone;
+              widget.todoBloc.undoneTodos();
+              break;
+          }
+        });
+      },
+      color: Theme.of(context).colorScheme.primary,
+      margin: EdgeInsets.only(
+        right: lerpDouble(24, 0, widget.collapsePercent)!,
+        bottom: lerpDouble(0, 6, widget.collapsePercent)!,
+      ),
+    );
+  }
+}
+
+enum VisibilityMode { undone, all }

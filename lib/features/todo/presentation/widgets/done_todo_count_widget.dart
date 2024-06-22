@@ -22,7 +22,7 @@ class DoneTodoCountWidget extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const _TodoCountText(count: 0);
         }
-        final doneCount = snapshot.data!.where((todo) => todo.isDone!).length;
+        final doneCount = snapshot.data!.where((todo) => todo.done!).length;
         return _TodoCountText(count: doneCount);
       },
     );

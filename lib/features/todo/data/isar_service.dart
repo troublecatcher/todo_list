@@ -11,6 +11,7 @@ class IsarService {
     final isar = await Isar.open(
       [TodoSchema],
       directory: dir.path,
+      // inspector: false,
     );
 
     final todoRepository = TodoRepositoryImpl(isar);

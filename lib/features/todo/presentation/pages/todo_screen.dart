@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:todo_list/common/ui/custom_card.dart';
-import 'package:todo_list/common/ui/custom_icon_button.dart';
+import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/ui/custom_card.dart';
+import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
-class NewTodoScreen extends StatefulWidget {
+class TodoScreen extends StatefulWidget {
   final TodoAction action;
-  const NewTodoScreen({super.key, required this.action});
+  const TodoScreen({super.key, required this.action});
 
   @override
-  State<NewTodoScreen> createState() => _NewTodoScreenState();
+  State<TodoScreen> createState() => _TodoScreenState();
 }
 
-class _NewTodoScreenState extends State<NewTodoScreen> {
+class _TodoScreenState extends State<TodoScreen> {
   final contentController = TextEditingController();
   TodoPriority priority = TodoPriority.none;
   DateTime? deadline;
@@ -68,6 +68,7 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
 
     if (selectedPriority != null) {
       setState(() {
+        Log.i('selected priority ${selectedPriority.name}');
         priority = selectedPriority;
       });
     }
@@ -91,34 +92,29 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
           onPressed: () => Navigator.of(context).pop(),
           color: Theme.of(context).colorScheme.onBackground,
         ),
-        // leading: IconButton(
-        // onPressed: () => Navigator.of(context).pop(),
-        //   icon: Icon(
-        //     Icons.close_rounded,
-        //     color: Theme.of(context).colorScheme.secondary,
-        //   ),
-        // ),
         actions: [
           TextButton(
-            onPressed: () {
-              final todo = Todo(
-                content: contentController.text,
-                priority: priority,
-                deadline: deadline,
-                isDone: switch (widget.action) {
-                  CreateTodo _ => false,
-                  EditTodo action => action.todo.isDone,
-                },
-              );
-              switch (widget.action) {
-                case CreateTodo _:
-                  Navigator.of(context).pop(todo);
-                  break;
-                case EditTodo _:
-                  Navigator.of(context).pop(EditedTodo(todo: todo));
-                  break;
-              }
-            },
+            onPressed: contentController.text.isNotEmpty
+                ? () {
+                    final todo = Todo(
+                      content: contentController.text,
+                      priority: priority,
+                      deadline: deadline,
+                      done: switch (widget.action) {
+                        CreateTodo _ => false,
+                        EditTodo action => action.todo.done,
+                      },
+                    );
+                    switch (widget.action) {
+                      case CreateTodo _:
+                        Navigator.of(context).pop(todo);
+                        break;
+                      case EditTodo _:
+                        Navigator.of(context).pop(EditedTodo(todo: todo));
+                        break;
+                    }
+                  }
+                : null,
             child: const Text('СОХРАНИТЬ'),
           ),
         ],
@@ -155,6 +151,7 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                         ),
                         minLines: 4,
                         maxLines: null,
+                        onChanged: (_) => setState(() {}),
                       ),
                     ),
                     Builder(
@@ -196,8 +193,11 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                               );
                               if (newDeadline != null) {
                                 deadline = newDeadline;
+                                Log.i(
+                                    'added deadline ${deadline?.toIso8601String()}');
                               }
                             } else {
+                              Log.i('removed deadline');
                               deadline = null;
                             }
                             setState(() {});
@@ -214,7 +214,10 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                 child: TextButton(
                   onPressed: switch (widget.action) {
                     CreateTodo _ => null,
-                    EditTodo _ => () => showDialog<bool>(
+                    EditTodo todoAction => () async {
+                        Log.i(
+                            'prompted to delete todo (id ${todoAction.todo.id})');
+                        final result = await showDialog<bool>(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text(
@@ -225,18 +228,25 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
                             ),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
                                 child: const Text('НЕТ'),
                               ),
                               TextButton(
-                                onPressed: () => Navigator.of(context)
-                                  ..pop()
-                                  ..pop(DeletedTodo()),
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
                                 child: const Text('ДА'),
                               ),
                             ],
                           ),
-                        ),
+                        );
+                        if (result != null && result) {
+                          Navigator.of(context).pop(DeletedTodo());
+                        } else {
+                          Log.i(
+                              'rejected to delete todo (id ${todoAction.todo.id})');
+                        }
+                      }
                   },
                   child: Row(
                     children: [

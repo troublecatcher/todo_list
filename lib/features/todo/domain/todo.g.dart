@@ -27,9 +27,9 @@ const TodoSchema = CollectionSchema(
       name: r'deadline',
       type: IsarType.dateTime,
     ),
-    r'isDone': PropertySchema(
+    r'done': PropertySchema(
       id: 2,
-      name: r'isDone',
+      name: r'done',
       type: IsarType.bool,
     ),
     r'priority': PropertySchema(
@@ -76,7 +76,7 @@ void _todoSerialize(
 ) {
   writer.writeString(offsets[0], object.content);
   writer.writeDateTime(offsets[1], object.deadline);
-  writer.writeBool(offsets[2], object.isDone);
+  writer.writeBool(offsets[2], object.done);
   writer.writeByte(offsets[3], object.priority.index);
 }
 
@@ -89,7 +89,7 @@ Todo _todoDeserialize(
   final object = Todo(
     content: reader.readStringOrNull(offsets[0]),
     deadline: reader.readDateTimeOrNull(offsets[1]),
-    isDone: reader.readBoolOrNull(offsets[2]),
+    done: reader.readBoolOrNull(offsets[2]),
     priority: _TodopriorityValueEnumMap[reader.readByteOrNull(offsets[3])] ??
         TodoPriority.none,
   );
@@ -430,6 +430,31 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'done',
+      ));
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'done',
+      ));
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneEqualTo(bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'done',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Todo, Todo, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -478,31 +503,6 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> isDoneIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'isDone',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> isDoneIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'isDone',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> isDoneEqualTo(bool? value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'isDone',
-        value: value,
       ));
     });
   }
@@ -590,15 +590,15 @@ extension TodoQuerySortBy on QueryBuilder<Todo, Todo, QSortBy> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByIsDone() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDone() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isDone', Sort.asc);
+      return query.addSortBy(r'done', Sort.asc);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByIsDoneDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDoneDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isDone', Sort.desc);
+      return query.addSortBy(r'done', Sort.desc);
     });
   }
 
@@ -640,6 +640,18 @@ extension TodoQuerySortThenBy on QueryBuilder<Todo, Todo, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDone() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'done', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDoneDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'done', Sort.desc);
+    });
+  }
+
   QueryBuilder<Todo, Todo, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -649,18 +661,6 @@ extension TodoQuerySortThenBy on QueryBuilder<Todo, Todo, QSortThenBy> {
   QueryBuilder<Todo, Todo, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByIsDone() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isDone', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByIsDoneDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'isDone', Sort.desc);
     });
   }
 
@@ -691,9 +691,9 @@ extension TodoQueryWhereDistinct on QueryBuilder<Todo, Todo, QDistinct> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QDistinct> distinctByIsDone() {
+  QueryBuilder<Todo, Todo, QDistinct> distinctByDone() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'isDone');
+      return query.addDistinctBy(r'done');
     });
   }
 
@@ -723,9 +723,9 @@ extension TodoQueryProperty on QueryBuilder<Todo, Todo, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Todo, bool?, QQueryOperations> isDoneProperty() {
+  QueryBuilder<Todo, bool?, QQueryOperations> doneProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'isDone');
+      return query.addPropertyName(r'done');
     });
   }
 

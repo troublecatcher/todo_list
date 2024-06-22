@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_list/common/ui/custom_icon_button.dart';
+import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
-import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
@@ -51,9 +51,14 @@ class _TodoTileState extends State<TodoTile> {
       confirmDismiss: (direction) async =>
           await _handleDismiss(direction, context),
       background: _StatusChangeBackground(
-          todo: widget.todo, reached: reached, progress: progress),
-      secondaryBackground:
-          _DeleteBackground(reached: reached, progress: progress),
+        todo: widget.todo,
+        reached: reached,
+        progress: progress,
+      ),
+      secondaryBackground: _DeleteBackground(
+        reached: reached,
+        progress: progress,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,7 +69,7 @@ class _TodoTileState extends State<TodoTile> {
               bottom: 12,
               left: 16,
             ),
-            child: switch (widget.todo.isDone!) {
+            child: switch (widget.todo.done!) {
               true => const Icon(
                   Icons.check_box,
                   color: AppColors.green,
@@ -99,7 +104,7 @@ class _TodoTileState extends State<TodoTile> {
                 children: [
                   Row(
                     children: [
-                      if (!widget.todo.isDone!)
+                      if (!widget.todo.done!)
                         switch (widget.todo.priority) {
                           TodoPriority.high => Row(
                               children: [
@@ -125,12 +130,12 @@ class _TodoTileState extends State<TodoTile> {
                           overflow: TextOverflow.ellipsis,
                           style:
                               Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: switch (widget.todo.isDone!) {
+                                    color: switch (widget.todo.done!) {
                                       true =>
                                         Theme.of(context).colorScheme.tertiary,
                                       false => null,
                                     },
-                                    decoration: switch (widget.todo.isDone!) {
+                                    decoration: switch (widget.todo.done!) {
                                       true => TextDecoration.lineThrough,
                                       false => TextDecoration.none,
                                     },
@@ -166,22 +171,9 @@ class _TodoTileState extends State<TodoTile> {
               left: 12,
             ),
             icon: Icons.info_outline,
-            onPressed: () async {
-              await _editTodo(context);
-            },
+            onPressed: () async => await _editTodo(context),
             color: Theme.of(context).colorScheme.tertiary,
           ),
-          // IconButton(
-          // padding: EdgeInsets.zero,
-          //   constraints: const BoxConstraints(),
-          //   onPressed: () async {
-          //     await _editTodo(context);
-          //   },
-          //   icon: Icon(
-          //     Icons.info_outline,
-          //     color: Theme.of(context).colorScheme.tertiary,
-          //   ),
-          // ),
         ],
       ),
     );
@@ -190,36 +182,40 @@ class _TodoTileState extends State<TodoTile> {
   Future<bool> _handleDismiss(
       DismissDirection direction, BuildContext context) async {
     if (direction == DismissDirection.startToEnd) {
+      final todo = widget.todo;
       widget.todoBloc.update(widget.todo.copyWith(
-        id: widget.todo.id,
-        content: widget.todo.content,
-        isDone: !widget.todo.isDone!,
-        deadline: widget.todo.deadline,
-        priority: widget.todo.priority,
+        id: todo.id,
+        content: todo.content,
+        done: !todo.done!,
+        deadline: todo.deadline,
+        priority: todo.priority,
       ));
+      Log.i(
+          'changed todo (id ${todo.id}) completeness status to ${!todo.done!}');
       return false;
     } else if (direction == DismissDirection.endToStart) {
+      Log.i('prompted to delete todo (id ${widget.todo.id})');
       final shouldDelete = await _showConfirmationDialog(context);
-      if (shouldDelete) {
-        widget.todoBloc.delete(widget.todo.id);
+      if (shouldDelete != null && shouldDelete) {
+        await widget.todoBloc.delete(widget.todo.id);
+        Log.i('deleted todo (id ${widget.todo.id})');
+      } else {
+        Log.i('rejected to delete todo (id ${widget.todo.id})');
       }
-      return shouldDelete;
+      return shouldDelete ?? false;
     }
     return false;
   }
 
   Future<void> _editTodo(BuildContext context) async {
-    final result = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => NewTodoScreen(
-        action: EditTodo(
-          todo: widget.todo,
-        ),
-      ),
-    ));
+    final result = await Navigator.of(context).pushNamed(
+      '/todo',
+      arguments: EditTodo(todo: widget.todo),
+    ) as TodoResult?;
     if (result is EditedTodo) {
       final resultTodo = result.todo;
       if (resultTodo != null) {
-        widget.todoBloc.update(
+        await widget.todoBloc.update(
           widget.todo.copyWith(
             id: widget.todo.id,
             content: resultTodo.content,
@@ -227,14 +223,16 @@ class _TodoTileState extends State<TodoTile> {
             deadline: resultTodo.deadline,
           ),
         );
+        Log.i('updated todo (id ${widget.todo.id})');
       }
     } else if (result is DeletedTodo) {
-      widget.todoBloc.delete(widget.todo.id);
+      await widget.todoBloc.delete(widget.todo.id);
+      Log.i('deleted todo (id ${widget.todo.id})');
     }
   }
 
-  Future<bool> _showConfirmationDialog(BuildContext context) async {
-    return await showDialog<bool>(
+  Future<bool?> _showConfirmationDialog(BuildContext context) async {
+    return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: const Text(
@@ -297,7 +295,7 @@ class _StatusChangeBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: switch (todo.isDone!) {
+      color: switch (todo.done!) {
         true => Theme.of(context).dividerColor,
         false => AppColors.green,
       },
@@ -307,7 +305,7 @@ class _StatusChangeBackground extends StatelessWidget {
         padding: EdgeInsets.only(
             left: reached ? 30 * (10 * progress) : (24 * (4 * progress))),
         child: Icon(
-          todo.isDone! ? Icons.close_rounded : Icons.check,
+          todo.done! ? Icons.close_rounded : Icons.check,
           color: AppColors.white,
         ),
       ),

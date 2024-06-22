@@ -9,13 +9,13 @@ class Todo {
   @enumerated
   TodoPriority priority;
   DateTime? deadline;
-  bool? isDone;
+  bool? done;
 
   Todo({
     required this.content,
     required this.priority,
     required this.deadline,
-    required this.isDone,
+    required this.done,
   });
 
   Todo copyWith({
@@ -23,13 +23,13 @@ class Todo {
     String? content,
     TodoPriority? priority,
     DateTime? deadline,
-    bool? isDone,
+    bool? done,
   }) {
     return Todo(
       content: content ?? this.content,
       priority: priority ?? this.priority,
-      deadline: deadline ?? this.deadline,
-      isDone: isDone ?? this.isDone,
+      deadline: deadline,
+      done: done ?? this.done,
     )..id = id ?? this.id;
   }
 }

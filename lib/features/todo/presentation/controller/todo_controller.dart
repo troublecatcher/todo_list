@@ -33,4 +33,9 @@ class TodoController {
   Future<void> delete(int id) async {
     await deleteTodoById.call(id);
   }
+
+  Stream<List<Todo>> undoneTodos() => _todoStream
+      .map((todos) => todos.where((todo) => todo.done != true).toList());
+
+  Stream<List<Todo>> allTodos() => _todoStream;
 }
