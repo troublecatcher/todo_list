@@ -248,7 +248,9 @@ class _DeleteBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            right: reached ? 30 * (10 * progress) : (24 * (4 * progress))),
+            right: reached
+                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+                : (24 * (4 * progress))),
         child: const Icon(Icons.delete, color: AppColors.white),
       ),
     );
@@ -277,7 +279,9 @@ class _StatusChangeBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            left: reached ? 30 * (10 * progress) : (24 * (4 * progress))),
+            left: reached
+                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+                : (24 * (4 * progress))),
         child: Icon(
           todo.done! ? Icons.close_rounded : Icons.check,
           color: AppColors.white,

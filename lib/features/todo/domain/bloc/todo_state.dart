@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
-abstract class TodoState extends Equatable {
+sealed class TodoState extends Equatable {
   @override
   List<Object> get props => [];
 }

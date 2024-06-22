@@ -47,7 +47,7 @@ class HomeScreenState extends State<HomeScreen> {
                 } else if (state is TodoLoaded) {
                   final todos = state.todos;
                   if (todos.isEmpty) {
-                    return const SliverFillRemaining(
+                    return SliverFillRemaining(
                       hasScrollBody: false,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -55,11 +55,12 @@ class HomeScreenState extends State<HomeScreen> {
                           Icon(
                             Icons.done_outline,
                             size: 100,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
-                          SizedBox(height: 20),
-                          Text('Дел нет'),
-                          Text('Счастливый Вы человек!'),
-                          SizedBox(height: 100),
+                          const SizedBox(height: 20),
+                          const Text('Дел нет'),
+                          const Text('Счастливый Вы человек!'),
+                          const SizedBox(height: 100),
                         ],
                       ),
                     );

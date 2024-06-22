@@ -9,7 +9,6 @@ import 'package:todo_list/features/todo/presentation/screens/todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
 
-// Import your Isar service
 import 'package:todo_list/core/services/isar_service.dart';
 
 void main() async {
@@ -20,8 +19,10 @@ void main() async {
 
   runApp(
     BlocProvider(
-      create: (context) =>
-          TodoBloc(todoRepository: todoRepository)..add(LoadTodos()),
+      create: (context) => TodoBloc(todoRepository: todoRepository)
+        ..add(
+          LoadTodos(),
+        ),
       child: const MainApp(),
     ),
   );

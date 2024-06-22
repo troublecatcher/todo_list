@@ -10,15 +10,20 @@ class DoneTodoCountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoBloc, TodoState>(
       builder: (context, state) {
-        if (state is TodoLoading) {
-          return const CircularProgressIndicator();
-        } else if (state is TodoError) {
-          return Text('Ошибка: ${state.message}');
-        } else if (state is TodoLoaded) {
-          final doneCount = state.todos.where((todo) => todo.done!).length;
-          return _TodoCountText(count: doneCount);
-        } else {
-          return const _TodoCountText(count: 0);
+        switch (state) {
+          case TodoInitial _:
+            return const _TodoCountText(count: 0);
+          case TodoLoading _:
+            return const CircularProgressIndicator();
+          case TodoError _:
+            return Text('Ошибка: ${state.message}');
+          case TodoLoaded _:
+            if (state.todos.isNotEmpty) {
+              final doneCount = state.todos.where((todo) => todo.done!).length;
+              return _TodoCountText(count: doneCount);
+            } else {
+              return const _TodoCountText(count: 0);
+            }
         }
       },
     );
