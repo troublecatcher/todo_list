@@ -3,7 +3,7 @@ import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 

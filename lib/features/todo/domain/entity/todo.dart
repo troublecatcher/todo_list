@@ -27,10 +27,10 @@ class Todo {
   }) {
     return Todo(
       content: content ?? this.content,
-      priority: priority ?? this.priority,
+      priority: this.priority,
       deadline: deadline,
-      done: done ?? this.done,
-    )..id = id ?? this.id;
+      done: this.done,
+    )..id = this.id;
   }
 }
 

@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_state.dart';
 
 class DoneTodoCountWidget extends StatelessWidget {
-  const DoneTodoCountWidget({
-    super.key,
-    required this.todoBloc,
-  });
-
-  final TodoController todoBloc;
+  const DoneTodoCountWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Todo>>(
-      stream: todoBloc.todos,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const _TodoCountText(count: 0);
-        } else if (snapshot.hasError) {
-          return Text('Ошибка: ${snapshot.error}');
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+    return BlocBuilder<TodoBloc, TodoState>(
+      builder: (context, state) {
+        if (state is TodoLoading) {
+          return const CircularProgressIndicator();
+        } else if (state is TodoError) {
+          return Text('Ошибка: ${state.message}');
+        } else if (state is TodoLoaded) {
+          final doneCount = state.todos.where((todo) => todo.done!).length;
+          return _TodoCountText(count: doneCount);
+        } else {
           return const _TodoCountText(count: 0);
         }
-        final doneCount = snapshot.data!.where((todo) => todo.done!).length;
-        return _TodoCountText(count: doneCount);
       },
     );
   }

@@ -1,4 +1,4 @@
-import 'package:todo_list/features/todo/domain/todo.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 sealed class TodoAction {}
 

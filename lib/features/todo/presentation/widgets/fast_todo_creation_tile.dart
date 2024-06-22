@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class FastTodoCreationTile extends StatefulWidget {
-  final TodoController todoBloc;
-  const FastTodoCreationTile({super.key, required this.todoBloc});
+  const FastTodoCreationTile({super.key});
 
   @override
   State<FastTodoCreationTile> createState() => _FastTodoCreationTileState();
@@ -100,14 +101,16 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                   padding: const EdgeInsets.only(left: 12, right: 16),
                   icon: Icons.send_rounded,
                   onPressed: () async {
-                    await widget.todoBloc.addTodo(
-                      Todo(
-                        content: fastTodoNameController.text,
-                        priority: TodoPriority.none,
-                        deadline: null,
-                        done: false,
-                      ),
-                    );
+                    context.read<TodoBloc>().add(
+                          AddTodoEvent(
+                            Todo(
+                              content: fastTodoNameController.text,
+                              priority: TodoPriority.none,
+                              deadline: null,
+                              done: false,
+                            ),
+                          ),
+                        );
                   },
                   color: Theme.of(context).colorScheme.primary,
                 )

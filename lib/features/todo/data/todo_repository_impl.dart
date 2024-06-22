@@ -1,5 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {

@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
 import 'package:todo_list/features/todo/presentation/pages/home_screen.dart';
 import 'package:todo_list/features/todo/presentation/pages/todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
+import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
 
-void main() {
-  runApp(const MainApp());
+// Import your Isar service
+import 'package:todo_list/core/services/isar_service.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final isarService = IsarService();
+  final isar = await isarService.initializeIsar();
+  final todoRepository = TodoRepositoryImpl(isar);
+
+  runApp(
+    BlocProvider(
+      create: (context) =>
+          TodoBloc(todoRepository: todoRepository)..add(LoadTodos()),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

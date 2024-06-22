@@ -1,11 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/data/isar_service.dart';
-import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_state.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/widgets/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/widgets/fast_todo_creation_tile.dart';
@@ -19,127 +21,107 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<TodoController> todoBlocFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    todoBlocFuture = IsarService().initializeBloc();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<TodoController>(
-      future: todoBlocFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Ошибка: ${snapshot.error}'));
-        } else if (!snapshot.hasData) {
-          return const Center(child: Text('Что-то пошло не так.'));
-        }
-        final todoBloc = snapshot.data!;
-
-        return Scaffold(
-          body: SafeArea(
-            bottom: false,
-            child: CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: _CustomHeaderDelegate(
-                    expandedHeight: 116,
-                    collapsedHeight: 56,
-                    todoBloc: todoBloc,
-                  ),
-                ),
-                StreamBuilder<List<Todo>>(
-                  stream: todoBloc.todos,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SliverToBoxAdapter(
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    } else if (snapshot.hasError) {
-                      return SliverToBoxAdapter(
-                        child: Center(child: Text('Ошибка: ${snapshot.error}')),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.done_outline,
-                              size: 100,
-                            ),
-                            SizedBox(height: 20),
-                            Text('Дел нет'),
-                            Text('Счастливый Вы человек!'),
-                            SizedBox(height: 100),
-                          ],
-                        ),
-                      );
-                    }
-                    final todos = snapshot.data!;
-                    return SliverToBoxAdapter(
-                      child: CustomCard(
-                        margin: const EdgeInsets.only(
-                          top: 16,
-                          right: 16,
-                          left: 16,
-                          bottom: 120,
-                        ),
-                        // this is most likely to be refactored in the future
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: todos.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == todos.length) {
-                              return FastTodoCreationTile(todoBloc: todoBloc);
-                            } else {
-                              final Todo todo = todos[index];
-                              return ClipRRect(
-                                borderRadius: BorderRadius.vertical(
-                                  top: index == 0
-                                      ? const Radius.circular(8)
-                                      : Radius.zero,
-                                ),
-                                child: TodoTile(todo: todo, todoBloc: todoBloc),
-                              );
-                            }
-                          },
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _CustomHeaderDelegate(
+                expandedHeight: 116,
+                collapsedHeight: 56,
+              ),
+            ),
+            BlocBuilder<TodoBloc, TodoState>(
+              builder: (context, state) {
+                if (state is TodoLoading) {
+                  return const SliverToBoxAdapter(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                } else if (state is TodoError) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text('Ошибка: ${state.message}')),
+                  );
+                } else if (state is TodoLoaded) {
+                  final todos = state.todos;
+                  if (todos.isEmpty) {
+                    return const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.done_outline,
+                            size: 100,
+                          ),
+                          SizedBox(height: 20),
+                          Text('Дел нет'),
+                          Text('Счастливый Вы человек!'),
+                          SizedBox(height: 100),
+                        ],
                       ),
                     );
-                  },
-                ),
-              ],
+                  }
+                  return SliverToBoxAdapter(
+                    child: CustomCard(
+                      margin: const EdgeInsets.only(
+                        top: 16,
+                        right: 16,
+                        left: 16,
+                        bottom: 120,
+                      ),
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: todos.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == todos.length) {
+                            return const FastTodoCreationTile();
+                          } else {
+                            final Todo todo = todos[index];
+                            return ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: index == 0
+                                    ? const Radius.circular(8)
+                                    : Radius.zero,
+                              ),
+                              child: TodoTile(todo: todo),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  return const SliverToBoxAdapter(
+                    child: SizedBox.shrink(),
+                  );
+                }
+              },
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await _createTodo(context, todoBloc);
-            },
-            child: const Icon(Icons.add),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await _createTodo(context);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
-  Future<void> _createTodo(
-      BuildContext context, TodoController todoBloc) async {
+  Future<void> _createTodo(BuildContext context) async {
     final newTodo = await Navigator.of(context).pushNamed(
       '/todo',
       arguments: CreateTodo(),
     ) as Todo?;
     if (newTodo != null) {
-      await todoBloc.addTodo(newTodo);
+      context.read<TodoBloc>().add(AddTodoEvent(newTodo));
     }
   }
 }
@@ -147,12 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
 class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
-  final TodoController todoBloc;
 
-  _CustomHeaderDelegate(
-      {required this.expandedHeight,
-      required this.collapsedHeight,
-      required this.todoBloc});
+  _CustomHeaderDelegate({
+    required this.expandedHeight,
+    required this.collapsedHeight,
+  });
 
   @override
   Widget build(
@@ -203,7 +184,7 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   height: subtitleHeight,
                   child: Opacity(
                     opacity: 1 - collapsePercent,
-                    child: DoneTodoCountWidget(todoBloc: todoBloc),
+                    child: const DoneTodoCountWidget(),
                   ),
                 ),
               ],
@@ -211,10 +192,7 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: _ToggleVisibilityButton(
-              collapsePercent: collapsePercent,
-              todoBloc: todoBloc,
-            ),
+            child: _ToggleVisibilityButton(collapsePercent: collapsePercent),
           ),
         ],
       ),
@@ -232,12 +210,7 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class _ToggleVisibilityButton extends StatefulWidget {
-  final TodoController todoBloc;
-
-  const _ToggleVisibilityButton({
-    required this.collapsePercent,
-    required this.todoBloc,
-  });
+  const _ToggleVisibilityButton({required this.collapsePercent});
 
   final double collapsePercent;
 
@@ -262,11 +235,11 @@ class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
           switch (mode) {
             case VisibilityMode.undone:
               mode = VisibilityMode.all;
-              widget.todoBloc.allTodos();
+              // widget.todoBloc.allTodos();
               break;
             case VisibilityMode.all:
               mode = VisibilityMode.undone;
-              widget.todoBloc.undoneTodos();
+              // widget.todoBloc.undoneTodos();
               break;
           }
         });

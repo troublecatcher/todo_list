@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
-import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
 
@@ -12,11 +14,9 @@ class TodoTile extends StatefulWidget {
   const TodoTile({
     super.key,
     required this.todo,
-    required this.todoBloc,
   });
 
   final Todo todo;
-  final TodoController todoBloc;
 
   @override
   State<TodoTile> createState() => _TodoTileState();
@@ -183,13 +183,18 @@ class _TodoTileState extends State<TodoTile> {
       DismissDirection direction, BuildContext context) async {
     if (direction == DismissDirection.startToEnd) {
       final todo = widget.todo;
-      widget.todoBloc.update(widget.todo.copyWith(
-        id: todo.id,
-        content: todo.content,
-        done: !todo.done!,
-        deadline: todo.deadline,
-        priority: todo.priority,
-      ));
+      print(todo.id);
+      context.read<TodoBloc>().add(
+            UpdateTodoEvent(
+              widget.todo.copyWith(
+                id: todo.id,
+                content: todo.content,
+                done: !todo.done!,
+                deadline: todo.deadline,
+                priority: todo.priority,
+              ),
+            ),
+          );
       Log.i(
           'changed todo (id ${todo.id}) completeness status to ${!todo.done!}');
       return false;
@@ -197,7 +202,7 @@ class _TodoTileState extends State<TodoTile> {
       Log.i('prompted to delete todo (id ${widget.todo.id})');
       final shouldDelete = await _showConfirmationDialog(context);
       if (shouldDelete != null && shouldDelete) {
-        await widget.todoBloc.delete(widget.todo.id);
+        context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
         Log.i('deleted todo (id ${widget.todo.id})');
       } else {
         Log.i('rejected to delete todo (id ${widget.todo.id})');
@@ -215,18 +220,21 @@ class _TodoTileState extends State<TodoTile> {
     if (result is EditedTodo) {
       final resultTodo = result.todo;
       if (resultTodo != null) {
-        await widget.todoBloc.update(
-          widget.todo.copyWith(
-            id: widget.todo.id,
-            content: resultTodo.content,
-            priority: resultTodo.priority,
-            deadline: resultTodo.deadline,
-          ),
-        );
+        context.read<TodoBloc>().add(
+              UpdateTodoEvent(
+                widget.todo.copyWith(
+                  id: resultTodo.id,
+                  content: resultTodo.content,
+                  done: !resultTodo.done!,
+                  deadline: resultTodo.deadline,
+                  priority: resultTodo.priority,
+                ),
+              ),
+            );
         Log.i('updated todo (id ${widget.todo.id})');
       }
     } else if (result is DeletedTodo) {
-      await widget.todoBloc.delete(widget.todo.id);
+      context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
       Log.i('deleted todo (id ${widget.todo.id})');
     }
   }
