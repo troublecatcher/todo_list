@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:todo_list/common/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
+import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
 import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
@@ -22,7 +23,7 @@ class TodoTile extends StatefulWidget {
 }
 
 class _TodoTileState extends State<TodoTile> {
-  bool reach = false;
+  bool reached = false;
   double progress = 0;
 
   @override
@@ -36,178 +37,175 @@ class _TodoTileState extends State<TodoTile> {
       onUpdate: (details) {
         setState(() {
           progress = details.progress;
+          if (details.reached) {
+            if (!reached) {
+              reached = true;
+            }
+          } else {
+            if (reached) {
+              reached = false;
+            }
+          }
         });
-        if (details.reached) {
-          if (!reach) {
-            reach = true;
-          }
-        } else {
-          if (reach) {
-            reach = false;
-          }
-        }
       },
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          widget.todoBloc.update(widget.todo.copyWith(
-            id: widget.todo.id,
-            content: widget.todo.content,
-            isDone: !widget.todo.isDone!,
-            deadline: widget.todo.deadline,
-            priority: widget.todo.priority,
-          ));
-          return false;
-        } else if (direction == DismissDirection.endToStart) {
-          final shouldDelete = await _showConfirmationDialog(context);
-          if (shouldDelete) {
-            widget.todoBloc.delete(widget.todo.id);
-          }
-          return shouldDelete;
-        }
-        return false;
-      },
-      background: Container(
-        color: switch (widget.todo.isDone!) {
-          true => Theme.of(context).dividerColor,
-          false => AppColors.green,
-        },
-        alignment: Alignment.centerLeft,
-        child: AnimatedPadding(
-          duration: const Duration(milliseconds: 50),
-          padding: EdgeInsets.only(
-              left: reach ? 30 * (10 * progress) : (24 * (4 * progress))),
-          child: Icon(
-            widget.todo.isDone! ? Icons.close_rounded : Icons.check,
-            color: AppColors.white,
-          ),
-        ),
-      ),
-      secondaryBackground: Container(
-        color: AppColors.red,
-        alignment: Alignment.centerRight,
-        child: AnimatedPadding(
-          duration: const Duration(milliseconds: 50),
-          padding: EdgeInsets.only(
-              right: reach ? 30 * (10 * progress) : (24 * (4 * progress))),
-          child: const Icon(Icons.delete, color: AppColors.white),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.todo.isDone!)
-              const Icon(
-                Icons.check_box,
-                color: AppColors.green,
-              )
-            else
-              switch (widget.todo.priority) {
-                TodoPriority.high => Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        color: AppColors.red.withOpacity(0.16),
-                      ),
-                      const Icon(
-                        Icons.check_box_outline_blank_rounded,
-                        color: AppColors.red,
-                      ),
-                    ],
-                  ),
-                _ => Icon(
-                    Icons.check_box_outline_blank,
-                    color: Theme.of(context).dividerColor,
-                  ),
-              },
-            const SizedBox(width: 12),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      confirmDismiss: (direction) async =>
+          await _handleDismiss(direction, context),
+      background: _StatusChangeBackground(
+          todo: widget.todo, reached: reached, progress: progress),
+      secondaryBackground:
+          _DeleteBackground(reached: reached, progress: progress),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 12,
+              right: 12,
+              bottom: 12,
+              left: 16,
+            ),
+            child: switch (widget.todo.isDone!) {
+              true => const Icon(
+                  Icons.check_box,
+                  color: AppColors.green,
+                ),
+              false => switch (widget.todo.priority) {
+                  TodoPriority.high => Stack(
+                      alignment: Alignment.center,
                       children: [
-                        if (!widget.todo.isDone!)
-                          switch (widget.todo.priority) {
-                            TodoPriority.high => Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/priority/high.svg'),
-                                  const SizedBox(width: 3),
-                                ],
-                              ),
-                            TodoPriority.low => Row(
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/icons/priority/low.svg'),
-                                  const SizedBox(width: 3),
-                                ],
-                              ),
-                            TodoPriority.none => const SizedBox.shrink(),
-                          },
-                        Expanded(
-                          child: Text(
-                            widget.todo.content!,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: switch (widget.todo.isDone!) {
-                                    true =>
-                                      Theme.of(context).colorScheme.tertiary,
-                                    false => null,
-                                  },
-                                  decoration: switch (widget.todo.isDone!) {
-                                    true => TextDecoration.lineThrough,
-                                    false => TextDecoration.none,
-                                  },
-                                ),
-                          ),
+                        Container(
+                          width: 16,
+                          height: 16,
+                          color: AppColors.red.withOpacity(0.16),
+                        ),
+                        const Icon(
+                          Icons.check_box_outline_blank_rounded,
+                          color: AppColors.red,
                         ),
                       ],
                     ),
-                    if (widget.todo.deadline != null)
-                      Column(
-                        children: [
-                          const SizedBox(height: 4),
-                          Text(
-                            widget.todo.deadline!.toIso8601String(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelMedium!
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.tertiary,
+                  _ => Icon(
+                      Icons.check_box_outline_blank,
+                      color: Theme.of(context).dividerColor,
+                    ),
+                },
+            },
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      if (!widget.todo.isDone!)
+                        switch (widget.todo.priority) {
+                          TodoPriority.high => Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/priority/high.svg',
                                 ),
-                          ),
-                        ],
+                                const SizedBox(width: 3),
+                              ],
+                            ),
+                          TodoPriority.low => Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/priority/low.svg'),
+                                const SizedBox(width: 3),
+                              ],
+                            ),
+                          TodoPriority.none => const SizedBox.shrink(),
+                        },
+                      Expanded(
+                        child: Text(
+                          widget.todo.content!,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: switch (widget.todo.isDone!) {
+                                      true =>
+                                        Theme.of(context).colorScheme.tertiary,
+                                      false => null,
+                                    },
+                                    decoration: switch (widget.todo.isDone!) {
+                                      true => TextDecoration.lineThrough,
+                                      false => TextDecoration.none,
+                                    },
+                                  ),
+                        ),
                       ),
-                  ],
-                ),
+                    ],
+                  ),
+                  if (widget.todo.deadline != null)
+                    Column(
+                      children: [
+                        const SizedBox(height: 4),
+                        Text(
+                          widget.todo.deadline!.toIso8601String(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                        ),
+                      ],
+                    ),
+                ],
               ),
             ),
-            const SizedBox(width: 12),
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: () async {
-                await _editTodo(context);
-              },
-              icon: Icon(
-                Icons.info_outline,
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
+          ),
+          CustomIconButton(
+            padding: const EdgeInsets.only(
+              top: 12,
+              right: 16,
+              bottom: 12,
+              left: 12,
             ),
-          ],
-        ),
+            icon: Icons.info_outline,
+            onPressed: () async {
+              await _editTodo(context);
+            },
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+          // IconButton(
+          // padding: EdgeInsets.zero,
+          //   constraints: const BoxConstraints(),
+          //   onPressed: () async {
+          //     await _editTodo(context);
+          //   },
+          //   icon: Icon(
+          //     Icons.info_outline,
+          //     color: Theme.of(context).colorScheme.tertiary,
+          //   ),
+          // ),
+        ],
       ),
     );
+  }
+
+  Future<bool> _handleDismiss(
+      DismissDirection direction, BuildContext context) async {
+    if (direction == DismissDirection.startToEnd) {
+      widget.todoBloc.update(widget.todo.copyWith(
+        id: widget.todo.id,
+        content: widget.todo.content,
+        isDone: !widget.todo.isDone!,
+        deadline: widget.todo.deadline,
+        priority: widget.todo.priority,
+      ));
+      return false;
+    } else if (direction == DismissDirection.endToStart) {
+      final shouldDelete = await _showConfirmationDialog(context);
+      if (shouldDelete) {
+        widget.todoBloc.delete(widget.todo.id);
+      }
+      return shouldDelete;
+    }
+    return false;
   }
 
   Future<void> _editTodo(BuildContext context) async {
@@ -254,5 +252,61 @@ class _TodoTileState extends State<TodoTile> {
           ),
         ) ??
         false;
+  }
+}
+
+class _DeleteBackground extends StatelessWidget {
+  const _DeleteBackground({
+    required this.reached,
+    required this.progress,
+  });
+
+  final bool reached;
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.red,
+      alignment: Alignment.centerRight,
+      child: AnimatedPadding(
+        duration: const Duration(milliseconds: 50),
+        padding: EdgeInsets.only(
+            right: reached ? 30 * (10 * progress) : (24 * (4 * progress))),
+        child: const Icon(Icons.delete, color: AppColors.white),
+      ),
+    );
+  }
+}
+
+class _StatusChangeBackground extends StatelessWidget {
+  final Todo todo;
+  final bool reached;
+  final double progress;
+
+  const _StatusChangeBackground({
+    required this.todo,
+    required this.reached,
+    required this.progress,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: switch (todo.isDone!) {
+        true => Theme.of(context).dividerColor,
+        false => AppColors.green,
+      },
+      alignment: Alignment.centerLeft,
+      child: AnimatedPadding(
+        duration: const Duration(milliseconds: 50),
+        padding: EdgeInsets.only(
+            left: reached ? 30 * (10 * progress) : (24 * (4 * progress))),
+        child: Icon(
+          todo.isDone! ? Icons.close_rounded : Icons.check,
+          color: AppColors.white,
+        ),
+      ),
+    );
   }
 }

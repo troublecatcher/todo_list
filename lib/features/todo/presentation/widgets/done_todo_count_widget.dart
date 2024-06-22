@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
-import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
+import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
 
 class DoneTodoCountWidget extends StatelessWidget {
   const DoneTodoCountWidget({

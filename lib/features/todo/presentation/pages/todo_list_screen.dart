@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/custom_card.dart';
+import 'package:todo_list/common/ui/custom_card.dart';
+import 'package:todo_list/common/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/data/isar_service.dart';
-import 'package:todo_list/features/todo/presentation/state_management/todo_controller.dart';
+import 'package:todo_list/features/todo/presentation/controller/todo_controller.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/pages/new_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
@@ -51,7 +52,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _MySliverPersistentHeaderDelegate(
+                  delegate: _CustomHeaderDelegate(
                       expandedHeight: 116,
                       collapsedHeight: 56,
                       todoBloc: todoBloc),
@@ -82,6 +83,7 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           bottom: 120,
                         ),
                         child: ListView.builder(
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: todos.length,
@@ -127,12 +129,12 @@ class _TodoListScreenState extends State<TodoListScreen> {
   }
 }
 
-class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
   final TodoController todoBloc;
 
-  _MySliverPersistentHeaderDelegate(
+  _CustomHeaderDelegate(
       {required this.expandedHeight,
       required this.collapsedHeight,
       required this.todoBloc});
@@ -194,25 +196,14 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            // child: CustomIconButton(
-            //   icon: Icons.remove_red_eye,
-            //   onPressed: () {},
-            //   color: Colors.black,
-            //   padding: EdgeInsets.only(
-            //     right: lerpDouble(24, 18, collapsePercent)!,
-            //     bottom: lerpDouble(0, 16, collapsePercent)!,
-            //     left: 0,
-            //     top: 0,
-            //   ),
-            // ),
-            child: IconButton(
-              padding: EdgeInsets.only(
-                right: lerpDouble(24, 18, collapsePercent)!,
-                bottom: lerpDouble(0, 16, collapsePercent)!,
-              ),
-              constraints: const BoxConstraints(),
-              icon: const Icon(Icons.remove_red_eye),
+            child: CustomIconButton(
+              icon: Icons.remove_red_eye,
               onPressed: () {},
+              color: Theme.of(context).colorScheme.primary,
+              margin: EdgeInsets.only(
+                right: lerpDouble(12, 0, collapsePercent)!,
+                bottom: lerpDouble(0, 6, collapsePercent)!,
+              ),
             ),
           ),
         ],
@@ -228,49 +219,4 @@ class _MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
-}
-
-class CustomIconButton extends StatefulWidget {
-  final IconData icon;
-  final Function() onPressed;
-  final Color color;
-  final EdgeInsets? padding;
-  final double? side;
-  const CustomIconButton({
-    super.key,
-    required this.icon,
-    required this.onPressed,
-    required this.color,
-    this.padding,
-    this.side,
-  });
-
-  @override
-  State<CustomIconButton> createState() => _CustomIconButtonState();
-}
-
-class _CustomIconButtonState extends State<CustomIconButton> {
-  bool shrank = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedScale(
-      scale: shrank ? 0.8 : 1,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOutExpo,
-      child: GestureDetector(
-        onTapDown: (details) => setState(() => shrank = true),
-        onTapUp: (details) => setState(() => shrank = false),
-        onTapCancel: () => setState(() => shrank = false),
-        onTap: widget.onPressed,
-        child: Container(
-          color: Colors.blue,
-          padding: widget.padding ?? EdgeInsets.zero,
-          width: widget.side ?? 48,
-          height: widget.side ?? 48,
-          child: Icon(widget.icon),
-        ),
-      ),
-    );
-  }
 }

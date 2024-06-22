@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/custom_card.dart';
+import 'package:todo_list/common/ui/custom_card.dart';
+import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/todo.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
@@ -46,19 +47,21 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
         offset.dx + 1,
         offset.dy + 1,
       ),
-      items: TodoPriority.values
-          .map((TodoPriority priority) => PopupMenuItem<TodoPriority>(
-                value: priority,
-                child: Text(
-                  priority.displayName,
-                  style: switch (priority) {
-                    TodoPriority.none => null,
-                    TodoPriority.low => null,
-                    TodoPriority.high => const TextStyle(color: Colors.red),
-                  },
-                ),
-              ))
-          .toList(),
+      items: TodoPriority.values.map((TodoPriority priority) {
+        final menuItemStyle = Theme.of(context).textTheme.bodyMedium;
+        return PopupMenuItem<TodoPriority>(
+          value: priority,
+          child: Text(
+            priority.displayName,
+            style: switch (priority) {
+              TodoPriority.none => menuItemStyle,
+              TodoPriority.low => menuItemStyle,
+              TodoPriority.high =>
+                menuItemStyle!.copyWith(color: AppColors.red),
+            },
+          ),
+        );
+      }).toList(),
     );
 
     if (selectedPriority != null) {
@@ -142,37 +145,54 @@ class _NewTodoScreenState extends State<NewTodoScreen> {
               Builder(
                 builder: (ctx) {
                   return ListTile(
-                    title: const Text('Приоритет'),
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      'Приоритет',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                     subtitle: Text(priority.displayName),
                     onTap: () => _onPriorityTileTap(ctx),
                   );
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Сделать до'),
-                  Switch(
-                    value: deadline != null,
-                    onChanged: (value) async {
-                      if (value) {
-                        final newDeadline = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                        if (newDeadline != null) {
-                          deadline = newDeadline;
-                        }
-                      } else {
-                        deadline = null;
+              const Divider(height: 0),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Сделать до'),
+                    AnimatedSwitcher(
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                      duration: Durations.medium1,
+                      child: deadline != null
+                          ? Text(deadline!.toIso8601String())
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+                trailing: Switch(
+                  value: deadline != null,
+                  onChanged: (value) async {
+                    if (value) {
+                      final newDeadline = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      );
+                      if (newDeadline != null) {
+                        deadline = newDeadline;
                       }
-                      setState(() {});
-                    },
-                  ),
-                ],
+                    } else {
+                      deadline = null;
+                    }
+                    setState(() {});
+                  },
+                ),
               ),
-              if (deadline != null) Text(deadline!.toIso8601String()),
               TextButton(
                 onPressed: switch (widget.action) {
                   CreateTodo _ => null,
