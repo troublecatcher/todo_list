@@ -216,8 +216,6 @@ class _TodoScreenState extends State<TodoScreen> {
                   onPressed: switch (widget.action) {
                     CreateTodo _ => null,
                     EditTodo todoAction => () async {
-                        Log.i(
-                            'prompted to delete todo (id ${todoAction.todo.id})');
                         DialogManager.showDeleteConfirmationDialog(context)
                             .then((result) {
                           if (result != null && result) {

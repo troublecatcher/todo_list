@@ -4,8 +4,8 @@ import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
-import 'package:todo_list/features/todo/presentation/pages/home_screen.dart';
-import 'package:todo_list/features/todo/presentation/pages/todo_screen.dart';
+import 'package:todo_list/features/todo/presentation/screens/home_screen.dart';
+import 'package:todo_list/features/todo/presentation/screens/todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
 

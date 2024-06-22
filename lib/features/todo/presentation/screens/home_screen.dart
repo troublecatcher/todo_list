@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
@@ -142,7 +141,6 @@ class _CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     final currentHeight =
         (1 - collapsePercent) * (expandedHeight - minExtent) + minExtent;
     final double subtitleHeight = 24.0 * (1 - collapsePercent);
-
     final shadowPercent =
         (collapsePercent >= 0.7) ? (collapsePercent - 0.7) / 0.3 : 0.0;
 
