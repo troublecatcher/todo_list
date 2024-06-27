@@ -7,6 +7,7 @@ part 'todo.g.dart';
 @JsonSerializable(constructor: '_')
 class Todo {
   late String id;
+
   final String text;
 
   @enumerated
@@ -16,6 +17,7 @@ class Todo {
   final DateTime? deadline;
 
   final bool done;
+
   final String? color;
 
   @JsonKey(name: 'created_at', fromJson: _dateFromJson, toJson: _dateToJson)
@@ -43,8 +45,8 @@ class Todo {
     required this.text,
     required this.importance,
     this.deadline,
-    required this.done,
     this.color,
+    required this.done,
   });
 
   Id get isarId => fastHash(id);
@@ -53,7 +55,7 @@ class Todo {
 
   Map<String, dynamic> toJson() => _$TodoToJson(this);
 
-  Todo copyWith({
+  Todo copyWithEdit({
     String? id,
     String? text,
     Importance? importance,
@@ -74,6 +76,22 @@ class Todo {
       createdAt: createdAt ?? this.createdAt,
       changedAt: changedAt ?? this.changedAt,
       lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
+    );
+  }
+
+  Todo copyWithCreate({
+    String? text,
+    DateTime? deadline,
+    String? color,
+    Importance? importance,
+    bool? done,
+  }) {
+    return Todo(
+      text: text ?? this.text,
+      deadline: deadline,
+      color: color,
+      importance: importance ?? this.importance,
+      done: false,
     );
   }
 

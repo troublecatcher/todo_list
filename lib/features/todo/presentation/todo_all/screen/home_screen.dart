@@ -63,7 +63,7 @@ class HomeScreenState extends State<HomeScreen> {
                           }
                           return SliverPadding(
                             padding:
-                                const EdgeInsets.only(top: 16, bottom: 110),
+                                const EdgeInsets.only(top: 16, bottom: 120),
                             sliver: SliverList.builder(
                               itemCount: maybeModifiedTodos.length + 1,
                               itemBuilder: (context, index) {

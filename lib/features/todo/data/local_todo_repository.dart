@@ -19,6 +19,12 @@ class LocalTodoRepository implements TodoRepository {
     });
   }
 
+  Future<void> addAllTodos(List<Todo> todos) async {
+    await _isar.writeTxn(() async {
+      await _isar.todos.putAll(todos);
+    });
+  }
+
   @override
   Future<void> updateTodo(Todo todo) async {
     await _isar.writeTxn(() async {

@@ -201,7 +201,7 @@ class _TodoTileState extends State<TodoTile> {
     if (direction == DismissDirection.startToEnd) {
       bloc.add(
         UpdateTodoEvent(
-          widget.todo.copyWith(done: !todo.done, deadline: todo.deadline),
+          widget.todo.copyWithEdit(done: !todo.done, deadline: todo.deadline),
         ),
       );
       Log.i(

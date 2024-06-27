@@ -29,7 +29,7 @@ class TodoSaveButton extends StatelessWidget {
                               todo
                                 ..createdAt = DateTime.now()
                                 ..changedAt = DateTime.now()
-                                ..lastUpdatedBy = 'RyanGosling'
+                                ..lastUpdatedBy = 'Ryan Gosling'
                                 ..id = uuid.v4(),
                             ),
                           );
@@ -40,7 +40,7 @@ class TodoSaveButton extends StatelessWidget {
                               todo
                                 ..createdAt = todo.createdAt
                                 ..changedAt = DateTime.now()
-                                ..lastUpdatedBy = 'RyanGosling',
+                                ..lastUpdatedBy = 'Ryan Gosling',
                             ),
                           );
                       break;

@@ -19,28 +19,55 @@ class SingleTodoCubit extends Cubit<Todo> {
         );
 
   void changeText(String text) {
-    Log.i('updated todo content: $text');
-    emit(state.copyWith(
+    late Function fn;
+    switch (action) {
+      case CreateTodo _:
+        fn = state.copyWithCreate;
+        break;
+      case EditTodo _:
+        fn = state.copyWithEdit;
+        break;
+    }
+    emit(fn(
       text: text,
       deadline: state.deadline,
       color: state.color,
     ));
+    Log.i('updated todo content: $text');
   }
 
   void changeImportance(Importance importance) {
-    Log.i('updated todo priority ${importance.name}');
-    emit(state.copyWith(
+    late Function fn;
+    switch (action) {
+      case CreateTodo _:
+        fn = state.copyWithCreate;
+        break;
+      case EditTodo _:
+        fn = state.copyWithEdit;
+        break;
+    }
+    emit(fn(
       importance: importance,
       deadline: state.deadline,
       color: state.color,
     ));
+    Log.i('updated todo priority ${importance.name}');
   }
 
   void changeDeadline(DateTime? deadline) {
-    Log.i('updated todo deadline: ${deadline?.toIso8601String()}');
-    emit(state.copyWith(
+    late Function fn;
+    switch (action) {
+      case CreateTodo _:
+        fn = state.copyWithCreate;
+        break;
+      case EditTodo _:
+        fn = state.copyWithEdit;
+        break;
+    }
+    emit(fn(
       deadline: deadline,
       color: state.color,
     ));
+    Log.i('updated todo deadline: ${deadline?.toIso8601String()}');
   }
 }

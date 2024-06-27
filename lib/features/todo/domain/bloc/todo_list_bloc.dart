@@ -2,19 +2,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
+import 'package:todo_list/features/todo/data/local_todo_repository.dart';
+import 'package:todo_list/features/todo/data/remote_todo_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
-import 'package:todo_list/features/todo/data/repository.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepository _remote;
-  final TodoRepository _local;
+  final RemoteTodoRepository _remote;
+  final LocalTodoRepository _local;
   final SharedPreferencesService _sp = GetIt.I<SharedPreferencesService>();
 
   TodoListBloc({
-    required TodoRepository remote,
-    required TodoRepository local,
+    required RemoteTodoRepository remote,
+    required LocalTodoRepository local,
   })  : _local = local,
         _remote = remote,
         super(TodoInitial()) {
@@ -29,12 +30,22 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     try {
       await emit.forEach(
         _remote.getTodos(),
-        onData: (todos) => TodoLoaded(todos),
-        onError: (_, __) => TodoError('Failed to load todos'),
+        onData: (todos) {
+          _local.addAllTodos(todos);
+          return TodoLoaded(todos);
+        },
       );
     } catch (e) {
-      Log.e('Error fetching todo: $e');
-      emit(TodoError(e.toString()));
+      Log.e('Error fetching todos from remote: $e');
+      try {
+        await emit.forEach(
+          _local.getTodos(),
+          onData: (todos) => TodoLoaded(todos),
+        );
+      } catch (e, s) {
+        Log.e('Error fetching todos from local: $e, $s');
+        emit(TodoError(e.toString()));
+      }
     }
   }
 
@@ -87,8 +98,8 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _executeAction({
-    required Future<void> Function() remoteAction,
-    required Future<void> Function() localAction,
+    required Function() remoteAction,
+    required Function() localAction,
     required void Function() onSuccess,
     required void Function(dynamic e, dynamic s) onError,
     required Emitter<TodoState> emit,
