@@ -36,10 +36,8 @@ ThemeData getLightTheme() {
     colorScheme: ColorScheme.light(
       primary: AppColors.blue,
       secondary: AppColors.blue,
-      background: lightThemeColors.backgroundPrimary,
       surface: lightThemeColors.backgroundElevated,
       tertiary: lightThemeColors.labelTertiary,
-      onBackground: lightThemeColors.labelPrimary,
     ),
   );
 }
@@ -79,10 +77,9 @@ ThemeData getDarkTheme() {
     colorScheme: ColorScheme.dark(
       primary: AppColors.blue,
       secondary: AppColors.blue,
-      background: darkThemeColors.backgroundPrimary,
       surface: darkThemeColors.backgroundSecondary,
       tertiary: darkThemeColors.labelTertiary,
-      onBackground: darkThemeColors.labelPrimary,
+      onSurface: darkThemeColors.labelPrimary,
     ),
   );
 }

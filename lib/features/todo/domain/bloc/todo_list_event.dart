@@ -23,3 +23,5 @@ class DeleteTodoEvent extends TodoEvent {
 }
 
 class ToggleVisibilityMode extends TodoEvent {}
+
+class Fetch extends TodoEvent {}

@@ -5,17 +5,19 @@ import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepository todoRepository;
+  final TodoRepository networkRepository;
+  final TodoRepository persistenceRepository;
   VisibilityMode mode = VisibilityMode.all;
 
-  TodoListBloc({required this.todoRepository}) : super(TodoInitial()) {
-    // this event is being added everytime
-    // a change occurs in the list of todos, FOR NOW =)
+  TodoListBloc({
+    required this.networkRepository,
+    required this.persistenceRepository,
+  }) : super(TodoInitial()) {
     on<LoadTodos>((event, emit) async {
       emit(TodoLoading());
       try {
         await emit.forEach(
-          todoRepository.getTodos(),
+          persistenceRepository.getTodos(),
           onData: (todos) => TodoLoaded(todos
               .where(
                 (todo) => switch (mode) {
@@ -32,19 +34,19 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<AddTodoEvent>((event, emit) async {
-      await todoRepository.addTodo(event.todo);
+      await persistenceRepository.addTodo(event.todo);
       Log.i('created todo (id ${event.todo.id})');
       add(LoadTodos());
     });
 
     on<UpdateTodoEvent>((event, emit) async {
-      await todoRepository.updateTodo(event.todo);
+      await persistenceRepository.updateTodo(event.todo);
       Log.i('updated todo (id ${event.todo.id})');
       add(LoadTodos());
     });
 
     on<DeleteTodoEvent>((event, emit) async {
-      await todoRepository.deleteTodoById(event.id);
+      await persistenceRepository.deleteTodoById(event.id);
       Log.i('deleted todo (id ${event.id})');
       add(LoadTodos());
     });
@@ -56,6 +58,25 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       };
       Log.i('toggle todo visibility to ${mode.name}');
       add(LoadTodos());
+    });
+    on<Fetch>((event, emit) async {
+      emit(TodoLoading());
+      try {
+        await emit.forEach(
+          networkRepository.getTodos(),
+          onData: (todos) => TodoLoaded(todos
+              .where(
+                (todo) => switch (mode) {
+                  VisibilityMode.all => true,
+                  VisibilityMode.undone => !todo.done!,
+                },
+              )
+              .toList()),
+          onError: (_, __) => TodoError('Failed to load todos'),
+        );
+      } catch (e) {
+        emit(TodoError(e.toString()));
+      }
     });
   }
 }

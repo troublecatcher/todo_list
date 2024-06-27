@@ -49,8 +49,8 @@ class _TodoTileState extends State<TodoTile> {
         progress: progress,
       ),
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

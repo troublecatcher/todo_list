@@ -2,34 +2,34 @@ import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 
-class IsarTodoRepository implements TodoRepository {
-  final Isar isar;
+class PersistenceTodoRepository implements TodoRepository {
+  final Isar _isar;
 
-  IsarTodoRepository(this.isar);
+  PersistenceTodoRepository(this._isar);
 
   @override
   Stream<List<Todo>> getTodos() {
-    return isar.todos.where().watch(fireImmediately: true);
+    return _isar.todos.where().watch(fireImmediately: true);
   }
 
   @override
   Future<void> addTodo(Todo todo) async {
-    await isar.writeTxn(() async {
-      await isar.todos.put(todo);
+    await _isar.writeTxn(() async {
+      await _isar.todos.put(todo);
     });
   }
 
   @override
   Future<void> updateTodo(Todo todo) async {
-    await isar.writeTxn(() async {
-      await isar.todos.put(todo);
+    await _isar.writeTxn(() async {
+      await _isar.todos.put(todo);
     });
   }
 
   @override
   Future<void> deleteTodoById(int id) async {
-    await isar.writeTxn(() async {
-      await isar.todos.delete(id);
+    await _isar.writeTxn(() async {
+      await _isar.todos.delete(id);
     });
   }
 }

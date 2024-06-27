@@ -1,14 +1,19 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
+import 'package:todo_list/core/services/network_service.dart';
+import 'package:todo_list/features/todo/data/network_todo_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/home_screen.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/screen/single_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
-import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
+import 'package:todo_list/features/todo/data/persistence_todo_repository.dart';
 
 import 'package:todo_list/core/services/persistence_service.dart';
 
@@ -17,13 +22,20 @@ void main() async {
 
   await FormattingHelper.init();
 
-  final isarService = IsarService();
-  final isar = await isarService.initializeIsar();
-  final todoRepository = IsarTodoRepository(isar);
+  final isarService = PersistenceService();
+  final isar = await isarService.initIsar();
+
+  final dio = NetworkService().initDio();
+  final networkRepository = NetworkTodoRepository(dio);
+  final persistenceRepository = PersistenceTodoRepository(isar);
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(
     BlocProvider(
-      create: (context) =>
-          TodoListBloc(todoRepository: todoRepository)..add(LoadTodos()),
+      create: (context) => TodoListBloc(
+        networkRepository: networkRepository,
+        persistenceRepository: persistenceRepository,
+      )..add(LoadTodos()),
       child: const MainApp(),
     ),
   );
@@ -62,5 +74,14 @@ class MainApp extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
