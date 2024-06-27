@@ -13,29 +13,21 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     // a change occurs in the list of todos, FOR NOW =)
     on<LoadTodos>((event, emit) async {
       emit(TodoLoading());
-      switch (mode) {
-        case VisibilityMode.all:
-          try {
-            await emit.forEach(
-              todoRepository.getTodos(),
-              onData: (todos) => TodoLoaded(todos),
-              onError: (_, __) => TodoError('Failed to load todos'),
-            );
-          } catch (e) {
-            emit(TodoError(e.toString()));
-          }
-          break;
-        case VisibilityMode.undone:
-          try {
-            await emit.forEach(
-              todoRepository.getUndoneTodos(),
-              onData: (todos) => TodoLoaded(todos),
-              onError: (_, __) => TodoError('Failed to load todos'),
-            );
-          } catch (e) {
-            emit(TodoError(e.toString()));
-          }
-          break;
+      try {
+        await emit.forEach(
+          todoRepository.getTodos(),
+          onData: (todos) => TodoLoaded(todos
+              .where(
+                (todo) => switch (mode) {
+                  VisibilityMode.all => true,
+                  VisibilityMode.undone => !todo.done!,
+                },
+              )
+              .toList()),
+          onError: (_, __) => TodoError('Failed to load todos'),
+        );
+      } catch (e) {
+        emit(TodoError(e.toString()));
       }
     });
 

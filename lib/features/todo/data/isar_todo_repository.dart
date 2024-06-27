@@ -13,16 +13,6 @@ class IsarTodoRepository implements TodoRepository {
   }
 
   @override
-  Stream<List<Todo>> getUndoneTodos() {
-    final query = isar.todos
-        .where()
-        .filter()
-        .doneEqualTo(false)
-        .watch(fireImmediately: true);
-    return query;
-  }
-
-  @override
   Future<void> addTodo(Todo todo) async {
     await isar.writeTxn(() async {
       await isar.todos.put(todo);
