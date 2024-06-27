@@ -4,50 +4,103 @@ import 'package:json_annotation/json_annotation.dart';
 part 'todo.g.dart';
 
 @Collection()
-@JsonSerializable()
+@JsonSerializable(constructor: '_')
 class Todo {
-  Id id = Isar.autoIncrement;
-  final String content;
+  late String id;
+  final String text;
   @enumerated
-  final TodoPriority priority;
+  final Importance importance;
+  @JsonKey(fromJson: _dateFromJsonNullable, toJson: _dateToJsonNullable)
   final DateTime? deadline;
   final bool done;
+  final String? color;
+  @JsonKey(name: 'created_at', fromJson: _dateFromJson, toJson: _dateToJson)
+  late DateTime createdAt;
+  @JsonKey(name: 'changed_at', fromJson: _dateFromJson, toJson: _dateToJson)
+  late DateTime changedAt;
+  @JsonKey(name: 'last_updated_by')
+  late String lastUpdatedBy;
 
-  Todo({
-    this.id = Isar.autoIncrement,
-    required this.content,
-    required this.priority,
+  Todo._({
+    required this.id,
+    required this.text,
+    required this.importance,
     this.deadline,
     required this.done,
+    this.color,
+    required this.createdAt,
+    required this.changedAt,
+    required this.lastUpdatedBy,
   });
+
+  Todo({
+    required this.text,
+    required this.importance,
+    this.deadline,
+    required this.done,
+    this.color,
+  });
+
+  Id get isarId => fastHash(id);
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
 
   Map<String, dynamic> toJson() => _$TodoToJson(this);
 
   Todo copyWith({
-    int? id,
-    String? content,
-    TodoPriority? priority,
+    String? id,
+    String? text,
+    Importance? importance,
     DateTime? deadline,
     bool? done,
+    String? color,
+    DateTime? createdAt,
+    DateTime? changedAt,
+    String? lastUpdatedBy,
   }) {
-    return Todo(
+    return Todo._(
       id: id ?? this.id,
-      content: content ?? this.content,
-      priority: priority ?? this.priority,
+      text: text ?? this.text,
+      importance: importance ?? this.importance,
       deadline: deadline,
       done: done ?? this.done,
+      color: color,
+      createdAt: createdAt ?? this.createdAt,
+      changedAt: changedAt ?? this.changedAt,
+      lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
     );
   }
+
+  static DateTime _dateFromJson(int unix) =>
+      DateTime.fromMillisecondsSinceEpoch(unix);
+  static int _dateToJson(DateTime time) => time.millisecondsSinceEpoch;
+  static DateTime? _dateFromJsonNullable(int? unix) =>
+      unix == null ? null : DateTime.fromMillisecondsSinceEpoch(unix);
+  static int? _dateToJsonNullable(DateTime? time) =>
+      time?.millisecondsSinceEpoch;
 }
 
-enum TodoPriority {
+enum Importance {
   basic(displayName: 'Нет'),
   low(displayName: 'Низкий'),
   important(displayName: '!! Высокий');
 
   final String displayName;
 
-  const TodoPriority({required this.displayName});
+  const Importance({required this.displayName});
+}
+
+int fastHash(String string) {
+  var hash = 0xcbf29ce484222325;
+
+  var i = 0;
+  while (i < string.length) {
+    final codeUnit = string.codeUnitAt(i++);
+    hash ^= codeUnit >> 8;
+    hash *= 0x100000001b3;
+    hash ^= codeUnit & 0xFF;
+    hash *= 0x100000001b3;
+  }
+
+  return hash;
 }

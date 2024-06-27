@@ -17,9 +17,9 @@ class UpdateTodoEvent extends TodoEvent {
 }
 
 class DeleteTodoEvent extends TodoEvent {
-  final int id;
+  final Todo todo;
 
-  DeleteTodoEvent(this.id);
+  DeleteTodoEvent(this.todo);
 }
 
 class ToggleVisibilityMode extends TodoEvent {}

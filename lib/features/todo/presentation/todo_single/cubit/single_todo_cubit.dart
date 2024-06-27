@@ -9,22 +9,22 @@ class SingleTodoCubit extends Cubit<Todo> {
       : super(
           switch (action) {
             CreateTodo _ => Todo(
-                content: '',
-                priority: TodoPriority.basic,
+                text: '',
+                importance: Importance.basic,
                 deadline: null,
                 done: false,
               ),
             EditTodo _ => action.todo,
           },
         );
-  void changeContent(String content) {
-    Log.i('updated todo content: $content');
-    emit(state.copyWith(content: content));
+  void changeText(String text) {
+    Log.i('updated todo content: $text');
+    emit(state.copyWith(text: text));
   }
 
-  void changePriority(TodoPriority priority) {
-    Log.i('updated todo priority ${priority.name}');
-    emit(state.copyWith(priority: priority));
+  void changeImportance(Importance importance) {
+    Log.i('updated todo priority ${importance.name}');
+    emit(state.copyWith(importance: importance));
   }
 
   void changeDeadline(DateTime? deadline) {

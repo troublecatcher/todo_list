@@ -2,30 +2,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
-import 'package:todo_list/features/todo/data/todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepository networkRepository;
-  final TodoRepository persistenceRepository;
+  final TodoRepository _networkRepository;
+  final TodoRepository _persistenceRepository;
   VisibilityMode mode = VisibilityMode.all;
 
   TodoListBloc({
-    required this.networkRepository,
-    required this.persistenceRepository,
-  }) : super(TodoInitial()) {
+    required TodoRepository networkRepository,
+    required TodoRepository persistenceRepository,
+  })  : _persistenceRepository = persistenceRepository,
+        _networkRepository = networkRepository,
+        super(TodoInitial()) {
     on<LoadTodos>((event, emit) async {
       emit(TodoLoading());
       try {
         await emit.forEach(
-          persistenceRepository.getTodos(),
-          onData: (todos) => TodoLoaded(todos
-              .where(
-                (todo) => switch (mode) {
-                  VisibilityMode.all => true,
-                  VisibilityMode.undone => !todo.done,
-                },
-              )
-              .toList()),
+          _networkRepository.getTodos(),
+          onData: (todos) {
+            return TodoLoaded(todos
+                .where(
+                  (todo) => switch (mode) {
+                    VisibilityMode.all => true,
+                    VisibilityMode.undone => !todo.done,
+                  },
+                )
+                .toList());
+          },
           onError: (_, __) => TodoError('Failed to load todos'),
         );
       } catch (e) {
@@ -34,20 +38,20 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     });
 
     on<AddTodoEvent>((event, emit) async {
-      await persistenceRepository.addTodo(event.todo);
+      await _networkRepository.addTodo(event.todo);
       Log.i('created todo (id ${event.todo.id})');
       add(LoadTodos());
     });
 
     on<UpdateTodoEvent>((event, emit) async {
-      await persistenceRepository.updateTodo(event.todo);
+      await _networkRepository.updateTodo(event.todo);
       Log.i('updated todo (id ${event.todo.id})');
       add(LoadTodos());
     });
 
     on<DeleteTodoEvent>((event, emit) async {
-      await persistenceRepository.deleteTodoById(event.id);
-      Log.i('deleted todo (id ${event.id})');
+      await _networkRepository.deleteTodo(event.todo);
+      Log.i('deleted todo (id ${event.todo.id})');
       add(LoadTodos());
     });
 
@@ -63,7 +67,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoLoading());
       try {
         await emit.forEach(
-          networkRepository.getTodos(),
+          _networkRepository.getTodos(),
           onData: (todos) => TodoLoaded(todos
               .where(
                 (todo) => switch (mode) {

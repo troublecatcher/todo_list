@@ -19,7 +19,7 @@ class DoneTodoCountWidget extends StatelessWidget {
             return Text('Ошибка: ${state.message}');
           case TodoLoaded _:
             if (state.todos.isNotEmpty) {
-              final doneCount = state.todos.where((todo) => todo.done!).length;
+              final doneCount = state.todos.where((todo) => todo.done).length;
               return _TodoCountText(count: doneCount);
             } else {
               return const _TodoCountText(count: 0);

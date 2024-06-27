@@ -26,7 +26,7 @@ class TodoDeleteButton extends StatelessWidget {
                 DialogManager.showDeleteConfirmationDialog(context, todo)
                     .then((result) {
                   if (result != null && result) {
-                    context.read<TodoListBloc>().add(DeleteTodoEvent(todo.id));
+                    context.read<TodoListBloc>().add(DeleteTodoEvent(todo));
                     Navigator.of(context).pop();
                   }
                 });

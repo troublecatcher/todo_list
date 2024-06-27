@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/data/todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository.dart';
 
 class PersistenceTodoRepository implements TodoRepository {
   final Isar _isar;
@@ -27,9 +27,9 @@ class PersistenceTodoRepository implements TodoRepository {
   }
 
   @override
-  Future<void> deleteTodoById(int id) async {
+  Future<void> deleteTodo(Todo todo) async {
     await _isar.writeTxn(() async {
-      await _isar.todos.delete(id);
+      await _isar.todos.delete(todo.isarId);
     });
   }
 }

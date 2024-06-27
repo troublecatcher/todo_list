@@ -28,7 +28,7 @@ class TodoScreen extends StatelessWidget {
                 onPressed: () => Navigator.of(context).pop(),
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-              actions: const [TodoSaveButton()],
+              actions: [TodoSaveButton(action: action)],
               pinned: true,
             ),
             const SliverPadding(

@@ -67,8 +67,8 @@ class _TodoTileState extends State<TodoTile> {
                     Icons.check_box,
                     color: AppColors.green,
                   ),
-                false => switch (widget.todo.priority) {
-                    TodoPriority.important => Stack(
+                false => switch (widget.todo.importance) {
+                    Importance.important => Stack(
                         alignment: Alignment.center,
                         children: [
                           Container(
@@ -99,8 +99,8 @@ class _TodoTileState extends State<TodoTile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         if (!widget.todo.done)
-                          switch (widget.todo.priority) {
-                            TodoPriority.important => Row(
+                          switch (widget.todo.importance) {
+                            Importance.important => Row(
                                 children: [
                                   SvgPicture.asset(
                                     'assets/icons/priority/high.svg',
@@ -108,18 +108,18 @@ class _TodoTileState extends State<TodoTile> {
                                   const SizedBox(width: 3),
                                 ],
                               ),
-                            TodoPriority.low => Row(
+                            Importance.low => Row(
                                 children: [
                                   SvgPicture.asset(
                                       'assets/icons/priority/low.svg'),
                                   const SizedBox(width: 3),
                                 ],
                               ),
-                            TodoPriority.basic => const SizedBox.shrink(),
+                            Importance.basic => const SizedBox.shrink(),
                           },
                         Expanded(
                           child: Text(
-                            widget.todo.content,
+                            widget.todo.text,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
@@ -199,8 +199,11 @@ class _TodoTileState extends State<TodoTile> {
     final bloc = context.read<TodoListBloc>();
     final todo = widget.todo;
     if (direction == DismissDirection.startToEnd) {
-      bloc.add(UpdateTodoEvent(
-          widget.todo.copyWith(done: !todo.done, deadline: todo.deadline)));
+      bloc.add(
+        UpdateTodoEvent(
+          widget.todo.copyWith(done: !todo.done, deadline: todo.deadline),
+        ),
+      );
       Log.i(
           'changed todo (id ${todo.id}) completeness status to ${!todo.done}');
       return false;
@@ -208,7 +211,7 @@ class _TodoTileState extends State<TodoTile> {
       final result =
           await DialogManager.showDeleteConfirmationDialog(context, todo);
       if (result != null && result) {
-        bloc.add(DeleteTodoEvent(widget.todo.id));
+        bloc.add(DeleteTodoEvent(widget.todo));
       }
       return result ?? false;
     }

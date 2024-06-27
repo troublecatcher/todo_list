@@ -25,7 +25,7 @@ class _TodoPrioritySelectionTileState extends State<TodoPrioritySelectionTile> {
                 'Приоритет',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              subtitle: Text(todo.priority.displayName),
+              subtitle: Text(todo.importance.displayName),
               onTap: () => _onPriorityTileTap(ctx),
             );
           },
@@ -43,7 +43,7 @@ class _TodoPrioritySelectionTileState extends State<TodoPrioritySelectionTile> {
 
   Future<void> _showPriorityMenu(BuildContext context, Offset offset) async {
     final cubit = context.read<SingleTodoCubit>();
-    final selectedPriority = await showMenu<TodoPriority>(
+    final selectedPriority = await showMenu<Importance>(
       context: context,
       position: RelativeRect.fromLTRB(
         offset.dx,
@@ -51,16 +51,16 @@ class _TodoPrioritySelectionTileState extends State<TodoPrioritySelectionTile> {
         offset.dx + 1,
         offset.dy + 1,
       ),
-      items: TodoPriority.values.map((TodoPriority priority) {
+      items: Importance.values.map((Importance priority) {
         final menuItemStyle = Theme.of(context).textTheme.bodyMedium;
-        return PopupMenuItem<TodoPriority>(
+        return PopupMenuItem<Importance>(
           value: priority,
           child: Text(
             priority.displayName,
             style: switch (priority) {
-              TodoPriority.basic => menuItemStyle,
-              TodoPriority.low => menuItemStyle,
-              TodoPriority.important =>
+              Importance.basic => menuItemStyle,
+              Importance.low => menuItemStyle,
+              Importance.important =>
                 menuItemStyle!.copyWith(color: AppColors.red),
             },
           ),
@@ -68,7 +68,7 @@ class _TodoPrioritySelectionTileState extends State<TodoPrioritySelectionTile> {
       }).toList(),
     );
     if (selectedPriority != null) {
-      cubit.changePriority(selectedPriority);
+      cubit.changeImportance(selectedPriority);
     }
   }
 }

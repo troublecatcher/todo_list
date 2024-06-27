@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:uuid/uuid.dart';
 
 class FastTodoCreationTile extends StatefulWidget {
   const FastTodoCreationTile({super.key});
@@ -101,14 +103,19 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                   padding: const EdgeInsets.only(left: 12, right: 16),
                   icon: Icons.send_rounded,
                   onPressed: () async {
+                    const uuid = Uuid();
                     context.read<TodoListBloc>().add(
                           AddTodoEvent(
                             Todo(
-                              content: fastTodoNameController.text,
-                              priority: TodoPriority.basic,
+                              text: fastTodoNameController.text,
+                              importance: Importance.basic,
                               deadline: null,
                               done: false,
-                            ),
+                            )
+                              ..id = uuid.v4()
+                              ..createdAt = DateTime.now()
+                              ..changedAt = DateTime.now()
+                              ..lastUpdatedBy = 'RyanGosling',
                           ),
                         );
                   },

@@ -11,17 +11,17 @@ class TodoContentTextField extends StatefulWidget {
 }
 
 class _TodoContentTextFieldState extends State<TodoContentTextField> {
-  final contentController = TextEditingController();
+  final textController = TextEditingController();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    contentController.text = context.read<SingleTodoCubit>().state.content!;
+    textController.text = context.read<SingleTodoCubit>().state.text;
   }
 
   @override
   void dispose() {
-    contentController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
@@ -30,7 +30,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
     return CustomCard(
       padding: const EdgeInsets.all(16),
       child: TextField(
-        controller: contentController,
+        controller: textController,
         style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
           enabledBorder: const UnderlineInputBorder(
@@ -47,9 +47,8 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
         ),
         minLines: 4,
         maxLines: null,
-        onChanged: (value) => context
-            .read<SingleTodoCubit>()
-            .changeContent(contentController.text),
+        onChanged: (value) =>
+            context.read<SingleTodoCubit>().changeText(textController.text),
       ),
     );
   }
