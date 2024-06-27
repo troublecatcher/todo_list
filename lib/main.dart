@@ -10,7 +10,7 @@ import 'package:todo_list/features/todo/presentation/screens/todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
 import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
 
-import 'package:todo_list/core/services/isar_service.dart';
+import 'package:todo_list/core/services/persistence_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

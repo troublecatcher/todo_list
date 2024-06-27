@@ -196,9 +196,10 @@ class _TodoTileState extends State<TodoTile> {
       return false;
     } else if (direction == DismissDirection.endToStart) {
       Log.i('prompted to delete todo (id ${widget.todo.id})');
+      final bloc = context.read<TodoBloc>();
       final result = await DialogManager.showDeleteConfirmationDialog(context);
       if (result != null && result) {
-        context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
+        bloc.add(DeleteTodoEvent(widget.todo.id));
       } else {
         Log.i('rejected to delete todo (id ${widget.todo.id})');
       }
@@ -208,6 +209,7 @@ class _TodoTileState extends State<TodoTile> {
   }
 
   Future<void> _editTodo(BuildContext context) async {
+    final bloc = context.read<TodoBloc>();
     final result = await Navigator.of(context).pushNamed(
       '/todo',
       arguments: EditTodo(todo: widget.todo),
@@ -215,20 +217,20 @@ class _TodoTileState extends State<TodoTile> {
     if (result is EditedTodo) {
       final resultTodo = result.todo;
       if (resultTodo != null) {
-        context.read<TodoBloc>().add(
-              UpdateTodoEvent(
-                widget.todo.copyWith(
-                  id: resultTodo.id,
-                  content: resultTodo.content,
-                  done: resultTodo.done!,
-                  deadline: resultTodo.deadline,
-                  priority: resultTodo.priority,
-                ),
-              ),
-            );
+        bloc.add(
+          UpdateTodoEvent(
+            widget.todo.copyWith(
+              id: resultTodo.id,
+              content: resultTodo.content,
+              done: resultTodo.done!,
+              deadline: resultTodo.deadline,
+              priority: resultTodo.priority,
+            ),
+          ),
+        );
       }
     } else if (result is DeletedTodo) {
-      context.read<TodoBloc>().add(DeleteTodoEvent(widget.todo.id));
+      bloc.add(DeleteTodoEvent(widget.todo.id));
     }
   }
 }

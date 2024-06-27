@@ -113,21 +113,20 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await _createTodo(context);
-        },
+        onPressed: () async => await _createTodo(context),
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Future<void> _createTodo(BuildContext context) async {
+    final bloc = context.read<TodoBloc>();
     final newTodo = await Navigator.of(context).pushNamed(
       '/todo',
       arguments: CreateTodo(),
     ) as Todo?;
     if (newTodo != null) {
-      context.read<TodoBloc>().add(AddTodoEvent(newTodo));
+      bloc.add(AddTodoEvent(newTodo));
     }
   }
 }
