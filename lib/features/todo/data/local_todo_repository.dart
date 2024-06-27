@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/data/repository.dart';
+import 'package:todo_list/features/todo/data/todo_repository.dart';
 
 class LocalTodoRepository implements TodoRepository {
   final Isar _isar;
@@ -19,7 +19,8 @@ class LocalTodoRepository implements TodoRepository {
     });
   }
 
-  Future<void> addAllTodos(List<Todo> todos) async {
+  @override
+  Future<void> putFresh(List<Todo> todos) async {
     await _isar.writeTxn(() async {
       await _isar.todos.putAll(todos);
     });

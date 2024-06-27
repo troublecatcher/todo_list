@@ -40,10 +40,12 @@ class HomeScreenState extends State<HomeScreen> {
                   switch (state) {
                     case TodoLoading _:
                       return const SliverFillRemaining(
+                        hasScrollBody: false,
                         child: Center(child: CircularProgressIndicator()),
                       );
                     case TodoError _:
-                      return SliverToBoxAdapter(
+                      return SliverFillRemaining(
+                        hasScrollBody: false,
                         child: Center(child: Text('Ошибка: ${state.message}')),
                       );
                     case TodoLoaded todoLoadedState:

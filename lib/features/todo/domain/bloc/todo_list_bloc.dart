@@ -31,7 +31,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       await emit.forEach(
         _remote.getTodos(),
         onData: (todos) {
-          _local.addAllTodos(todos);
+          _local.putFresh(todos);
           return TodoLoaded(todos);
         },
       );

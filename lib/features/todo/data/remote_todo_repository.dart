@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/data/repository.dart';
+import 'package:todo_list/features/todo/data/todo_repository.dart';
 
 class RemoteTodoRepository implements TodoRepository {
   final _sp = GetIt.I<SharedPreferencesService>();
@@ -32,6 +32,18 @@ class RemoteTodoRepository implements TodoRepository {
       'list',
       options: Options(headers: {'X-Last-Known-Revision': _sp.revision}),
       data: {'element': todo.toJson()},
+    );
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add todo');
+    }
+  }
+
+  @override
+  Future<void> putFresh(List<Todo> todos) async {
+    final response = await _dio.patch(
+      'list',
+      options: Options(headers: {'X-Last-Known-Revision': _sp.revision}),
+      data: {'list': todos.map((todo) => todo.toJson())},
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to add todo');
