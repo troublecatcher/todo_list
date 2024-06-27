@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
 class SingleTodoCubit extends Cubit<Todo> {
   final TodoAction action;

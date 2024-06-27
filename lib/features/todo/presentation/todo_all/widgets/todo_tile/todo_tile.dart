@@ -8,8 +8,10 @@ import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/dialog_manager.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/swipe_delete_background.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/swipe_done_background.dart';
+import 'package:todo_list/features/todo/presentation/common/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
 class TodoTile extends StatefulWidget {
   const TodoTile({
@@ -30,33 +32,19 @@ class _TodoTileState extends State<TodoTile> {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(widget.todo),
+      key: ValueKey(widget.todo.id),
       dismissThresholds: const {
         DismissDirection.startToEnd: 0.3,
         DismissDirection.endToStart: 0.3,
       },
-      onUpdate: (details) {
-        setState(() {
-          progress = details.progress;
-          if (details.reached) {
-            if (!reached) {
-              reached = true;
-            }
-          } else {
-            if (reached) {
-              reached = false;
-            }
-          }
-        });
-      },
-      confirmDismiss: (direction) async =>
-          await _handleDismiss(direction, context),
-      background: _StatusChangeBackground(
+      onUpdate: (details) => _handleUpdate(details),
+      confirmDismiss: (direction) => _handleDismiss(direction, context),
+      background: DismissDoneBackground(
         todo: widget.todo,
         reached: reached,
         progress: progress,
       ),
-      secondaryBackground: _DeleteBackground(
+      secondaryBackground: DismissDeleteBackground(
         reached: reached,
         progress: progress,
       ),
@@ -191,87 +179,38 @@ class _TodoTileState extends State<TodoTile> {
     );
   }
 
+  void _handleUpdate(DismissUpdateDetails details) {
+    setState(() {
+      progress = details.progress;
+      if (details.reached) {
+        if (!reached) {
+          reached = true;
+        }
+      } else {
+        if (reached) {
+          reached = false;
+        }
+      }
+    });
+  }
+
   Future<bool> _handleDismiss(
       DismissDirection direction, BuildContext context) async {
+    final bloc = context.read<TodoListBloc>();
+    final todo = widget.todo;
     if (direction == DismissDirection.startToEnd) {
-      final todo = widget.todo;
-      context.read<TodoListBloc>().add(
-            UpdateTodoEvent(
-              widget.todo.copyWith(done: !todo.done!),
-            ),
-          );
+      bloc.add(UpdateTodoEvent(widget.todo.copyWith(done: !todo.done!)));
       Log.i(
           'changed todo (id ${todo.id}) completeness status to ${!todo.done!}');
       return false;
     } else if (direction == DismissDirection.endToStart) {
-      Log.i('prompted to delete todo (id ${widget.todo.id})');
-      final bloc = context.read<TodoListBloc>();
-      final result = await DialogManager.showDeleteConfirmationDialog(context);
+      final result =
+          await DialogManager.showDeleteConfirmationDialog(context, todo);
       if (result != null && result) {
         bloc.add(DeleteTodoEvent(widget.todo.id));
       }
       return result ?? false;
     }
     return false;
-  }
-}
-
-class _DeleteBackground extends StatelessWidget {
-  const _DeleteBackground({
-    required this.reached,
-    required this.progress,
-  });
-
-  final bool reached;
-  final double progress;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.red,
-      alignment: Alignment.centerRight,
-      child: AnimatedPadding(
-        duration: const Duration(milliseconds: 50),
-        padding: EdgeInsets.only(
-            right: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
-        child: const Icon(Icons.delete, color: AppColors.white),
-      ),
-    );
-  }
-}
-
-class _StatusChangeBackground extends StatelessWidget {
-  final Todo todo;
-  final bool reached;
-  final double progress;
-
-  const _StatusChangeBackground({
-    required this.todo,
-    required this.reached,
-    required this.progress,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: switch (todo.done!) {
-        true => Theme.of(context).dividerColor,
-        false => AppColors.green,
-      },
-      alignment: Alignment.centerLeft,
-      child: AnimatedPadding(
-        duration: const Duration(milliseconds: 50),
-        padding: EdgeInsets.only(
-            left: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
-        child: Icon(
-          todo.done! ? Icons.close_rounded : Icons.check,
-          color: AppColors.white,
-        ),
-      ),
-    );
   }
 }

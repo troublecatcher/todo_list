@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
 
 class TodoPrioritySelectionTile extends StatefulWidget {
   const TodoPrioritySelectionTile({super.key});

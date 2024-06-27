@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class DialogManager {
   static Future<bool?> showDeleteConfirmationDialog(
-      BuildContext context) async {
+      BuildContext context, Todo todo) async {
+    Log.i('prompted to delete todo (id ${todo.id})');
     return await showDialog(
           context: context,
           builder: (context) => PopScope(

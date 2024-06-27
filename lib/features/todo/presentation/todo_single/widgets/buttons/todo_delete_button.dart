@@ -5,9 +5,9 @@ import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_todo_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/dialog_manager.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/common/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
 class TodoDeleteButton extends StatelessWidget {
   final TodoAction action;
@@ -24,7 +24,7 @@ class TodoDeleteButton extends StatelessWidget {
           onPressed: switch (action) {
             CreateTodo _ => null,
             EditTodo _ => () {
-                DialogManager.showDeleteConfirmationDialog(context)
+                DialogManager.showDeleteConfirmationDialog(context, todo)
                     .then((result) {
                   if (result != null && result) {
                     context.read<TodoListBloc>().add(DeleteTodoEvent(todo.id));

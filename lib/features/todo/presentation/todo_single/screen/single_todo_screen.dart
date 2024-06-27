@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_todo_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/todo_content_text_field.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/todo_deadline_selection_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/todo_delete_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/todo_priority_selection_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/todo_save_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/components/todo_content_text_field.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/components/todo_deadline_selection_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/buttons/todo_delete_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/components/todo_priority_selection_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/buttons/todo_save_button.dart';
 
 class TodoScreen extends StatelessWidget {
   final TodoAction action;

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
 
 class TodoSaveButton extends StatelessWidget {
   const TodoSaveButton({

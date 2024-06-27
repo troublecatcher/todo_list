@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/custom_header_delegate.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/fast_todo_creation_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/fast_todo_creation_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/todo_tile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -75,48 +74,10 @@ class HomeScreenState extends State<HomeScreen> {
                         return const FastTodoCreationTile();
                       } else {
                         final Todo todo = todos[index];
-                        return ClipRRect(
-                          borderRadius: BorderRadius.vertical(
-                            top: index == 0
-                                ? const Radius.circular(8)
-                                : Radius.zero,
-                          ),
-                          child: TodoTile(todo: todo),
-                        );
+                        return TodoTile(todo: todo);
                       }
                     },
                   );
-                  // return SliverToBoxAdapter(
-                  //   child: CustomCard(
-                  //     margin: const EdgeInsets.only(
-                  //       top: 16,
-                  //       right: 16,
-                  //       left: 16,
-                  //       bottom: 120,
-                  //     ),
-                  //     child: ListView.builder(
-                  //       padding: EdgeInsets.zero,
-                  //       shrinkWrap: true,
-                  //       physics: const NeverScrollableScrollPhysics(),
-                  //       itemCount: todos.length + 1,
-                  //       itemBuilder: (context, index) {
-                  //         if (index == todos.length) {
-                  //           return const FastTodoCreationTile();
-                  //         } else {
-                  //           final Todo todo = todos[index];
-                  //           return ClipRRect(
-                  //             borderRadius: BorderRadius.vertical(
-                  //               top: index == 0
-                  //                   ? const Radius.circular(8)
-                  //                   : Radius.zero,
-                  //             ),
-                  //             child: TodoTile(todo: todo),
-                  //           );
-                  //         }
-                  //       },
-                  //     ),
-                  //   ),
-                  // );
                 } else {
                   return const SliverToBoxAdapter(
                     child: SizedBox.shrink(),

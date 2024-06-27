@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
 
 class TodoDeadlineSelectionTile extends StatelessWidget {
   const TodoDeadlineSelectionTile({super.key});

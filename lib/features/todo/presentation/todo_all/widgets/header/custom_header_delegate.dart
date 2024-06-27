@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/done_todo_count_widget.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle_button.dart';
 
 class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
@@ -71,7 +72,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: _ToggleVisibilityButton(collapsePercent: collapsePercent),
+            child: VisibilityToggleButton(collapsePercent: collapsePercent),
           ),
         ],
       ),
@@ -86,42 +87,4 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
-}
-
-class _ToggleVisibilityButton extends StatefulWidget {
-  const _ToggleVisibilityButton({required this.collapsePercent});
-
-  final double collapsePercent;
-
-  @override
-  State<_ToggleVisibilityButton> createState() =>
-      _ToggleVisibilityButtonState();
-}
-
-class _ToggleVisibilityButtonState extends State<_ToggleVisibilityButton> {
-  late VisibilityMode mode;
-
-  @override
-  void didChangeDependencies() {
-    mode = context.watch<TodoListBloc>().mode;
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomIconButton(
-      icon: switch (mode) {
-        VisibilityMode.undone => Icons.visibility,
-        VisibilityMode.all => Icons.visibility_off,
-      },
-      onPressed: () {
-        context.read<TodoListBloc>().add(ToggleVisibilityMode());
-      },
-      color: Theme.of(context).colorScheme.primary,
-      margin: EdgeInsets.only(
-        right: lerpDouble(24, 0, widget.collapsePercent)!,
-        bottom: lerpDouble(0, 6, widget.collapsePercent)!,
-      ),
-    );
-  }
 }
