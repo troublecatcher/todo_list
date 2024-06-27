@@ -59,12 +59,7 @@ int _todoEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.content;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.content.length * 3;
   return bytesCount;
 }
 
@@ -87,13 +82,13 @@ Todo _todoDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Todo(
-    content: reader.readStringOrNull(offsets[0]),
+    content: reader.readString(offsets[0]),
     deadline: reader.readDateTimeOrNull(offsets[1]),
-    done: reader.readBoolOrNull(offsets[2]),
+    done: reader.readBool(offsets[2]),
+    id: id,
     priority: _TodopriorityValueEnumMap[reader.readByteOrNull(offsets[3])] ??
-        TodoPriority.none,
+        TodoPriority.basic,
   );
-  object.id = id;
   return object;
 }
 
@@ -105,28 +100,28 @@ P _todoDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 3:
       return (_TodopriorityValueEnumMap[reader.readByteOrNull(offset)] ??
-          TodoPriority.none) as P;
+          TodoPriority.basic) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 const _TodopriorityEnumValueMap = {
-  'none': 0,
+  'basic': 0,
   'low': 1,
-  'high': 2,
+  'important': 2,
 };
 const _TodopriorityValueEnumMap = {
-  0: TodoPriority.none,
+  0: TodoPriority.basic,
   1: TodoPriority.low,
-  2: TodoPriority.high,
+  2: TodoPriority.important,
 };
 
 Id _todoGetId(Todo object) {
@@ -217,24 +212,8 @@ extension TodoQueryWhere on QueryBuilder<Todo, Todo, QWhereClause> {
 }
 
 extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> contentIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'content',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> contentIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'content',
-      ));
-    });
-  }
-
   QueryBuilder<Todo, Todo, QAfterFilterCondition> contentEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -247,7 +226,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> contentGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -262,7 +241,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> contentLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -277,8 +256,8 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> contentBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -430,23 +409,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'done',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'done',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneEqualTo(bool? value) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> doneEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'done',
@@ -711,7 +674,7 @@ extension TodoQueryProperty on QueryBuilder<Todo, Todo, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Todo, String?, QQueryOperations> contentProperty() {
+  QueryBuilder<Todo, String, QQueryOperations> contentProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'content');
     });
@@ -723,7 +686,7 @@ extension TodoQueryProperty on QueryBuilder<Todo, Todo, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Todo, bool?, QQueryOperations> doneProperty() {
+  QueryBuilder<Todo, bool, QQueryOperations> doneProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'done');
     });
@@ -735,3 +698,31 @@ extension TodoQueryProperty on QueryBuilder<Todo, Todo, QQueryProperty> {
     });
   }
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Todo _$TodoFromJson(Map<String, dynamic> json) => Todo(
+      id: (json['id'] as num?)?.toInt() ?? Isar.autoIncrement,
+      content: json['content'] as String,
+      priority: $enumDecode(_$TodoPriorityEnumMap, json['priority']),
+      deadline: json['deadline'] == null
+          ? null
+          : DateTime.parse(json['deadline'] as String),
+      done: json['done'] as bool,
+    );
+
+Map<String, dynamic> _$TodoToJson(Todo instance) => <String, dynamic>{
+      'id': instance.id,
+      'content': instance.content,
+      'priority': _$TodoPriorityEnumMap[instance.priority]!,
+      'deadline': instance.deadline?.toIso8601String(),
+      'done': instance.done,
+    };
+
+const _$TodoPriorityEnumMap = {
+  TodoPriority.basic: 'basic',
+  TodoPriority.low: 'low',
+  TodoPriority.important: 'important',
+};

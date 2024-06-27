@@ -105,7 +105,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                           AddTodoEvent(
                             Todo(
                               content: fastTodoNameController.text,
-                              priority: TodoPriority.none,
+                              priority: TodoPriority.basic,
                               deadline: null,
                               done: false,
                             ),

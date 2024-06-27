@@ -62,13 +62,13 @@ class _TodoTileState extends State<TodoTile> {
                 bottom: 12,
                 left: 16,
               ),
-              child: switch (widget.todo.done!) {
+              child: switch (widget.todo.done) {
                 true => const Icon(
                     Icons.check_box,
                     color: AppColors.green,
                   ),
                 false => switch (widget.todo.priority) {
-                    TodoPriority.high => Stack(
+                    TodoPriority.important => Stack(
                         alignment: Alignment.center,
                         children: [
                           Container(
@@ -98,9 +98,9 @@ class _TodoTileState extends State<TodoTile> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (!widget.todo.done!)
+                        if (!widget.todo.done)
                           switch (widget.todo.priority) {
-                            TodoPriority.high => Row(
+                            TodoPriority.important => Row(
                                 children: [
                                   SvgPicture.asset(
                                     'assets/icons/priority/high.svg',
@@ -115,23 +115,23 @@ class _TodoTileState extends State<TodoTile> {
                                   const SizedBox(width: 3),
                                 ],
                               ),
-                            TodoPriority.none => const SizedBox.shrink(),
+                            TodoPriority.basic => const SizedBox.shrink(),
                           },
                         Expanded(
                           child: Text(
-                            widget.todo.content!,
+                            widget.todo.content,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
                                 .copyWith(
-                                  color: switch (widget.todo.done!) {
+                                  color: switch (widget.todo.done) {
                                     true =>
                                       Theme.of(context).colorScheme.tertiary,
                                     false => null,
                                   },
-                                  decoration: switch (widget.todo.done!) {
+                                  decoration: switch (widget.todo.done) {
                                     true => TextDecoration.lineThrough,
                                     false => TextDecoration.none,
                                   },
@@ -199,9 +199,10 @@ class _TodoTileState extends State<TodoTile> {
     final bloc = context.read<TodoListBloc>();
     final todo = widget.todo;
     if (direction == DismissDirection.startToEnd) {
-      bloc.add(UpdateTodoEvent(widget.todo.copyWith(done: !todo.done!)));
+      bloc.add(UpdateTodoEvent(
+          widget.todo.copyWith(done: !todo.done, deadline: todo.deadline)));
       Log.i(
-          'changed todo (id ${todo.id}) completeness status to ${!todo.done!}');
+          'changed todo (id ${todo.id}) completeness status to ${!todo.done}');
       return false;
     } else if (direction == DismissDirection.endToStart) {
       final result =

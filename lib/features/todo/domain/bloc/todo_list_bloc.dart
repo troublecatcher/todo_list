@@ -22,7 +22,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
               .where(
                 (todo) => switch (mode) {
                   VisibilityMode.all => true,
-                  VisibilityMode.undone => !todo.done!,
+                  VisibilityMode.undone => !todo.done,
                 },
               )
               .toList()),
@@ -68,7 +68,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
               .where(
                 (todo) => switch (mode) {
                   VisibilityMode.all => true,
-                  VisibilityMode.undone => !todo.done!,
+                  VisibilityMode.undone => !todo.done,
                 },
               )
               .toList()),

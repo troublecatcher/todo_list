@@ -10,7 +10,7 @@ class SingleTodoCubit extends Cubit<Todo> {
           switch (action) {
             CreateTodo _ => Todo(
                 content: '',
-                priority: TodoPriority.none,
+                priority: TodoPriority.basic,
                 deadline: null,
                 done: false,
               ),

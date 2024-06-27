@@ -9,20 +9,20 @@ class NetworkTodoRepository implements TodoRepository {
 
   @override
   Stream<List<Todo>> getTodos() async* {
-    // try {
-    //   final response = await _dio.get('/list');
-    //   if (response.statusCode == 200) {
-    //     List<Todo> todos =
-    //         (response.data as List).map((todo) => Todo.fromJson(todo)).toList();
-    //     yield todos;
-    //   } else {
-    //     yield [];
-    //   }
-    // } catch (e) {
-    //   print('Error fetching todos: $e');
-    //   yield [];
-    // }
-    yield [];
+    try {
+      final response = await _dio.get('/list');
+      if (response.statusCode == 200) {
+        List<Todo> todos =
+            (response.data as List).map((todo) => Todo.fromJson(todo)).toList();
+        yield todos;
+      } else {
+        yield [];
+      }
+    } catch (e) {
+      print('Error fetching todos: $e');
+      yield [];
+    }
+    // yield [];
   }
 
   @override

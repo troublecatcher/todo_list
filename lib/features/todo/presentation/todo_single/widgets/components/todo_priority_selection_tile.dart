@@ -58,9 +58,9 @@ class _TodoPrioritySelectionTileState extends State<TodoPrioritySelectionTile> {
           child: Text(
             priority.displayName,
             style: switch (priority) {
-              TodoPriority.none => menuItemStyle,
+              TodoPriority.basic => menuItemStyle,
               TodoPriority.low => menuItemStyle,
-              TodoPriority.high =>
+              TodoPriority.important =>
                 menuItemStyle!.copyWith(color: AppColors.red),
             },
           ),
