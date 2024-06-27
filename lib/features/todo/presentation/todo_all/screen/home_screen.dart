@@ -64,7 +64,7 @@ class HomeScreenState extends State<HomeScreen> {
                           return SliverPadding(
                             padding:
                                 const EdgeInsets.only(top: 16, bottom: 120),
-                            sliver: SliverList.builder(
+                            sliver: SliverList.separated(
                               itemCount: maybeModifiedTodos.length + 1,
                               itemBuilder: (context, index) {
                                 if (index == maybeModifiedTodos.length) {
@@ -74,6 +74,8 @@ class HomeScreenState extends State<HomeScreen> {
                                   return TodoTile(todo: todo);
                                 }
                               },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 8),
                             ),
                           );
                         },

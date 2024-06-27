@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/core/ui/custom_card.dart';
+import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -25,8 +27,8 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
   @override
   Widget build(BuildContext context) {
     final isTextPresent = fastTodoNameController.text.isNotEmpty;
-    return ColoredBox(
-      color: Theme.of(context).colorScheme.surface,
+    return CustomCard(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: Row(
         children: [
           AnimatedSwitcher(
@@ -102,7 +104,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
             child: isTextPresent
                 ? CustomIconButton(
                     padding: const EdgeInsets.only(left: 12, right: 16),
-                    icon: Icons.send_rounded,
+                    icon: Icons.arrow_circle_up_rounded,
                     onPressed: () async {
                       const uuid = Uuid();
                       context.read<TodoListBloc>().add(

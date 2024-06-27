@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:uuid/uuid.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -18,7 +19,8 @@ class TodoSaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SingleTodoCubit, Todo>(
       builder: (context, todo) {
-        return TextButton(
+        return CustomButtonBase(
+          margin: const EdgeInsets.only(top: 8, right: 8),
           onPressed: todoHasText(todo)
               ? () {
                   switch (action) {
@@ -48,7 +50,10 @@ class TodoSaveButton extends StatelessWidget {
                   Navigator.of(context).pop();
                 }
               : null,
-          child: const Text('СОХРАНИТЬ'),
+          child: Text(
+            'СОХРАНИТЬ',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         );
       },
     );

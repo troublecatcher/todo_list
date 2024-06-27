@@ -35,6 +35,7 @@ ThemeData getLightTheme() {
     dividerColor: lightThemeColors.supportSeparator,
     colorScheme: ColorScheme.light(
       primary: AppColors.blue,
+      onPrimary: AppColors.white,
       secondary: AppColors.blue,
       surface: lightThemeColors.backgroundElevated,
       tertiary: lightThemeColors.labelTertiary,
@@ -70,12 +71,10 @@ ThemeData getDarkTheme() {
     appBarTheme: AppBarTheme(
       backgroundColor: darkThemeColors.backgroundPrimary,
     ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      foregroundColor: AppColors.white,
-    ),
     dividerColor: darkThemeColors.supportSeparator,
     colorScheme: ColorScheme.dark(
       primary: AppColors.blue,
+      onPrimary: AppColors.white,
       secondary: AppColors.blue,
       surface: darkThemeColors.backgroundSecondary,
       tertiary: darkThemeColors.labelTertiary,
