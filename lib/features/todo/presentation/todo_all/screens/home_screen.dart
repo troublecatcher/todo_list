@@ -68,37 +68,55 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   }
-                  return SliverToBoxAdapter(
-                    child: CustomCard(
-                      margin: const EdgeInsets.only(
-                        top: 16,
-                        right: 16,
-                        left: 16,
-                        bottom: 120,
-                      ),
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: todos.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == todos.length) {
-                            return const FastTodoCreationTile();
-                          } else {
-                            final Todo todo = todos[index];
-                            return ClipRRect(
-                              borderRadius: BorderRadius.vertical(
-                                top: index == 0
-                                    ? const Radius.circular(8)
-                                    : Radius.zero,
-                              ),
-                              child: TodoTile(todo: todo),
-                            );
-                          }
-                        },
-                      ),
-                    ),
+                  return SliverList.builder(
+                    itemCount: todos.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == todos.length) {
+                        return const FastTodoCreationTile();
+                      } else {
+                        final Todo todo = todos[index];
+                        return ClipRRect(
+                          borderRadius: BorderRadius.vertical(
+                            top: index == 0
+                                ? const Radius.circular(8)
+                                : Radius.zero,
+                          ),
+                          child: TodoTile(todo: todo),
+                        );
+                      }
+                    },
                   );
+                  // return SliverToBoxAdapter(
+                  //   child: CustomCard(
+                  //     margin: const EdgeInsets.only(
+                  //       top: 16,
+                  //       right: 16,
+                  //       left: 16,
+                  //       bottom: 120,
+                  //     ),
+                  //     child: ListView.builder(
+                  //       padding: EdgeInsets.zero,
+                  //       shrinkWrap: true,
+                  //       physics: const NeverScrollableScrollPhysics(),
+                  //       itemCount: todos.length + 1,
+                  //       itemBuilder: (context, index) {
+                  //         if (index == todos.length) {
+                  //           return const FastTodoCreationTile();
+                  //         } else {
+                  //           final Todo todo = todos[index];
+                  //           return ClipRRect(
+                  //             borderRadius: BorderRadius.vertical(
+                  //               top: index == 0
+                  //                   ? const Radius.circular(8)
+                  //                   : Radius.zero,
+                  //             ),
+                  //             child: TodoTile(todo: todo),
+                  //           );
+                  //         }
+                  //       },
+                  //     ),
+                  //   ),
+                  // );
                 } else {
                   return const SliverToBoxAdapter(
                     child: SizedBox.shrink(),
@@ -118,15 +136,4 @@ class HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  // Future<void> _createTodo(BuildContext context) async {
-  //   final bloc = context.read<TodoListBloc>();
-  //   final newTodo = await Navigator.of(context).pushNamed(
-  //     '/todo',
-  //     arguments: CreateTodo(),
-  //   ) as Todo?;
-  //   if (newTodo != null) {
-  //     bloc.add(AddTodoEvent(newTodo));
-  //   }
-  // }
 }

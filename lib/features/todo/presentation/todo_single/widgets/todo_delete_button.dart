@@ -9,23 +9,12 @@ import 'package:todo_list/features/todo/presentation/todo_single/bloc/single_tod
 import 'package:todo_list/features/todo/presentation/todo_single/utility/dialog_manager.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
 
-class TodoDeleteButton extends StatefulWidget {
+class TodoDeleteButton extends StatelessWidget {
+  final TodoAction action;
   const TodoDeleteButton({
     super.key,
+    required this.action,
   });
-
-  @override
-  State<TodoDeleteButton> createState() => _TodoDeleteButtonState();
-}
-
-class _TodoDeleteButtonState extends State<TodoDeleteButton> {
-  late TodoAction action;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    action = context.read<SingleTodoCubit>().action;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +23,12 @@ class _TodoDeleteButtonState extends State<TodoDeleteButton> {
         return TextButton.icon(
           onPressed: switch (action) {
             CreateTodo _ => null,
-            EditTodo todoAction => () {
+            EditTodo _ => () {
                 DialogManager.showDeleteConfirmationDialog(context)
                     .then((result) {
                   if (result != null && result) {
                     context.read<TodoListBloc>().add(DeleteTodoEvent(todo.id));
                     Navigator.of(context).pop();
-                  } else {
-                    Log.i('rejected to delete todo (id ${todoAction.todo.id})');
                   }
                 });
               }

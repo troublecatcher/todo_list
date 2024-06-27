@@ -46,12 +46,12 @@ class TodoScreen extends StatelessWidget {
               ),
             ),
             const SliverToBoxAdapter(child: Divider()),
-            const SliverPadding(
-              padding: EdgeInsets.only(bottom: 8, right: 16, left: 16),
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 8, right: 16, left: 16),
               sliver: SliverToBoxAdapter(
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: TodoDeleteButton(),
+                  child: TodoDeleteButton(action: action),
                 ),
               ),
             ),
