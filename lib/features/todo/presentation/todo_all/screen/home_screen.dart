@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/create_todo_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/no_todos_placeholder.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/fast_todo_creation_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/todo_tile.dart';
 
@@ -32,69 +33,45 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             BlocBuilder<TodoListBloc, TodoState>(
               builder: (context, state) {
-                if (state is TodoLoading) {
-                  return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (state is TodoError) {
-                  return SliverToBoxAdapter(
-                    child: Center(child: Text('Ошибка: ${state.message}')),
-                  );
-                } else if (state is TodoLoaded) {
-                  final todos = state.todos;
-                  if (todos.isEmpty) {
-                    return SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.done_all_rounded,
-                            size: 100,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Дел нет',
-                            style: Theme.of(context).textTheme.displayLarge,
-                          ),
-                          Text(
-                            'Счастливый Вы человек!',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 100),
-                        ],
-                      ),
+                switch (state) {
+                  case TodoLoading _:
+                    return const SliverToBoxAdapter(
+                      child: Center(child: CircularProgressIndicator()),
                     );
-                  }
-                  return SliverList.builder(
-                    itemCount: todos.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == todos.length) {
-                        return const FastTodoCreationTile();
-                      } else {
-                        final Todo todo = todos[index];
-                        return TodoTile(todo: todo);
-                      }
-                    },
-                  );
-                } else {
-                  return const SliverToBoxAdapter(
-                    child: SizedBox.shrink(),
-                  );
+                  case TodoError _:
+                    return SliverToBoxAdapter(
+                      child: Center(child: Text('Ошибка: ${state.message}')),
+                    );
+                  case TodoLoaded todoLoadedState:
+                    final List<Todo> todos = todoLoadedState.todos;
+                    if (todos.isEmpty) {
+                      return const SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: NoTodosPlaceholder(),
+                      );
+                    }
+                    return SliverList.builder(
+                      itemCount: todos.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == todos.length) {
+                          return const FastTodoCreationTile();
+                        } else {
+                          final Todo todo = todos[index];
+                          return TodoTile(todo: todo);
+                        }
+                      },
+                    );
+                  case TodoInitial _:
+                    return const SliverToBoxAdapter(
+                      child: SizedBox.shrink(),
+                    );
                 }
               },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(
-          '/todo',
-          arguments: CreateTodo(),
-        ),
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: const CreateTodoButton(),
     );
   }
 }

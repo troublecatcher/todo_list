@@ -17,7 +17,6 @@ class TodoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SingleTodoCubit(action: action),
-      lazy: false,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
