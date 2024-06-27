@@ -9,7 +9,7 @@ class SharedPreferencesService {
     return this;
   }
 
-  int get revision => _prefs?.getInt(_revKey) ?? 0;
+  int get revision => _prefs?.getInt(_revKey) ?? -1;
 
   Future<void> incRev() async => await _prefs?.setInt(_revKey, revision + 1);
 

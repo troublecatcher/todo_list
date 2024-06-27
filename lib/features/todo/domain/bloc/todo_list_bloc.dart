@@ -28,20 +28,23 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   Future<void> _fetchTodos(Emitter<TodoState> emit) async {
     emit(TodoLoading());
     try {
-      await emit.forEach(
-        _remote.getTodos(),
-        onData: (todos) {
-          _local.putFresh(todos);
-          return TodoLoaded(todos);
-        },
-      );
+      final (List<Todo> remoteTodos, int remoteRevision) =
+          await _remote.getTodos();
+      final int localRevision = _sp.revision;
+      if (remoteRevision < localRevision) {
+        final (List<Todo> localTodos, _) = await _local.getTodos();
+        await _remote.putFresh(localTodos);
+        emit(TodoLoaded(localTodos));
+      } else {
+        await _local.putFresh(remoteTodos);
+        emit(TodoLoaded(remoteTodos));
+      }
+      await _sp.setRev(remoteRevision);
     } catch (e) {
       Log.e('Error fetching todos from remote: $e');
       try {
-        await emit.forEach(
-          _local.getTodos(),
-          onData: (todos) => TodoLoaded(todos),
-        );
+        final (List<Todo> localTodos, _) = await _local.getTodos();
+        emit(TodoLoaded(localTodos));
       } catch (e, s) {
         Log.e('Error fetching todos from local: $e, $s');
         emit(TodoError(e.toString()));
@@ -54,11 +57,11 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => _remote.addTodo(event.todo),
-      localAction: () => Future.wait([
-        _local.addTodo(event.todo),
+      remoteAction: () => Future.wait([
+        _remote.addTodo(event.todo),
         _sp.incRev(),
       ]),
+      localAction: () => _local.addTodo(event.todo),
       onSuccess: () => _updateStateWithNewTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error creating todo ${event.todo.id}: $e, $s'),
       emit: emit,
@@ -70,11 +73,11 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => _remote.updateTodo(event.todo),
-      localAction: () => Future.wait([
-        _local.updateTodo(event.todo),
+      remoteAction: () => Future.wait([
+        _remote.updateTodo(event.todo),
         _sp.incRev(),
       ]),
+      localAction: () => _local.updateTodo(event.todo),
       onSuccess: () => _updateStateWithUpdatedTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error updating todo ${event.todo.id}: $e, $s'),
       emit: emit,
@@ -86,11 +89,11 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => _remote.deleteTodo(event.todo),
-      localAction: () => Future.wait([
-        _local.deleteTodo(event.todo),
+      remoteAction: () => Future.wait([
+        _remote.deleteTodo(event.todo),
         _sp.incRev(),
       ]),
+      localAction: () => _local.deleteTodo(event.todo),
       onSuccess: () => _updateStateWithDeletedTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error deleting todo ${event.todo.id}: $e, $s'),
       emit: emit,
@@ -123,11 +126,9 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Added todo ${todo.id}');
-    if (state is TodoLoaded) {
-      final currentState = state as TodoLoaded;
-      final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
-      emit(TodoLoaded(updatedTodos));
-    }
+    final currentState = state as TodoLoaded;
+    final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
+    emit(TodoLoaded(updatedTodos));
   }
 
   void _updateStateWithUpdatedTodo(
@@ -135,13 +136,11 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Updated todo ${todo.id}');
-    if (state is TodoLoaded) {
-      final currentState = state as TodoLoaded;
-      final updatedTodos = currentState.todos.map((t) {
-        return t.id == todo.id ? todo : t;
-      }).toList();
-      emit(TodoLoaded(updatedTodos));
-    }
+    final currentState = state as TodoLoaded;
+    final updatedTodos = currentState.todos.map((t) {
+      return t.id == todo.id ? todo : t;
+    }).toList();
+    emit(TodoLoaded(updatedTodos));
   }
 
   void _updateStateWithDeletedTodo(
@@ -149,11 +148,9 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Deleted todo ${todo.id}');
-    if (state is TodoLoaded) {
-      final currentState = state as TodoLoaded;
-      final updatedTodos =
-          currentState.todos.where((t) => t.id != todo.id).toList();
-      emit(TodoLoaded(updatedTodos));
-    }
+    final currentState = state as TodoLoaded;
+    final updatedTodos =
+        currentState.todos.where((t) => t.id != todo.id).toList();
+    emit(TodoLoaded(updatedTodos));
   }
 }

@@ -8,8 +8,8 @@ class LocalTodoRepository implements TodoRepository {
   LocalTodoRepository(this._isar);
 
   @override
-  Stream<List<Todo>> getTodos() {
-    return _isar.todos.where().watch(fireImmediately: true);
+  Future<(List<Todo>, int)> getTodos() async {
+    return (await _isar.todos.where().findAll(), -1);
   }
 
   @override

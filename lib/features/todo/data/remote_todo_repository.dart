@@ -14,15 +14,15 @@ class RemoteTodoRepository implements TodoRepository {
   );
 
   @override
-  Stream<List<Todo>> getTodos() async* {
+  Future<(List<Todo>, int)> getTodos() async {
     final response = await _dio.get('list');
     if (response.statusCode == 200) {
-      await _sp.setRev(response.data['revision']);
+      final int revision = response.data['revision'];
       List todoList = (response.data['list'] as List);
       final List<Todo> todos = todoList.map((e) => Todo.fromJson(e)).toList();
-      yield todos;
+      return (todos, revision);
     } else {
-      yield [];
+      return (<Todo>[], -1);
     }
   }
 
