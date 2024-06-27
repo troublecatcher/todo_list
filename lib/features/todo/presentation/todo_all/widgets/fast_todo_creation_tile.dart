@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class FastTodoCreationTile extends StatefulWidget {
@@ -101,7 +101,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                   padding: const EdgeInsets.only(left: 12, right: 16),
                   icon: Icons.send_rounded,
                   onPressed: () async {
-                    context.read<TodoBloc>().add(
+                    context.read<TodoListBloc>().add(
                           AddTodoEvent(
                             Todo(
                               content: fastTodoNameController.text,

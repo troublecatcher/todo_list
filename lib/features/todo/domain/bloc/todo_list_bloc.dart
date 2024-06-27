@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/logger.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_state.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/data/todo_repository.dart';
 
-class TodoBloc extends Bloc<TodoEvent, TodoState> {
+class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository todoRepository;
   VisibilityMode mode = VisibilityMode.all;
 
-  TodoBloc({required this.todoRepository}) : super(TodoInitial()) {
+  TodoListBloc({required this.todoRepository}) : super(TodoInitial()) {
     // this event is being added everytime
     // a change occurs in the list of todos, FOR NOW =)
     on<LoadTodos>((event, emit) async {

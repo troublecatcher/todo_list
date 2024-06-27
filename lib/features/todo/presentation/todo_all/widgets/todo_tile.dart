@@ -5,12 +5,11 @@ import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/utility/dialog_manager.dart';
-import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
-import 'package:todo_list/features/todo/presentation/utility/todo_result.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/utility/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
 
 class TodoTile extends StatefulWidget {
   const TodoTile({
@@ -174,7 +173,10 @@ class _TodoTileState extends State<TodoTile> {
               left: 12,
             ),
             icon: Icons.info_outline,
-            onPressed: () async => await _editTodo(context),
+            onPressed: () => Navigator.of(context).pushNamed(
+              '/todo',
+              arguments: EditTodo(todo: widget.todo),
+            ),
             color: Theme.of(context).colorScheme.tertiary,
           ),
         ],
@@ -186,7 +188,7 @@ class _TodoTileState extends State<TodoTile> {
       DismissDirection direction, BuildContext context) async {
     if (direction == DismissDirection.startToEnd) {
       final todo = widget.todo;
-      context.read<TodoBloc>().add(
+      context.read<TodoListBloc>().add(
             UpdateTodoEvent(
               widget.todo.copyWith(done: !todo.done!),
             ),
@@ -196,7 +198,7 @@ class _TodoTileState extends State<TodoTile> {
       return false;
     } else if (direction == DismissDirection.endToStart) {
       Log.i('prompted to delete todo (id ${widget.todo.id})');
-      final bloc = context.read<TodoBloc>();
+      final bloc = context.read<TodoListBloc>();
       final result = await DialogManager.showDeleteConfirmationDialog(context);
       if (result != null && result) {
         bloc.add(DeleteTodoEvent(widget.todo.id));
@@ -208,31 +210,27 @@ class _TodoTileState extends State<TodoTile> {
     return false;
   }
 
-  Future<void> _editTodo(BuildContext context) async {
-    final bloc = context.read<TodoBloc>();
-    final result = await Navigator.of(context).pushNamed(
-      '/todo',
-      arguments: EditTodo(todo: widget.todo),
-    ) as TodoResult?;
-    if (result is EditedTodo) {
-      final resultTodo = result.todo;
-      if (resultTodo != null) {
-        bloc.add(
-          UpdateTodoEvent(
-            widget.todo.copyWith(
-              id: resultTodo.id,
-              content: resultTodo.content,
-              done: resultTodo.done!,
-              deadline: resultTodo.deadline,
-              priority: resultTodo.priority,
-            ),
-          ),
-        );
-      }
-    } else if (result is DeletedTodo) {
-      bloc.add(DeleteTodoEvent(widget.todo.id));
-    }
-  }
+  // Future<void> _editTodo(BuildContext context) async {
+  //   final bloc = context.read<TodoListBloc>();
+  //   final result = await ;
+  //   // if (result is DeletedTodo) {
+  //   //   bloc.add(DeleteTodoEvent(widget.todo.id));
+  //   // }
+  //   // final resultTodo = result.todo;
+  //   // if (resultTodo != null) {
+  //   //   bloc.add(
+  //   //     UpdateTodoEvent(
+  //   //       widget.todo.copyWith(
+  //   //         id: resultTodo.id,
+  //   //         content: resultTodo.content,
+  //   //         done: resultTodo.done!,
+  //   //         deadline: resultTodo.deadline,
+  //   //         priority: resultTodo.priority,
+  //   //       ),
+  //   //     ),
+  //   //   );
+  //   // }
+  // }
 }
 
 class _DeleteBackground extends StatelessWidget {

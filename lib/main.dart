@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
-import 'package:todo_list/features/todo/presentation/screens/home_screen.dart';
-import 'package:todo_list/features/todo/presentation/screens/todo_screen.dart';
-import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screens/home_screen.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/screens/single_todo_screen.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/utility/todo_action.dart';
 import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
 
 import 'package:todo_list/core/services/persistence_service.dart';
@@ -23,7 +23,7 @@ void main() async {
   runApp(
     BlocProvider(
       create: (context) =>
-          TodoBloc(todoRepository: todoRepository)..add(LoadTodos()),
+          TodoListBloc(todoRepository: todoRepository)..add(LoadTodos()),
       child: const MainApp(),
     ),
   );
