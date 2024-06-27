@@ -18,11 +18,11 @@ class SharedPreferencesService {
     return this;
   }
 
-  int get revision {
-    return _preferences?.getInt(_keyRevision) ?? 0;
-  }
+  int get revision => _preferences?.getInt(_keyRevision) ?? 0;
 
-  set revision(int value) {
-    _preferences?.setInt(_keyRevision, value);
-  }
+  Future<void> increment() async =>
+      await _preferences?.setInt(_keyRevision, revision + 1);
+
+  Future<void> set(int value) async =>
+      await _preferences?.setInt(_keyRevision, value);
 }

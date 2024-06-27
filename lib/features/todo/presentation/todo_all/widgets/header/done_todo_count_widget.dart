@@ -14,7 +14,7 @@ class DoneTodoCountWidget extends StatelessWidget {
           case TodoInitial _:
             return const _TodoCountText(count: 0);
           case TodoLoading _:
-            return const CircularProgressIndicator();
+            return const SizedBox.shrink();
           case TodoError _:
             return Text('Ошибка: ${state.message}');
           case TodoLoaded _:

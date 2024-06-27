@@ -17,7 +17,7 @@ class DismissDoneBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: switch (todo.done!) {
+      color: switch (todo.done) {
         true => Theme.of(context).dividerColor,
         false => AppColors.green,
       },
@@ -29,7 +29,7 @@ class DismissDoneBackground extends StatelessWidget {
                 ? MediaQuery.of(context).size.width / 15 * (10 * progress)
                 : (24 * (4 * progress))),
         child: Icon(
-          todo.done! ? Icons.close_rounded : Icons.check,
+          todo.done ? Icons.close_rounded : Icons.check,
           color: AppColors.white,
         ),
       ),

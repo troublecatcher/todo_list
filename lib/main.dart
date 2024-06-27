@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/service_locator.dart';
-import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/features/todo/data/network_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -36,7 +34,7 @@ void main() async {
       create: (context) => TodoListBloc(
         networkRepository: networkRepository,
         persistenceRepository: persistenceRepository,
-      )..add(Fetch()),
+      )..add(FetchTodos()),
       child: const MainApp(),
     ),
   );

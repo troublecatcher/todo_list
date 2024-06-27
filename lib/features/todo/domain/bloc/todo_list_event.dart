@@ -2,8 +2,6 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 abstract class TodoEvent {}
 
-class LoadTodos extends TodoEvent {}
-
 class AddTodoEvent extends TodoEvent {
   final Todo todo;
 
@@ -24,4 +22,4 @@ class DeleteTodoEvent extends TodoEvent {
 
 class ToggleVisibilityMode extends TodoEvent {}
 
-class Fetch extends TodoEvent {}
+class FetchTodos extends TodoEvent {}

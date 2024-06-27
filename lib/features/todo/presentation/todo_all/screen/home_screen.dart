@@ -35,7 +35,7 @@ class HomeScreenState extends State<HomeScreen> {
               builder: (context, state) {
                 switch (state) {
                   case TodoLoading _:
-                    return const SliverToBoxAdapter(
+                    return const SliverFillRemaining(
                       child: Center(child: CircularProgressIndicator()),
                     );
                   case TodoError _:
@@ -50,33 +50,29 @@ class HomeScreenState extends State<HomeScreen> {
                         child: NoTodosPlaceholder(),
                       );
                     }
-                    return SliverList.builder(
-                      itemCount: todos.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == todos.length) {
-                          return const FastTodoCreationTile();
-                        } else {
-                          final Todo todo = todos[index];
-                          return TodoTile(todo: todo);
-                        }
-                      },
+                    return SliverPadding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 110),
+                      sliver: SliverList.builder(
+                        itemCount: todos.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index == todos.length) {
+                            return const FastTodoCreationTile();
+                          } else {
+                            final Todo todo = todos[index];
+                            return TodoTile(todo: todo);
+                          }
+                        },
+                      ),
                     );
                   case TodoInitial _:
                     return const SliverToBoxAdapter(child: SizedBox.shrink());
                 }
               },
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 110))
           ],
         ),
       ),
       floatingActionButton: const CreateTodoButton(),
-      // floatingActionButton: IconButton(
-      //   onPressed: () async {
-      //     context.read<TodoListBloc>().add(Fetch());
-      //   },
-      //   icon: const Icon(Icons.abc),
-      // ),
     );
   }
 }
