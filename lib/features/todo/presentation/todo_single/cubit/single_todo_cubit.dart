@@ -17,18 +17,30 @@ class SingleTodoCubit extends Cubit<Todo> {
             EditTodo _ => action.todo,
           },
         );
+
   void changeText(String text) {
     Log.i('updated todo content: $text');
-    emit(state.copyWith(text: text));
+    emit(state.copyWith(
+      text: text,
+      deadline: state.deadline,
+      color: state.color,
+    ));
   }
 
   void changeImportance(Importance importance) {
     Log.i('updated todo priority ${importance.name}');
-    emit(state.copyWith(importance: importance));
+    emit(state.copyWith(
+      importance: importance,
+      deadline: state.deadline,
+      color: state.color,
+    ));
   }
 
   void changeDeadline(DateTime? deadline) {
     Log.i('updated todo deadline: ${deadline?.toIso8601String()}');
-    emit(state.copyWith(deadline: deadline));
+    emit(state.copyWith(
+      deadline: deadline,
+      color: state.color,
+    ));
   }
 }

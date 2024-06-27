@@ -8,16 +8,22 @@ part 'todo.g.dart';
 class Todo {
   late String id;
   final String text;
+
   @enumerated
   final Importance importance;
+
   @JsonKey(fromJson: _dateFromJsonNullable, toJson: _dateToJsonNullable)
   final DateTime? deadline;
+
   final bool done;
   final String? color;
+
   @JsonKey(name: 'created_at', fromJson: _dateFromJson, toJson: _dateToJson)
   late DateTime createdAt;
+
   @JsonKey(name: 'changed_at', fromJson: _dateFromJson, toJson: _dateToJson)
   late DateTime changedAt;
+
   @JsonKey(name: 'last_updated_by')
   late String lastUpdatedBy;
 

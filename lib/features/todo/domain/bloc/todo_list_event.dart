@@ -20,6 +20,4 @@ class DeleteTodoEvent extends TodoEvent {
   DeleteTodoEvent(this.todo);
 }
 
-class ToggleVisibilityMode extends TodoEvent {}
-
 class FetchTodos extends TodoEvent {}

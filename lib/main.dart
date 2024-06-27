@@ -5,13 +5,13 @@ import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/service_locator.dart';
-import 'package:todo_list/features/todo/data/network_repository.dart';
+import 'package:todo_list/features/todo/data/remote_todo_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/home_screen.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/screen/single_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
-import 'package:todo_list/features/todo/data/persistence_repository.dart';
+import 'package:todo_list/features/todo/data/local_todo_repository.dart';
 
 import 'package:todo_list/core/services/isar_service.dart';
 
@@ -25,15 +25,15 @@ void main() async {
 
   await ServiceLocator.setupSharedPreferencesService();
 
-  final networkRepository = NetworkTodoRepository();
-  final persistenceRepository = PersistenceTodoRepository(isar);
+  final networkRepository = RemoteTodoRepository();
+  final persistenceRepository = LocalTodoRepository(isar);
   HttpOverrides.global = MyHttpOverrides();
 
   runApp(
     BlocProvider(
       create: (context) => TodoListBloc(
-        networkRepository: networkRepository,
-        persistenceRepository: persistenceRepository,
+        remote: networkRepository,
+        local: persistenceRepository,
       )..add(FetchTodos()),
       child: const MainApp(),
     ),

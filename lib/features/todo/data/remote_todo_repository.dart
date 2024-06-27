@@ -4,7 +4,7 @@ import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/repository.dart';
 
-class NetworkTodoRepository implements TodoRepository {
+class RemoteTodoRepository implements TodoRepository {
   final _sp = GetIt.I<SharedPreferencesService>();
   final Dio _dio = Dio(
     BaseOptions(
@@ -17,7 +17,7 @@ class NetworkTodoRepository implements TodoRepository {
   Stream<List<Todo>> getTodos() async* {
     final response = await _dio.get('list');
     if (response.statusCode == 200) {
-      await _sp.set(response.data['revision']);
+      await _sp.setRev(response.data['revision']);
       List todoList = (response.data['list'] as List);
       final List<Todo> todos = todoList.map((e) => Todo.fromJson(e)).toList();
       yield todos;

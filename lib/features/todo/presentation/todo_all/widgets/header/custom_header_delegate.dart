@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
 
 class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;

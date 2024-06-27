@@ -8,36 +8,28 @@ import 'package:todo_list/features/todo/data/repository.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepository _networkRepository;
-  final TodoRepository _persistenceRepository;
+  final TodoRepository _remote;
+  final TodoRepository _local;
   final SharedPreferencesService _sp = GetIt.I<SharedPreferencesService>();
-  VisibilityMode mode = VisibilityMode.all;
 
   TodoListBloc({
-    required TodoRepository networkRepository,
-    required TodoRepository persistenceRepository,
-  })  : _persistenceRepository = persistenceRepository,
-        _networkRepository = networkRepository,
+    required TodoRepository remote,
+    required TodoRepository local,
+  })  : _local = local,
+        _remote = remote,
         super(TodoInitial()) {
-    on<FetchTodos>((event, emit) async => await _fetchTodos(emit));
-    on<AddTodoEvent>((event, emit) async => await _addTodo(event, emit));
-    on<UpdateTodoEvent>((event, emit) async => await _updateTodo(event, emit));
-    on<DeleteTodoEvent>((event, emit) async => await _deleteTodo(event, emit));
-    on<ToggleVisibilityMode>((event, emit) => _toggleVisibility());
+    on<FetchTodos>((event, emit) => _fetchTodos(emit));
+    on<AddTodoEvent>((event, emit) => _addTodo(event, emit));
+    on<UpdateTodoEvent>((event, emit) => _updateTodo(event, emit));
+    on<DeleteTodoEvent>((event, emit) => _deleteTodo(event, emit));
   }
 
   Future<void> _fetchTodos(Emitter<TodoState> emit) async {
     emit(TodoLoading());
     try {
       await emit.forEach(
-        _networkRepository.getTodos(),
-        onData: (todos) {
-          condition(todo) => switch (mode) {
-                VisibilityMode.all => true,
-                VisibilityMode.undone => !todo.done,
-              };
-          return TodoLoaded(todos.where(condition).toList());
-        },
+        _remote.getTodos(),
+        onData: (todos) => TodoLoaded(todos),
         onError: (_, __) => TodoError('Failed to load todos'),
       );
     } catch (e) {
@@ -46,74 +38,111 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     }
   }
 
-  Future<void> _addTodo(AddTodoEvent event, Emitter<TodoState> emit) async {
-    try {
-      await Future.wait([
-        _networkRepository.addTodo(event.todo),
-        _persistenceRepository.addTodo(event.todo),
-        _sp.increment(),
-      ]);
-      Log.i('created todo (id ${event.todo.id})');
-      if (state is TodoLoaded) {
-        final currentState = state as TodoLoaded;
-        final updatedTodos = List<Todo>.from(currentState.todos)
-          ..add(event.todo);
-        emit(TodoLoaded(updatedTodos));
-      }
-    } catch (e) {
-      Log.e('Error adding todo: $e');
-    }
+  Future<void> _addTodo(
+    AddTodoEvent event,
+    Emitter<TodoState> emit,
+  ) async {
+    await _executeAction(
+      remoteAction: () => _remote.addTodo(event.todo),
+      localAction: () => Future.wait([
+        _local.addTodo(event.todo),
+        _sp.incRev(),
+      ]),
+      onSuccess: () => _updateStateWithNewTodo(event.todo, emit),
+      onError: (e, s) => Log.e('Error creating todo ${event.todo.id}: $e, $s'),
+      emit: emit,
+    );
   }
 
   Future<void> _updateTodo(
-      UpdateTodoEvent event, Emitter<TodoState> emit) async {
-    try {
-      await Future.wait([
-        _networkRepository.updateTodo(event.todo),
-        _persistenceRepository.updateTodo(event.todo),
-        _sp.increment(),
-      ]);
-      Log.i('updated todo (id ${event.todo.id})');
-      if (state is TodoLoaded) {
-        final currentState = state as TodoLoaded;
-        final updatedTodos = currentState.todos.map((todo) {
-          return todo.id == event.todo.id ? event.todo : todo;
-        }).toList();
-        emit(TodoLoaded(updatedTodos));
-      }
-    } catch (e) {
-      Log.e('Error updating todo: $e');
-    }
+    UpdateTodoEvent event,
+    Emitter<TodoState> emit,
+  ) async {
+    await _executeAction(
+      remoteAction: () => _remote.updateTodo(event.todo),
+      localAction: () => Future.wait([
+        _local.updateTodo(event.todo),
+        _sp.incRev(),
+      ]),
+      onSuccess: () => _updateStateWithUpdatedTodo(event.todo, emit),
+      onError: (e, s) => Log.e('Error updating todo ${event.todo.id}: $e, $s'),
+      emit: emit,
+    );
   }
 
   Future<void> _deleteTodo(
-      DeleteTodoEvent event, Emitter<TodoState> emit) async {
+    DeleteTodoEvent event,
+    Emitter<TodoState> emit,
+  ) async {
+    await _executeAction(
+      remoteAction: () => _remote.deleteTodo(event.todo),
+      localAction: () => Future.wait([
+        _local.deleteTodo(event.todo),
+        _sp.incRev(),
+      ]),
+      onSuccess: () => _updateStateWithDeletedTodo(event.todo, emit),
+      onError: (e, s) => Log.e('Error deleting todo ${event.todo.id}: $e, $s'),
+      emit: emit,
+    );
+  }
+
+  Future<void> _executeAction({
+    required Future<void> Function() remoteAction,
+    required Future<void> Function() localAction,
+    required void Function() onSuccess,
+    required void Function(dynamic e, dynamic s) onError,
+    required Emitter<TodoState> emit,
+  }) async {
     try {
-      await Future.wait([
-        _networkRepository.deleteTodo(event.todo),
-        _persistenceRepository.deleteTodo(event.todo),
-        _sp.increment(),
-      ]);
-      Log.i('deleted todo (id ${event.todo.id})');
-      if (state is TodoLoaded) {
-        final currentState = state as TodoLoaded;
-        final updatedTodos = currentState.todos
-            .where((todo) => todo.id != event.todo.id)
-            .toList();
-        emit(TodoLoaded(updatedTodos));
-      }
+      await remoteAction();
     } catch (e) {
-      Log.e('Error updating todo: $e');
+      Log.e('Error in remote action: $e');
+    }
+    try {
+      await localAction();
+      onSuccess();
+    } catch (e, s) {
+      onError(e, s);
+      emit(TodoError(e.toString()));
     }
   }
 
-  void _toggleVisibility() {
-    mode = switch (mode) {
-      VisibilityMode.all => VisibilityMode.undone,
-      VisibilityMode.undone => VisibilityMode.all,
-    };
-    Log.i('toggle todo visibility to ${mode.name}');
+  void _updateStateWithNewTodo(
+    Todo todo,
+    Emitter<TodoState> emit,
+  ) {
+    Log.i('Added todo ${todo.id}');
+    if (state is TodoLoaded) {
+      final currentState = state as TodoLoaded;
+      final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
+      emit(TodoLoaded(updatedTodos));
+    }
+  }
+
+  void _updateStateWithUpdatedTodo(
+    Todo todo,
+    Emitter<TodoState> emit,
+  ) {
+    Log.i('Updated todo ${todo.id}');
+    if (state is TodoLoaded) {
+      final currentState = state as TodoLoaded;
+      final updatedTodos = currentState.todos.map((t) {
+        return t.id == todo.id ? todo : t;
+      }).toList();
+      emit(TodoLoaded(updatedTodos));
+    }
+  }
+
+  void _updateStateWithDeletedTodo(
+    Todo todo,
+    Emitter<TodoState> emit,
+  ) {
+    Log.i('Deleted todo ${todo.id}');
+    if (state is TodoLoaded) {
+      final currentState = state as TodoLoaded;
+      final updatedTodos =
+          currentState.todos.where((t) => t.id != todo.id).toList();
+      emit(TodoLoaded(updatedTodos));
+    }
   }
 }
-
-enum VisibilityMode { all, undone }

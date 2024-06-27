@@ -2,10 +2,10 @@ import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/repository.dart';
 
-class PersistenceTodoRepository implements TodoRepository {
+class LocalTodoRepository implements TodoRepository {
   final Isar _isar;
 
-  PersistenceTodoRepository(this._isar);
+  LocalTodoRepository(this._isar);
 
   @override
   Stream<List<Todo>> getTodos() {
