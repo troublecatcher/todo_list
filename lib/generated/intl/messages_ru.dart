@@ -31,6 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "doneTodoCount": m0,
         "errorMessage": m1,
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("Мои дела"),
+        "language": MessageLookupByLibrary.simpleMessage("Язык"),
+        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+        "theme": MessageLookupByLibrary.simpleMessage("Тема"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Дедлайн"),
         "todoDeleteButtonTitle":
             MessageLookupByLibrary.simpleMessage("Удалить"),

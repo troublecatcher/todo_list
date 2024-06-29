@@ -14,5 +14,8 @@
   "todoDeleteDialogTitle": "Are you sure you want to delete this task?",
   "todoDeleteDialogContent": "This action is irreversible",
   "cancel": "Cancel",
-  "delete": "Delete"
+  "delete": "Delete",
+  "settings": "Settings",
+  "theme": "Theme",
+  "language": "Language"
 }

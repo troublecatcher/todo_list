@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
-import 'package:todo_list/core/ui/app_shimmer.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -13,26 +12,21 @@ class DoneTodoCountWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoListBloc, TodoState>(
       builder: (context, state) {
-        switch (state) {
-          case TodoInitial _:
-            return const _TodoCountText(count: 0);
-          case TodoLoading _:
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: const AppShimmer(
-                enabled: true,
-                child: SizedBox(
-                  height: 60,
-                  width: 200,
-                ),
+        return AnimatedSwitcher(
+          duration: Durations.extralong1,
+          transitionBuilder: (child, animation) => FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+          child: switch (state) {
+            TodoInitial _ => const _TodoCountText(count: 0),
+            TodoLoading _ => const SizedBox.shrink(),
+            TodoError _ => Text(S.of(context).errorMessage(state.message)),
+            TodoLoaded _ => _TodoCountText(
+                count: state.todos.where((todo) => todo.done).length,
               ),
-            );
-          case TodoError _:
-            return Text(S.of(context).errorMessage(state.message));
-          case TodoLoaded _:
-            final doneCount = state.todos.where((todo) => todo.done).length;
-            return _TodoCountText(count: doneCount);
-        }
+          },
+        );
       },
     );
   }

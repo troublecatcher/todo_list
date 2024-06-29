@@ -19,17 +19,17 @@ class TodoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<VisibilityCubit, VisibilityMode>(
       builder: (context, mode) {
-        List<Todo> maybeModifiedTodos = todos;
+        List<Todo> maybeFilteredTodos = todos;
         if (mode == VisibilityMode.undone) {
-          maybeModifiedTodos = todos.where((todo) => !todo.done).toList();
+          maybeFilteredTodos = todos.where((todo) => !todo.done).toList();
         }
         return SliverPadding(
           padding: const EdgeInsets.only(top: 16, bottom: 120),
           sliver: AnimationLimiter(
             child: SliverList.separated(
-              itemCount: maybeModifiedTodos.length + 1,
+              itemCount: maybeFilteredTodos.length + 1,
               itemBuilder: (context, index) {
-                if (index == maybeModifiedTodos.length) {
+                if (index == maybeFilteredTodos.length) {
                   return AnimationConfiguration.staggeredList(
                     position: index,
                     duration: const Duration(milliseconds: 375),
@@ -41,7 +41,7 @@ class TodoList extends StatelessWidget {
                     ),
                   );
                 } else {
-                  final Todo todo = maybeModifiedTodos[index];
+                  final Todo todo = maybeFilteredTodos[index];
                   return AnimationConfiguration.staggeredList(
                     position: index,
                     duration: const Duration(milliseconds: 375),

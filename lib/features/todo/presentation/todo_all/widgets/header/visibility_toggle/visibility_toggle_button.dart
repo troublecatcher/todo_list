@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
-import 'package:todo_list/core/ui/app_shimmer.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
+import 'package:todo_list/core/ui/loading_widget.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
@@ -36,18 +36,9 @@ class VisibilityToggleButton extends StatelessWidget {
             },
           );
         } else {
-          return Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: const AppShimmer(
-                enabled: true,
-                child: SizedBox(
-                  height: 40,
-                  width: 40,
-                ),
-              ),
-            ),
+          return const Padding(
+            padding: EdgeInsets.only(right: 24),
+            child: LoadingWidget(),
           );
         }
       },

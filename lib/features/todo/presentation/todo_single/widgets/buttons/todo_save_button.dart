@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:get_it/get_it.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
@@ -33,7 +35,8 @@ class TodoSaveButton extends StatelessWidget {
                               todo
                                 ..createdAt = DateTime.now()
                                 ..changedAt = DateTime.now()
-                                ..lastUpdatedBy = 'Ryan Gosling'
+                                ..lastUpdatedBy =
+                                    GetIt.I<DeviceInfoService>().info
                                 ..id = uuid.v4(),
                             ),
                           );
@@ -44,7 +47,8 @@ class TodoSaveButton extends StatelessWidget {
                               todo
                                 ..createdAt = todo.createdAt
                                 ..changedAt = DateTime.now()
-                                ..lastUpdatedBy = 'Ryan Gosling',
+                                ..lastUpdatedBy =
+                                    GetIt.I<DeviceInfoService>().info,
                             ),
                           );
                       break;

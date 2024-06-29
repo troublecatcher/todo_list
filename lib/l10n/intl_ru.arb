@@ -14,5 +14,8 @@
   "todoDeleteDialogTitle": "Уверены, что хотите удалить дело?",
   "todoDeleteDialogContent": "Это действие необратимо",
   "cancel": "Отмена",
-  "delete": "Удалить"
+  "delete": "Удалить",
+  "settings": "Настройки",
+  "theme": "Тема",
+  "language": "Язык"
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -25,36 +25,34 @@ class TodoDeleteButton extends StatelessWidget {
           child: CustomButtonBase(
             onPressed: switch (action) {
               CreateTodo _ => null,
-              EditTodo _ => () {
+              EditTodo _ => () =>
                   DialogManager.showDeleteConfirmationDialog(context, todo)
                       .then((result) {
                     if (result != null && result) {
                       context.read<TodoListBloc>().add(DeleteTodoEvent(todo));
                       Navigator.of(context).pop();
                     }
-                  });
-                }
+                  })
             },
-            child: Row(
-              children: [
-                Icon(
-                  Icons.delete,
-                  color: switch (action) {
-                    CreateTodo _ => context.disabledColor,
-                    EditTodo _ => context.customColors.red,
-                  },
-                ),
-                Text(
-                  S.of(context).todoDeleteButtonTitle,
-                  style: context.textTheme.bodyMedium!.copyWith(
-                    color: switch (action) {
-                      CreateTodo _ => context.disabledColor,
-                      EditTodo _ => context.customColors.red,
-                    },
+            child: Builder(builder: (context) {
+              final color = switch (action) {
+                CreateTodo _ => context.disabledColor,
+                EditTodo _ => context.customColors.red,
+              };
+              return Row(
+                children: [
+                  Icon(
+                    Icons.delete,
+                    color: color,
                   ),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 12),
+                  Text(
+                    S.of(context).todoDeleteButtonTitle,
+                    style: context.textTheme.bodyMedium!.copyWith(color: color),
+                  ),
+                ],
+              );
+            }),
           ),
         );
       },

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:get_it/get_it.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/app_shimmer.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
+import 'package:todo_list/core/ui/loading_widget.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/common/cubit/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/presentation/common/cubit/todo_operation_state.dart';
@@ -118,7 +120,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                         ? Builder(
                             builder: (context) {
                               if (isBeingProcessed) {
-                                return const SizedBox.shrink();
+                                return const LoadingWidget();
                               } else {
                                 return CustomIconButton(
                                   padding: const EdgeInsets.only(
@@ -138,7 +140,9 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                                               ..id = newTodoId!
                                               ..createdAt = DateTime.now()
                                               ..changedAt = DateTime.now()
-                                              ..lastUpdatedBy = 'RyanGosling',
+                                              ..lastUpdatedBy =
+                                                  GetIt.I<DeviceInfoService>()
+                                                      .info,
                                           ),
                                         );
                                   },

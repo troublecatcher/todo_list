@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
+import 'package:todo_list/core/ui/loading_widget.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
@@ -23,14 +24,7 @@ class TodoTrailing extends StatelessWidget {
         child: child,
       ),
       child: isBeingProcessed
-          ? const Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(),
-              ),
-            )
+          ? const LoadingWidget()
           : CustomIconButton(
               padding: const EdgeInsets.only(
                 top: 12,

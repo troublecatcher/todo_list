@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
-import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/presentation/common/cubit/todo_operation_cubit.dart';
+import 'package:todo_list/core/ui/custom_back_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_content_text_field.dart';
@@ -25,11 +23,7 @@ class TodoSingleScreen extends StatelessWidget {
             SliverAppBar(
               elevation: 0,
               scrolledUnderElevation: 5,
-              leading: CustomIconButton(
-                icon: Icons.close,
-                onPressed: () => Navigator.of(context).pop(),
-                color: context.colorScheme.onSurface,
-              ),
+              leading: const CustomBackButton(),
               actions: [TodoSaveButton(action: action)],
               pinned: true,
             ),

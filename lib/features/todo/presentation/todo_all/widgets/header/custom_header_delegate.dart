@@ -1,7 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
 import 'package:todo_list/generated/l10n.dart';
 
@@ -70,7 +71,13 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: VisibilityToggleButton(collapsePercent: collapsePercent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SettingsButton(collapsePercent: collapsePercent),
+                VisibilityToggleButton(collapsePercent: collapsePercent),
+              ],
+            ),
           ),
         ],
       ),
