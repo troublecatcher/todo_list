@@ -40,13 +40,10 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
         await _sp.setRev(remoteRevision);
         emit(TodoLoaded(remoteTodos));
       }
-      print(localRevision);
-      print(remoteRevision);
     } catch (e, s) {
       Log.e('Error fetching todos from remote: $e, $s');
       try {
         final (List<Todo> localTodos, _) = await _local.getTodos();
-        print(_sp.revision);
         emit(TodoLoaded(localTodos));
       } catch (e, s) {
         Log.e('Error fetching todos from local: $e, $s');

@@ -6,6 +6,7 @@ import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
+import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
@@ -41,43 +42,54 @@ class _TodoTileState extends State<TodoTile> {
           absorbing: isBeingProcessed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CustomButtonBase(
-              shrinkFactor: 0.95,
-              padding: EdgeInsets.zero,
-              onPressed: () => Navigator.of(context).pushNamed(
-                '/todo',
-                arguments: EditTodo(todo: widget.todo),
-              ),
-              child: CustomCard.shimmer(
-                enabled: isBeingProcessed,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Dismissible(
-                    key: ValueKey(widget.todo.id),
-                    dismissThresholds: const {
-                      DismissDirection.startToEnd: 0.3,
-                      DismissDirection.endToStart: 0.3,
-                    },
-                    onUpdate: (details) =>
-                        !isBeingProcessed ? _handleDragUpdate(details) : null,
-                    confirmDismiss: (direction) =>
-                        _handleDismiss(direction, context),
-                    background: DismissDoneBackground(
-                      todo: widget.todo,
-                      reached: reached,
-                      progress: progress,
-                    ),
-                    secondaryBackground: DismissDeleteBackground(
-                      reached: reached,
-                      progress: progress,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
+            child: CustomCard.shimmer(
+              enabled: isBeingProcessed,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Dismissible(
+                  key: ValueKey(widget.todo.id),
+                  dismissThresholds: const {
+                    DismissDirection.startToEnd: 0.3,
+                    DismissDirection.endToStart: 0.3,
+                  },
+                  onUpdate: (details) =>
+                      !isBeingProcessed ? _handleDragUpdate(details) : null,
+                  confirmDismiss: (direction) =>
+                      _handleDismiss(direction, context),
+                  background: DismissDoneBackground(
+                    todo: widget.todo,
+                    reached: reached,
+                    progress: progress,
+                  ),
+                  secondaryBackground: DismissDeleteBackground(
+                    reached: reached,
+                    progress: progress,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomButtonBase(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              final bloc = context.read<TodoListBloc>();
+                              final todo = widget.todo;
+                              bloc.add(
+                                UpdateTodoEvent(
+                                  todo.copyWithEdit(
+                                    done: !todo.done,
+                                    changedAt: DateTime.now(),
+                                    deadline: todo.deadline,
+                                    color: todo.color,
+                                  ),
+                                ),
+                              );
+                              Log.i(
+                                  'changed todo ${todo.id} completeness status to ${!todo.done}');
+                            },
+                            child: Padding(
                               padding: const EdgeInsets.only(
                                 top: 12,
                                 right: 12,
@@ -113,84 +125,95 @@ class _TodoTileState extends State<TodoTile> {
                                   },
                               },
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (!widget.todo.done)
-                                          switch (widget.todo.importance) {
-                                            Importance.important => Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                    'assets/icons/priority/high.svg',
-                                                  ),
-                                                  const SizedBox(width: 3),
-                                                ],
-                                              ),
-                                            Importance.low => Row(
-                                                children: [
-                                                  SvgPicture.asset(
-                                                      'assets/icons/priority/low.svg'),
-                                                  const SizedBox(width: 3),
-                                                ],
-                                              ),
-                                            Importance.basic =>
-                                              const SizedBox.shrink(),
-                                          },
-                                        Expanded(
-                                          child: Text(
-                                            widget.todo.text,
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: context.textTheme.bodyMedium!
-                                                .copyWith(
-                                              color: switch (widget.todo.done) {
-                                                true =>
-                                                  context.colorScheme.tertiary,
-                                                false => null,
-                                              },
-                                              decoration: switch (
-                                                  widget.todo.done) {
-                                                true =>
-                                                  TextDecoration.lineThrough,
-                                                false => TextDecoration.none,
-                                              },
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (!widget.todo.done)
+                                        switch (widget.todo.importance) {
+                                          Importance.important => Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/priority/high.svg',
+                                                ),
+                                                const SizedBox(width: 3),
+                                              ],
                                             ),
+                                          Importance.low => Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/icons/priority/low.svg'),
+                                                const SizedBox(width: 3),
+                                              ],
+                                            ),
+                                          Importance.basic =>
+                                            const SizedBox.shrink(),
+                                        },
+                                      Expanded(
+                                        child: Text(
+                                          widget.todo.text,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: context.textTheme.bodyMedium!
+                                              .copyWith(
+                                            color: switch (widget.todo.done) {
+                                              true =>
+                                                context.colorScheme.tertiary,
+                                              false => null,
+                                            },
+                                            decoration: switch (
+                                                widget.todo.done) {
+                                              true =>
+                                                TextDecoration.lineThrough,
+                                              false => TextDecoration.none,
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  if (widget.todo.deadline != null)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          FormattingHelper.formatDate(
+                                              widget.todo.deadline!),
+                                          style: context.textTheme.labelMedium!
+                                              .copyWith(
+                                            color: context.colorScheme.tertiary,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    if (widget.todo.deadline != null)
-                                      Column(
-                                        children: [
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            FormattingHelper.formatDate(
-                                                widget.todo.deadline!),
-                                            style: context
-                                                .textTheme.labelMedium!
-                                                .copyWith(
-                                              color:
-                                                  context.colorScheme.tertiary,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                  ],
-                                ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                          CustomIconButton(
+                            padding: const EdgeInsets.only(
+                              top: 12,
+                              right: 16,
+                              bottom: 12,
+                              left: 12,
+                            ),
+                            icon: Icons.info_outline,
+                            onPressed: () => Navigator.of(context).pushNamed(
+                              '/todo',
+                              arguments: EditTodo(todo: widget.todo),
+                            ),
+                            color: Theme.of(context).colorScheme.tertiary,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -221,6 +244,8 @@ class _TodoTileState extends State<TodoTile> {
     final bloc = context.read<TodoListBloc>();
     final todo = widget.todo;
     if (direction == DismissDirection.startToEnd) {
+      Log.i(
+          'trying to change todo ${todo.id} completeness status to ${!todo.done}');
       bloc.add(
         UpdateTodoEvent(
           todo.copyWithEdit(
@@ -231,7 +256,6 @@ class _TodoTileState extends State<TodoTile> {
           ),
         ),
       );
-      Log.i('changed todo ${todo.id} completeness status to ${!todo.done}');
       return false;
     } else if (direction == DismissDirection.endToStart) {
       final result =

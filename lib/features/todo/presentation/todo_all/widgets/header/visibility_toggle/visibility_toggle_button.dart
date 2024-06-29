@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/ui/app_shimmer.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';

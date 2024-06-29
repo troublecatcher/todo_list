@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/ui/app_shimmer.dart';
 
