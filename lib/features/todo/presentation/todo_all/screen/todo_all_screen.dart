@@ -3,14 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/create_todo_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/create_todo_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_mode.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list_placeholder.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/no_todos_placeholder.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/fast_todo_creation_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/todo_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_error_widget.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_shimmer_list.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/no_todos_placeholder.dart';
 
 class TodoAllScreen extends StatefulWidget {
   const TodoAllScreen({super.key});
@@ -40,54 +39,17 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                 builder: (context, state) {
                   switch (state) {
                     case TodoLoading _:
-                      return const ListPlaceholder();
+                      return const TodoShimmerList();
                     case TodoError _:
-                      return SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Center(child: Text('Ошибка: ${state.message}')),
-                      );
+                      return TodoErrorWidget(message: state.message);
                     case TodoInitial _:
                       return const SliverToBoxAdapter(child: SizedBox.shrink());
-                    default:
-                      late final List<Todo> todos;
-                      if (state is TodoLoaded) {
-                        todos = state.todos;
-                      }
-                      if (state is TodoOperationBeingPerformed) {
-                        todos = state.todos;
-                      }
+                    case TodoLoaded loadedState:
+                      final List<Todo> todos = loadedState.todos;
                       if (todos.isEmpty) {
-                        return const SliverFillRemaining(
-                          hasScrollBody: false,
-                          child: NoTodosPlaceholder(),
-                        );
+                        return const NoTodosPlaceholder();
                       }
-                      return BlocBuilder<VisibilityCubit, VisibilityMode>(
-                        builder: (context, mode) {
-                          List<Todo> maybeModifiedTodos = todos;
-                          if (mode == VisibilityMode.undone) {
-                            maybeModifiedTodos =
-                                todos.where((todo) => !todo.done).toList();
-                          }
-                          return SliverPadding(
-                            padding:
-                                const EdgeInsets.only(top: 16, bottom: 120),
-                            sliver: SliverList.separated(
-                              itemCount: maybeModifiedTodos.length + 1,
-                              itemBuilder: (context, index) {
-                                if (index == maybeModifiedTodos.length) {
-                                  return const FastTodoCreationTile();
-                                } else {
-                                  final Todo todo = maybeModifiedTodos[index];
-                                  return TodoTile(todo: todo);
-                                }
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 8),
-                            ),
-                          );
-                        },
-                      );
+                      return TodoList(todos: todos);
                   }
                 },
               ),

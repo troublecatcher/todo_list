@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_mode.dart';
 
 class VisibilityCubit extends Cubit<VisibilityMode> {

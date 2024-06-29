@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/core/extensions/build_context_extension.dart';
-import 'package:todo_list/core/ui/app_shimmer.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget child;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
-  final bool shimmerEnabled;
 
   const CustomCard({
     super.key,
     required this.child,
     this.padding,
     this.margin,
-  }) : shimmerEnabled = false;
-
-  const CustomCard.shimmer({
-    super.key,
-    required this.child,
-    this.padding,
-    this.margin,
-    required bool enabled,
-  }) : shimmerEnabled = enabled;
+  });
 
   @override
   Widget build(BuildContext context) {
-    final cardContent = Container(
+    return Container(
+      margin: margin,
       padding: padding,
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
@@ -44,19 +35,6 @@ class CustomCard extends StatelessWidget {
         ],
       ),
       child: child,
-    );
-
-    return Container(
-      margin: margin,
-      child: shimmerEnabled
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: AppShimmer(
-                enabled: shimmerEnabled,
-                child: cardContent,
-              ),
-            )
-          : cardContent,
     );
   }
 }

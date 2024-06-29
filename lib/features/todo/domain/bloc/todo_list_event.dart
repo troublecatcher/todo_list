@@ -2,6 +2,8 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 abstract class TodoEvent {}
 
+class FetchTodos extends TodoEvent {}
+
 class AddTodoEvent extends TodoEvent {
   final Todo todo;
 
@@ -19,5 +21,3 @@ class DeleteTodoEvent extends TodoEvent {
 
   DeleteTodoEvent(this.todo);
 }
-
-class FetchTodos extends TodoEvent {}

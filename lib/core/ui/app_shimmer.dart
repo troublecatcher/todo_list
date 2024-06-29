@@ -13,13 +13,16 @@ class AppShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer(
-      duration: const Duration(seconds: 3),
-      interval: const Duration(seconds: 5),
-      color: context.colorScheme.primary,
-      enabled: enabled,
-      direction: const ShimmerDirection.fromLeftToRight(),
-      child: child,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Shimmer(
+        duration: const Duration(seconds: 3),
+        interval: const Duration(seconds: 5),
+        color: context.colorScheme.primary,
+        enabled: enabled,
+        direction: const ShimmerDirection.fromLeftToRight(),
+        child: child,
+      ),
     );
   }
 }

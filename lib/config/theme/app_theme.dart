@@ -81,7 +81,7 @@ class AppTheme {
         ),
         bodyMedium: TextStyle(
           fontWeight: FontWeight.w400,
-          fontSize: 16,
+          fontSize: 18,
         ),
         labelMedium: TextStyle(
           fontWeight: FontWeight.w400,

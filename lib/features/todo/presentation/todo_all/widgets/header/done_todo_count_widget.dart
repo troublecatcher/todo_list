@@ -32,9 +32,6 @@ class DoneTodoCountWidget extends StatelessWidget {
           case TodoLoaded _:
             final doneCount = state.todos.where((todo) => todo.done).length;
             return _TodoCountText(count: doneCount);
-          case TodoOperationBeingPerformed _:
-            final doneCount = state.todos.where((todo) => todo.done).length;
-            return _TodoCountText(count: doneCount);
         }
       },
     );
