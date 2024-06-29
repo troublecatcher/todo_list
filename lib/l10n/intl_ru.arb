@@ -2,7 +2,7 @@
   "homeHeaderTitle": "Мои дела",
   "errorMessage": "Ошибка: {errorMessage}",
   "doneTodoCount": "Выполнено — {count}",
-  "todoSaveButtonTitle": "СОХРАНИТЬ",
+  "todoSaveButtonTitle": "Сохранить",
   "todoTextfieldPlaceholder": "Что надо сделать...",
   "todoImportance": "Приоритет",
   "todoImportance_basic": "Нет",
@@ -10,5 +10,9 @@
   "todoImportance_important": "!! Высокий",
   "todoDeadline": "Дедлайн",
   "todoDeleteButtonTitle": "Удалить",
-  "todoFastCreateTitle": "Новое..."
+  "todoFastCreateTitle": "Новое...",
+  "todoDeleteDialogTitle": "Уверены, что хотите удалить дело?",
+  "todoDeleteDialogContent": "Это действие необратимо",
+  "cancel": "Отмена",
+  "delete": "Удалить"
 }

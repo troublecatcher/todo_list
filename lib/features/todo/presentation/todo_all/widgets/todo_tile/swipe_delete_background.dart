@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
 
 class DismissDeleteBackground extends StatelessWidget {
   const DismissDeleteBackground({
@@ -14,7 +14,7 @@ class DismissDeleteBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.red,
+      color: context.customColors.red,
       alignment: Alignment.centerRight,
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
@@ -22,7 +22,7 @@ class DismissDeleteBackground extends StatelessWidget {
             right: reached
                 ? MediaQuery.of(context).size.width / 15 * (10 * progress)
                 : (24 * (4 * progress))),
-        child: const Icon(Icons.delete, color: AppColors.white),
+        child: Icon(Icons.delete, color: context.customColors.white),
       ),
     );
   }

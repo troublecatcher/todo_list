@@ -48,8 +48,16 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                         hasScrollBody: false,
                         child: Center(child: Text('Ошибка: ${state.message}')),
                       );
-                    case TodoLoaded todoLoadedState:
-                      final List<Todo> todos = todoLoadedState.todos;
+                    case TodoInitial _:
+                      return const SliverToBoxAdapter(child: SizedBox.shrink());
+                    default:
+                      late final List<Todo> todos;
+                      if (state is TodoLoaded) {
+                        todos = state.todos;
+                      }
+                      if (state is TodoOperationBeingPerformed) {
+                        todos = state.todos;
+                      }
                       if (todos.isEmpty) {
                         return const SliverFillRemaining(
                           hasScrollBody: false,
@@ -82,8 +90,6 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                           );
                         },
                       );
-                    case TodoInitial _:
-                      return const SliverToBoxAdapter(child: SizedBox.shrink());
                   }
                 },
               ),

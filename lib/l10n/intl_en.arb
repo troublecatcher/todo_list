@@ -2,7 +2,7 @@
   "homeHeaderTitle": "My tasks",
   "errorMessage": "Error: {errorMessage}",
   "doneTodoCount": "Completed — {count}",
-  "todoSaveButtonTitle": "SAVE",
+  "todoSaveButtonTitle": "Save",
   "todoTextfieldPlaceholder": "What should be done...",
   "todoImportance": "Importance",
   "todoImportance_basic": "None",
@@ -10,5 +10,9 @@
   "todoImportance_important": "!! High",
   "todoDeadline": "Deadline",
   "todoDeleteButtonTitle": "Delete",
-  "todoFastCreateTitle": "Create new..."
+  "todoFastCreateTitle": "Create new...",
+  "todoDeleteDialogTitle": "Are you sure you want to delete this task?",
+  "todoDeleteDialogContent": "This action is irreversible",
+  "cancel": "Cancel",
+  "delete": "Delete"
 }

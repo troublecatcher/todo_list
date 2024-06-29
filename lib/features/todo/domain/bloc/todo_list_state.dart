@@ -13,6 +13,13 @@ class TodoLoaded extends TodoState {
       : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
 }
 
+class TodoOperationBeingPerformed extends TodoState {
+  final List<Todo> todos;
+  final Todo todoToBeMutated;
+  TodoOperationBeingPerformed(List<Todo> todos, this.todoToBeMutated)
+      : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
+}
+
 class TodoError extends TodoState {
   final String message;
 

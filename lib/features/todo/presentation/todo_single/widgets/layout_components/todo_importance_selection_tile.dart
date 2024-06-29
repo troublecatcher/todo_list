@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -73,7 +73,7 @@ class _TodoImportanceSelectionTileState
                 Importance.basic => menuItemStyle,
                 Importance.low => menuItemStyle,
                 Importance.important =>
-                  menuItemStyle!.copyWith(color: AppColors.red),
+                  menuItemStyle!.copyWith(color: context.customColors.red),
               },
             ),
           );

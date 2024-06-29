@@ -80,10 +80,10 @@ class S {
     );
   }
 
-  /// `SAVE`
+  /// `Save`
   String get todoSaveButtonTitle {
     return Intl.message(
-      'SAVE',
+      'Save',
       name: 'todoSaveButtonTitle',
       desc: '',
       args: [],
@@ -165,6 +165,46 @@ class S {
     return Intl.message(
       'Create new...',
       name: 'todoFastCreateTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this task?`
+  String get todoDeleteDialogTitle {
+    return Intl.message(
+      'Are you sure you want to delete this task?',
+      name: 'todoDeleteDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This action is irreversible`
+  String get todoDeleteDialogContent {
+    return Intl.message(
+      'This action is irreversible',
+      name: 'todoDeleteDialogContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
       desc: '',
       args: [],
     );

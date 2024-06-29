@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
@@ -22,9 +21,7 @@ void main() async {
 
   await FormattingHelper.init();
 
-  final isarService = IsarService();
-  final isar = await isarService.initIsar();
-
+  final isar = await IsarService().initIsar();
   await ServiceLocator.setupSharedPreferencesService();
 
   final networkRepository = RemoteTodoRepository();
@@ -51,7 +48,6 @@ class MainApp extends StatelessWidget {
       theme: AppTheme.getLightTheme(),
       darkTheme: AppTheme.getDarkTheme(),
       debugShowCheckedModeBanner: false,
-      // locale: const Locale('ru'),
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

@@ -26,11 +26,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "doneTodoCount": m0,
         "errorMessage": m1,
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("My tasks"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Deadline"),
         "todoDeleteButtonTitle": MessageLookupByLibrary.simpleMessage("Delete"),
+        "todoDeleteDialogContent":
+            MessageLookupByLibrary.simpleMessage("This action is irreversible"),
+        "todoDeleteDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this task?"),
         "todoFastCreateTitle":
             MessageLookupByLibrary.simpleMessage("Create new..."),
         "todoImportance": MessageLookupByLibrary.simpleMessage("Importance"),
@@ -38,7 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "todoImportance_important":
             MessageLookupByLibrary.simpleMessage("!! High"),
         "todoImportance_low": MessageLookupByLibrary.simpleMessage("Low"),
-        "todoSaveButtonTitle": MessageLookupByLibrary.simpleMessage("SAVE"),
+        "todoSaveButtonTitle": MessageLookupByLibrary.simpleMessage("Save"),
         "todoTextfieldPlaceholder":
             MessageLookupByLibrary.simpleMessage("What should be done...")
       };

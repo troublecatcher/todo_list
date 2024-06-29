@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/swipe_delete_background.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/swipe_done_background.dart';
@@ -41,172 +42,184 @@ class _TodoTileState extends State<TodoTile> {
           '/todo',
           arguments: EditTodo(todo: widget.todo),
         ),
-        child: CustomCard(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Dismissible(
-              key: ValueKey(widget.todo.id),
-              dismissThresholds: const {
-                DismissDirection.startToEnd: 0.3,
-                DismissDirection.endToStart: 0.3,
-              },
-              onUpdate: (details) => _handleDragUpdate(details),
-              confirmDismiss: (direction) => _handleDismiss(direction, context),
-              background: DismissDoneBackground(
-                todo: widget.todo,
-                reached: reached,
-                progress: progress,
-              ),
-              secondaryBackground: DismissDeleteBackground(
-                reached: reached,
-                progress: progress,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        child: BlocBuilder<TodoListBloc, TodoState>(
+          builder: (context, state) {
+            final isBeingProcessed = state is TodoOperationBeingPerformed &&
+                state.todoToBeMutated.id == widget.todo.id;
+            return CustomCard.shimmer(
+              enabled: isBeingProcessed,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Dismissible(
+                  key: ValueKey(widget.todo.id),
+                  dismissThresholds: const {
+                    DismissDirection.startToEnd: 0.3,
+                    DismissDirection.endToStart: 0.3,
+                  },
+                  onUpdate: (details) =>
+                      !isBeingProcessed ? _handleDragUpdate(details) : null,
+                  confirmDismiss: (direction) =>
+                      _handleDismiss(direction, context),
+                  background: DismissDoneBackground(
+                    todo: widget.todo,
+                    reached: reached,
+                    progress: progress,
+                  ),
+                  secondaryBackground: DismissDeleteBackground(
+                    reached: reached,
+                    progress: progress,
+                  ),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 12,
-                          right: 12,
-                          bottom: 12,
-                          left: 16,
-                        ),
-                        child: switch (widget.todo.done) {
-                          true => const Icon(
-                              Icons.check_box,
-                              color: AppColors.green,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 12,
+                              right: 12,
+                              bottom: 12,
+                              left: 16,
                             ),
-                          false => switch (widget.todo.importance) {
-                              Importance.important => Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      width: 16,
-                                      height: 16,
-                                      color: AppColors.red.withOpacity(0.16),
-                                    ),
-                                    const Icon(
-                                      Icons.check_box_outline_blank_rounded,
-                                      color: AppColors.red,
-                                    ),
-                                  ],
+                            child: switch (widget.todo.done) {
+                              true => Icon(
+                                  Icons.check_box,
+                                  color: context.customColors.green,
                                 ),
-                              _ => Icon(
-                                  Icons.check_box_outline_blank,
-                                  color: Theme.of(context).dividerColor,
-                                ),
+                              false => switch (widget.todo.importance) {
+                                  Importance.important => Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Container(
+                                          width: 16,
+                                          height: 16,
+                                          color: context.customColors.red
+                                              .withOpacity(0.16),
+                                        ),
+                                        Icon(
+                                          Icons.check_box_outline_blank_rounded,
+                                          color: context.customColors.red,
+                                        ),
+                                      ],
+                                    ),
+                                  _ => Icon(
+                                      Icons.check_box_outline_blank,
+                                      color: Theme.of(context).dividerColor,
+                                    ),
+                                },
                             },
-                        },
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (!widget.todo.done)
-                                    switch (widget.todo.importance) {
-                                      Importance.important => Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/icons/priority/high.svg',
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (!widget.todo.done)
+                                        switch (widget.todo.importance) {
+                                          Importance.important => Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/priority/high.svg',
+                                                ),
+                                                const SizedBox(width: 3),
+                                              ],
                                             ),
-                                            const SizedBox(width: 3),
-                                          ],
+                                          Importance.low => Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                    'assets/icons/priority/low.svg'),
+                                                const SizedBox(width: 3),
+                                              ],
+                                            ),
+                                          Importance.basic =>
+                                            const SizedBox.shrink(),
+                                        },
+                                      Expanded(
+                                        child: Text(
+                                          widget.todo.text,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                color: switch (
+                                                    widget.todo.done) {
+                                                  true => Theme.of(context)
+                                                      .colorScheme
+                                                      .tertiary,
+                                                  false => null,
+                                                },
+                                                decoration: switch (
+                                                    widget.todo.done) {
+                                                  true =>
+                                                    TextDecoration.lineThrough,
+                                                  false => TextDecoration.none,
+                                                },
+                                              ),
                                         ),
-                                      Importance.low => Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/icons/priority/low.svg'),
-                                            const SizedBox(width: 3),
-                                          ],
-                                        ),
-                                      Importance.basic =>
-                                        const SizedBox.shrink(),
-                                    },
-                                  Expanded(
-                                    child: Text(
-                                      widget.todo.text,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                            color: switch (widget.todo.done) {
-                                              true => Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiary,
-                                              false => null,
-                                            },
-                                            decoration: switch (
-                                                widget.todo.done) {
-                                              true =>
-                                                TextDecoration.lineThrough,
-                                              false => TextDecoration.none,
-                                            },
-                                          ),
-                                    ),
+                                      ),
+                                    ],
                                   ),
+                                  if (widget.todo.deadline != null)
+                                    Column(
+                                      children: [
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          FormattingHelper.formatDate(
+                                              widget.todo.deadline!),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium!
+                                              .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                 ],
                               ),
-                              if (widget.todo.deadline != null)
-                                Column(
-                                  children: [
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      FormattingHelper.formatDate(
-                                          widget.todo.deadline!),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium!
-                                          .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Text('Created at'),
+                      //     Text(FormattingHelper.formatDateAndTime(
+                      //         widget.todo.createdAt)),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Text('Changed at'),
+                      //     Text(FormattingHelper.formatDateAndTime(
+                      //         widget.todo.changedAt)),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     const Text('Last updated by'),
+                      //     Text(widget.todo.lastUpdatedBy),
+                      //   ],
+                      // ),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Created at'),
-                      Text(FormattingHelper.formatDateAndTime(
-                          widget.todo.createdAt)),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Changed at'),
-                      Text(FormattingHelper.formatDateAndTime(
-                          widget.todo.changedAt)),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Last updated by'),
-                      Text(widget.todo.lastUpdatedBy),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );

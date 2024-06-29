@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class DismissDoneBackground extends StatelessWidget {
@@ -19,7 +19,7 @@ class DismissDoneBackground extends StatelessWidget {
     return Container(
       color: switch (todo.done) {
         true => Theme.of(context).dividerColor,
-        false => AppColors.green,
+        false => context.customColors.green,
       },
       alignment: Alignment.centerLeft,
       child: AnimatedPadding(
@@ -30,7 +30,7 @@ class DismissDoneBackground extends StatelessWidget {
                 : (24 * (4 * progress))),
         child: Icon(
           todo.done ? Icons.close_rounded : Icons.check,
-          color: AppColors.white,
+          color: context.customColors.white,
         ),
       ),
     );
