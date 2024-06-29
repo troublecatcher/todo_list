@@ -6,9 +6,14 @@ import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/custom_back_button.dart';
 import 'package:todo_list/generated/l10n.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,61 +76,6 @@ class SettingsScreen extends StatelessWidget {
                               context.read<ThemeCubit>().set(value!),
                         );
                       },
-                    ),
-                  ],
-                ),
-                const Text('API Key'),
-                Row(
-                  children: [
-                    Column(
-                      children: [
-                        Row(
-                          children: [
-                            const Text('Bearer'),
-                            Radio(
-                              value: '1',
-                              groupValue: '4',
-                              onChanged: (value) {},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Radio(
-                              value: '1',
-                              groupValue: '4',
-                              onChanged: (value) {},
-                            ),
-                            const Text('Bearer .env'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('OAuth'),
-                    Radio(
-                      value: '1',
-                      groupValue: '4',
-                      onChanged: (value) {},
-                    ),
-                    const Expanded(
-                      child: TextField(),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Text('OAuth .env'),
-                    Radio(
-                      value: '1',
-                      groupValue: '4',
-                      onChanged: (value) {},
-                    ),
-                    const Expanded(
-                      child: TextField(),
                     ),
                   ],
                 ),

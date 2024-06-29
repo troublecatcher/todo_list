@@ -29,7 +29,6 @@ class VisibilityToggleButton extends StatelessWidget {
                 onPressed: () => context.read<VisibilityCubit>().toggle(),
                 color: context.colorScheme.primary,
                 margin: EdgeInsets.only(
-                  right: lerpDouble(24, 0, collapsePercent)!,
                   bottom: lerpDouble(0, 6, collapsePercent)!,
                 ),
               );
@@ -38,7 +37,7 @@ class VisibilityToggleButton extends StatelessWidget {
         } else {
           return const Padding(
             padding: EdgeInsets.only(right: 24),
-            child: LoadingWidget(),
+            child: LoadingWidget(padding: EdgeInsets.zero),
           );
         }
       },

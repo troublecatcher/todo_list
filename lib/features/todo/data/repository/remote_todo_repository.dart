@@ -6,11 +6,11 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 
 class RemoteTodoRepository implements TodoRepository {
-  final _sp = GetIt.I<SharedPreferencesService>();
+  static final _sp = GetIt.I<SharedPreferencesService>();
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: 'https://hive.mrdekk.ru/todo/',
-      headers: {'Authorization': 'Bearer ${dotenv.env['bearer']}'},
+      headers: {'Authorization': '${dotenv.env['auth']}'},
     ),
   );
 

@@ -74,8 +74,8 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SettingsButton(collapsePercent: collapsePercent),
                 VisibilityToggleButton(collapsePercent: collapsePercent),
+                SettingsButton(collapsePercent: collapsePercent),
               ],
             ),
           ),

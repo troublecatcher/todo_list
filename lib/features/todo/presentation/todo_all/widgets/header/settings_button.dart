@@ -20,6 +20,7 @@ class SettingsButton extends StatelessWidget {
           onPressed: () => Navigator.of(context).pushNamed('/settings'),
           color: context.colorScheme.primary,
           margin: EdgeInsets.only(
+            right: lerpDouble(24, 0, collapsePercent)!,
             bottom: lerpDouble(0, 6, collapsePercent)!,
           ),
         );
