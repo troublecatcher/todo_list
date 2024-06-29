@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
+import 'package:todo_list/config/theme/custom_colors.dart';
 
 class AppTheme {
   static ThemeData getLightTheme() {
@@ -30,17 +31,24 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         backgroundColor: lightThemeColors.backgroundPrimary,
       ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        foregroundColor: AppColors.white,
-      ),
       dividerColor: lightThemeColors.supportSeparator,
       colorScheme: ColorScheme.light(
-        primary: AppColors.blue,
-        onPrimary: AppColors.white,
-        secondary: AppColors.blue,
+        primary: const Color.fromRGBO(0, 122, 255, 1),
+        onPrimary: Colors.white,
+        secondary: const Color.fromRGBO(0, 122, 255, 1),
         surface: lightThemeColors.backgroundElevated,
         tertiary: lightThemeColors.labelTertiary,
       ),
+      extensions: [
+        CustomColors(
+          red: const Color.fromRGBO(255, 59, 48, 1),
+          green: const Color.fromRGBO(52, 199, 89, 1),
+          blue: const Color.fromRGBO(0, 122, 255, 1),
+          grey: const Color.fromRGBO(142, 142, 147, 1),
+          lightGrey: const Color.fromRGBO(209, 209, 214, 1),
+          white: const Color.fromRGBO(255, 255, 255, 1),
+        ),
+      ],
     );
   }
 
@@ -74,13 +82,23 @@ class AppTheme {
       ),
       dividerColor: darkThemeColors.supportSeparator,
       colorScheme: ColorScheme.dark(
-        primary: AppColors.blue,
-        onPrimary: AppColors.white,
-        secondary: AppColors.blue,
+        primary: const Color.fromRGBO(0, 122, 255, 1),
+        onPrimary: Colors.white,
+        secondary: const Color.fromRGBO(0, 122, 255, 1),
         surface: darkThemeColors.backgroundSecondary,
         tertiary: darkThemeColors.labelTertiary,
         onSurface: darkThemeColors.labelPrimary,
       ),
+      extensions: [
+        CustomColors(
+          red: const Color.fromRGBO(255, 59, 48, 1),
+          green: const Color.fromRGBO(52, 199, 89, 1),
+          blue: const Color.fromRGBO(0, 122, 255, 1),
+          grey: const Color.fromRGBO(142, 142, 147, 1),
+          lightGrey: const Color.fromRGBO(209, 209, 214, 1),
+          white: const Color.fromRGBO(255, 255, 255, 1),
+        ),
+      ],
     );
   }
 }

@@ -7,12 +7,6 @@ abstract class AppColors {
   final Color labelSecondary;
   final Color labelTertiary;
   final Color labelDisabled;
-  static const Color red = Color.fromRGBO(255, 59, 48, 1);
-  static const Color green = Color.fromRGBO(52, 199, 89, 1);
-  static const Color blue = Color.fromRGBO(0, 122, 255, 1);
-  static const Color gray = Color.fromRGBO(142, 142, 147, 1);
-  static const Color grayLight = Color.fromRGBO(209, 209, 214, 1);
-  static const Color white = Color.fromRGBO(255, 255, 255, 1);
   final Color backgroundPrimary;
   final Color backgroundSecondary;
   final Color backgroundElevated;
