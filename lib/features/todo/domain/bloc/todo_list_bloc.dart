@@ -2,20 +2,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
-import 'package:todo_list/features/todo/data/local_todo_repository.dart';
-import 'package:todo_list/features/todo/data/remote_todo_repository.dart';
+import 'package:todo_list/features/todo/data/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final RemoteTodoRepository _remote;
-  final LocalTodoRepository _local;
+  final TodoRepository _remote;
+  final TodoRepository _local;
   final SharedPreferencesService _sp = GetIt.I<SharedPreferencesService>();
 
   TodoListBloc({
-    required RemoteTodoRepository remote,
-    required LocalTodoRepository local,
+    required TodoRepository remote,
+    required TodoRepository local,
   })  : _local = local,
         _remote = remote,
         super(TodoInitial()) {
@@ -27,23 +26,27 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
 
   Future<void> _fetchTodos(Emitter<TodoState> emit) async {
     emit(TodoLoading());
+    final int localRevision = _sp.revision;
     try {
       final (List<Todo> remoteTodos, int remoteRevision) =
           await _remote.getTodos();
-      final int localRevision = _sp.revision;
       if (remoteRevision < localRevision) {
         final (List<Todo> localTodos, _) = await _local.getTodos();
         await _remote.putFresh(localTodos);
+        await _sp.setRev(remoteRevision);
         emit(TodoLoaded(localTodos));
       } else {
         await _local.putFresh(remoteTodos);
+        await _sp.setRev(remoteRevision);
         emit(TodoLoaded(remoteTodos));
       }
-      await _sp.setRev(remoteRevision);
-    } catch (e) {
-      Log.e('Error fetching todos from remote: $e');
+      print(localRevision);
+      print(remoteRevision);
+    } catch (e, s) {
+      Log.e('Error fetching todos from remote: $e, $s');
       try {
         final (List<Todo> localTodos, _) = await _local.getTodos();
+        print(_sp.revision);
         emit(TodoLoaded(localTodos));
       } catch (e, s) {
         Log.e('Error fetching todos from local: $e, $s');
@@ -57,10 +60,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => Future.wait([
-        _remote.addTodo(event.todo),
-        _sp.incRev(),
-      ]),
+      remoteAction: () => _remote.addTodo(event.todo),
       localAction: () => _local.addTodo(event.todo),
       onSuccess: () => _updateStateWithNewTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error creating todo ${event.todo.id}: $e, $s'),
@@ -73,10 +73,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => Future.wait([
-        _remote.updateTodo(event.todo),
-        _sp.incRev(),
-      ]),
+      remoteAction: () => _remote.updateTodo(event.todo),
       localAction: () => _local.updateTodo(event.todo),
       onSuccess: () => _updateStateWithUpdatedTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error updating todo ${event.todo.id}: $e, $s'),
@@ -89,10 +86,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     await _executeAction(
-      remoteAction: () => Future.wait([
-        _remote.deleteTodo(event.todo),
-        _sp.incRev(),
-      ]),
+      remoteAction: () => _remote.deleteTodo(event.todo),
       localAction: () => _local.deleteTodo(event.todo),
       onSuccess: () => _updateStateWithDeletedTodo(event.todo, emit),
       onError: (e, s) => Log.e('Error deleting todo ${event.todo.id}: $e, $s'),
@@ -107,13 +101,16 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     required void Function(dynamic e, dynamic s) onError,
     required Emitter<TodoState> emit,
   }) async {
+    bool saved = false;
     try {
       await remoteAction();
-    } catch (e) {
-      Log.e('Error in remote action: $e');
+      await _sp.incRev().then((_) => saved = true);
+    } catch (e, s) {
+      Log.e('Error in remote: $e, $s');
     }
     try {
       await localAction();
+      if (!saved) await _sp.incRev();
       onSuccess();
     } catch (e, s) {
       onError(e, s);

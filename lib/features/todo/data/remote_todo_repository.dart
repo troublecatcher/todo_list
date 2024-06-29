@@ -8,7 +8,7 @@ class RemoteTodoRepository implements TodoRepository {
   final _sp = GetIt.I<SharedPreferencesService>();
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'https://beta.mrdekk.ru/todo/',
+      baseUrl: 'https://hive.mrdekk.ru/todo/',
       headers: {'Authorization': 'Bearer Miriel'},
     ),
   );
@@ -43,7 +43,7 @@ class RemoteTodoRepository implements TodoRepository {
     final response = await _dio.patch(
       'list',
       options: Options(headers: {'X-Last-Known-Revision': _sp.revision}),
-      data: {'list': todos.map((todo) => todo.toJson())},
+      data: {'list': todos.map((todo) => todo.toJson()).toList()},
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to add todo');

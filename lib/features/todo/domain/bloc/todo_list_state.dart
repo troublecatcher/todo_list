@@ -9,7 +9,8 @@ class TodoLoading extends TodoState {}
 class TodoLoaded extends TodoState {
   final List<Todo> todos;
 
-  TodoLoaded(this.todos);
+  TodoLoaded(List<Todo> todos)
+      : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
 }
 
 class TodoError extends TodoState {
