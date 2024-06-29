@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -25,14 +27,24 @@ class TodoDeleteButton extends StatelessWidget {
           child: CustomButtonBase(
             onPressed: switch (action) {
               CreateTodo _ => null,
-              EditTodo _ => () =>
-                  DialogManager.showDeleteConfirmationDialog(context, todo)
-                      .then((result) {
-                    if (result != null && result) {
-                      context.read<TodoListBloc>().add(DeleteTodoEvent(todo));
-                      Navigator.of(context).pop();
-                    }
-                  })
+              EditTodo _ => () {
+                  if (GetIt.I<SharedPreferencesService>().confirmDialogs) {
+                    DialogManager.showDeleteConfirmationDialog(context, todo)
+                        .then(
+                      (result) {
+                        if (result != null && result) {
+                          context
+                              .read<TodoListBloc>()
+                              .add(DeleteTodoEvent(todo));
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    );
+                  } else {
+                    context.read<TodoListBloc>().add(DeleteTodoEvent(todo));
+                    Navigator.of(context).pop();
+                  }
+                }
             },
             child: Builder(builder: (context) {
               final color = switch (action) {

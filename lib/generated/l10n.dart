@@ -239,6 +239,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Confirm todo deletion`
+  String get confirmTodoDeletion {
+    return Intl.message(
+      'Confirm todo deletion',
+      name: 'confirmTodoDeletion',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

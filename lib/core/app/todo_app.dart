@@ -11,9 +11,14 @@ import 'package:todo_list/features/todo/presentation/todo_all/screen/todo_all_sc
 import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_single_screen.dart';
 import 'package:todo_list/generated/l10n.dart';
 
-class TodoApp extends StatelessWidget {
+class TodoApp extends StatefulWidget {
   const TodoApp({super.key});
 
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LocaleCubit, String>(

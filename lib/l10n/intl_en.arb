@@ -17,5 +17,6 @@
   "delete": "Delete",
   "settings": "Settings",
   "theme": "Theme",
-  "language": "Language"
+  "language": "Language",
+  "confirmTodoDeletion": "Confirm todo deletion"
 }

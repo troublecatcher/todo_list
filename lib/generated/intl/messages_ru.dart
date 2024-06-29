@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
+        "confirmTodoDeletion":
+            MessageLookupByLibrary.simpleMessage("Подтверждать удаление дел"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
         "doneTodoCount": m0,
         "errorMessage": m1,

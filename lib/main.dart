@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/locale/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
@@ -31,6 +32,7 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => DialogConfirmationCubit()),
         BlocProvider(create: (context) => TodoOperationCubit()),
         BlocProvider(
           create: (context) => TodoListBloc(

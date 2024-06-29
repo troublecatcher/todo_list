@@ -17,5 +17,6 @@
   "delete": "Удалить",
   "settings": "Настройки",
   "theme": "Тема",
-  "language": "Язык"
+  "language": "Язык",
+  "confirmTodoDeletion": "Подтверждать удаление дел"
 }
