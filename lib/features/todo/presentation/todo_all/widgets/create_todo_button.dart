@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
@@ -18,11 +19,11 @@ class CreateTodoButton extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).colorScheme.primary,
+          color: context.colorScheme.primary,
         ),
         child: Icon(
           Icons.add,
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: context.colorScheme.onPrimary,
         ),
       ),
     );

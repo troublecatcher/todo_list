@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/core/extensions/extensions.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -26,7 +26,7 @@ class _TodoImportanceSelectionTileState
               contentPadding: EdgeInsets.zero,
               title: Text(
                 S.of(context).todoImportance,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: context.textTheme.bodyMedium,
               ),
               subtitle: Text(
                 Intl.message(
@@ -61,7 +61,7 @@ class _TodoImportanceSelectionTileState
       ),
       items: Importance.values.map(
         (Importance importance) {
-          final menuItemStyle = Theme.of(context).textTheme.bodyMedium;
+          final menuItemStyle = context.textTheme.bodyMedium;
           return PopupMenuItem<Importance>(
             value: importance,
             child: Text(

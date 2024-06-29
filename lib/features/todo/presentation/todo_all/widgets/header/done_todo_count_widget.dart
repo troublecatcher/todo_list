@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:todo_list/core/ui/app_shimmer.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -15,7 +18,16 @@ class DoneTodoCountWidget extends StatelessWidget {
           case TodoInitial _:
             return const _TodoCountText(count: 0);
           case TodoLoading _:
-            return const SizedBox.shrink();
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: const AppShimmer(
+                enabled: true,
+                child: SizedBox(
+                  height: 60,
+                  width: 200,
+                ),
+              ),
+            );
           case TodoError _:
             return Text(S.of(context).errorMessage(state.message));
           case TodoLoaded _:
@@ -40,10 +52,8 @@ class _TodoCountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       S.of(context).doneTodoCount(count),
-      style: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .copyWith(color: Theme.of(context).colorScheme.tertiary),
+      style: context.textTheme.bodyMedium!
+          .copyWith(color: context.colorScheme.tertiary),
     );
   }
 }

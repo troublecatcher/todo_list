@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -26,7 +27,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Container(
       height: currentHeight,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: context.scaffoldBackgroundColor,
         boxShadow: shadowPercent > 0
             ? [
                 BoxShadow(

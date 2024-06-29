@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 
 class NoTodosPlaceholder extends StatelessWidget {
   const NoTodosPlaceholder({
@@ -13,16 +14,16 @@ class NoTodosPlaceholder extends StatelessWidget {
         Icon(
           Icons.done_all_rounded,
           size: 100,
-          color: Theme.of(context).colorScheme.primary,
+          color: context.colorScheme.primary,
         ),
         const SizedBox(height: 20),
         Text(
           'Дел нет',
-          style: Theme.of(context).textTheme.displayLarge,
+          style: context.textTheme.displayLarge,
         ),
         Text(
           'Счастливый Вы человек!',
-          style: Theme.of(context).textTheme.titleMedium,
+          style: context.textTheme.titleMedium,
         ),
         const SizedBox(height: 100),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/extensions.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
@@ -40,18 +40,18 @@ class TodoDeleteButton extends StatelessWidget {
                 Icon(
                   Icons.delete,
                   color: switch (action) {
-                    CreateTodo _ => Theme.of(context).disabledColor,
+                    CreateTodo _ => context.disabledColor,
                     EditTodo _ => context.customColors.red,
                   },
                 ),
                 Text(
                   S.of(context).todoDeleteButtonTitle,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: switch (action) {
-                          CreateTodo _ => Theme.of(context).disabledColor,
-                          EditTodo _ => context.customColors.red,
-                        },
-                      ),
+                  style: context.textTheme.bodyMedium!.copyWith(
+                    color: switch (action) {
+                      CreateTodo _ => context.disabledColor,
+                      EditTodo _ => context.customColors.red,
+                    },
+                  ),
                 ),
               ],
             ),

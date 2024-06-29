@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
+import 'package:todo_list/core/ui/app_shimmer.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget child;
@@ -27,7 +29,7 @@ class CustomCard extends StatelessWidget {
     final cardContent = Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: context.colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -50,12 +52,8 @@ class CustomCard extends StatelessWidget {
       child: shimmerEnabled
           ? ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Shimmer(
-                duration: const Duration(seconds: 3),
-                interval: const Duration(seconds: 5),
-                color: Theme.of(context).colorScheme.primary,
+              child: AppShimmer(
                 enabled: shimmerEnabled,
-                direction: const ShimmerDirection.fromLeftToRight(),
                 child: cardContent,
               ),
             )

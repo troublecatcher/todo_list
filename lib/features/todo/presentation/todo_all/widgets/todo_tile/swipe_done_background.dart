@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/extensions.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 class DismissDoneBackground extends StatelessWidget {
@@ -18,7 +18,7 @@ class DismissDoneBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: switch (todo.done) {
-        true => Theme.of(context).dividerColor,
+        true => context.dividerColor,
         false => context.customColors.green,
       },
       alignment: Alignment.centerLeft,

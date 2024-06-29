@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/core/extensions/build_context_extension.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
@@ -26,7 +27,7 @@ class TodoSingleScreen extends StatelessWidget {
               leading: CustomIconButton(
                 icon: Icons.close,
                 onPressed: () => Navigator.of(context).pop(),
-                color: Theme.of(context).colorScheme.onSurface,
+                color: context.colorScheme.onSurface,
               ),
               actions: [TodoSaveButton(action: action)],
               pinned: true,
