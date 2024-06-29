@@ -9,24 +9,7 @@ class AppTheme {
       brightness: Brightness.light,
       useMaterial3: false,
       scaffoldBackgroundColor: lightThemeColors.backgroundPrimary,
-      textTheme: const TextTheme(
-        displayLarge: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 32,
-        ),
-        titleMedium: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 20,
-        ),
-        bodyMedium: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 16,
-        ),
-        labelMedium: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 14,
-        ),
-      ),
+      textTheme: _textTheme,
       disabledColor: lightThemeColors.labelDisabled,
       appBarTheme: AppBarTheme(
         backgroundColor: lightThemeColors.backgroundPrimary,
@@ -58,7 +41,36 @@ class AppTheme {
       brightness: Brightness.dark,
       useMaterial3: false,
       scaffoldBackgroundColor: darkThemeColors.backgroundPrimary,
-      textTheme: const TextTheme(
+      textTheme: _textTheme,
+      disabledColor: darkThemeColors.labelDisabled,
+      appBarTheme: AppBarTheme(
+        backgroundColor: darkThemeColors.backgroundPrimary,
+      ),
+      dividerColor: darkThemeColors.supportSeparator,
+      colorScheme: ColorScheme.dark(
+        primary: const Color.fromRGBO(0, 122, 255, 1),
+        onPrimary: Colors.white,
+        secondary: const Color.fromRGBO(0, 122, 255, 1),
+        surface: darkThemeColors.backgroundSecondary,
+        tertiary: darkThemeColors.labelTertiary,
+        onSurface: darkThemeColors.labelPrimary,
+      ),
+      extensions: _extensions,
+    );
+  }
+
+  static List<ThemeExtension> get _extensions => [
+        CustomColors(
+          red: const Color.fromRGBO(255, 59, 48, 1),
+          green: const Color.fromRGBO(52, 199, 89, 1),
+          blue: const Color.fromRGBO(0, 122, 255, 1),
+          grey: const Color.fromRGBO(142, 142, 147, 1),
+          lightGrey: const Color.fromRGBO(209, 209, 214, 1),
+          white: const Color.fromRGBO(255, 255, 255, 1),
+        )
+      ];
+
+  static TextTheme get _textTheme => const TextTheme(
         displayLarge: TextStyle(
           fontWeight: FontWeight.w500,
           fontSize: 32,
@@ -75,30 +87,5 @@ class AppTheme {
           fontWeight: FontWeight.w400,
           fontSize: 14,
         ),
-      ),
-      disabledColor: darkThemeColors.labelDisabled,
-      appBarTheme: AppBarTheme(
-        backgroundColor: darkThemeColors.backgroundPrimary,
-      ),
-      dividerColor: darkThemeColors.supportSeparator,
-      colorScheme: ColorScheme.dark(
-        primary: const Color.fromRGBO(0, 122, 255, 1),
-        onPrimary: Colors.white,
-        secondary: const Color.fromRGBO(0, 122, 255, 1),
-        surface: darkThemeColors.backgroundSecondary,
-        tertiary: darkThemeColors.labelTertiary,
-        onSurface: darkThemeColors.labelPrimary,
-      ),
-      extensions: [
-        CustomColors(
-          red: const Color.fromRGBO(255, 59, 48, 1),
-          green: const Color.fromRGBO(52, 199, 89, 1),
-          blue: const Color.fromRGBO(0, 122, 255, 1),
-          grey: const Color.fromRGBO(142, 142, 147, 1),
-          lightGrey: const Color.fromRGBO(209, 209, 214, 1),
-          white: const Color.fromRGBO(255, 255, 255, 1),
-        ),
-      ],
-    );
-  }
+      );
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
-import 'package:todo_list/config/theme/theme.dart';
+import 'package:todo_list/config/theme/app_theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/service_locator.dart';
 import 'package:todo_list/features/todo/data/repository/remote_todo_repository.dart';
