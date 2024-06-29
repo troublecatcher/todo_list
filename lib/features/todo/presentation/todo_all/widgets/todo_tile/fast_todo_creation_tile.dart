@@ -5,6 +5,7 @@ import 'package:todo_list/core/ui/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
 
 class FastTodoCreationTile extends StatefulWidget {
@@ -71,7 +72,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                 focusedBorder: const UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
-                hintText: 'Новое...',
+                hintText: S.of(context).todoFastCreateTitle,
                 hintStyle: Theme.of(context)
                     .textTheme
                     .bodyMedium!

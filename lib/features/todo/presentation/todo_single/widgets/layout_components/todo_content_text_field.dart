@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_card.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
+import 'package:todo_list/generated/l10n.dart';
 
 class TodoContentTextField extends StatefulWidget {
   const TodoContentTextField({super.key});
@@ -16,7 +17,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    textController.text = context.read<SingleTodoCubit>().state.text;
+    textController.text = context.read<TodoSingleCubit>().state.text;
   }
 
   @override
@@ -39,7 +40,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
           focusedBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
           ),
-          hintText: 'Что надо сделать...',
+          hintText: S.of(context).todoTextfieldPlaceholder,
           hintStyle: Theme.of(context)
               .textTheme
               .bodyMedium!
@@ -48,7 +49,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
         minLines: 4,
         maxLines: null,
         onChanged: (value) =>
-            context.read<SingleTodoCubit>().changeText(textController.text),
+            context.read<TodoSingleCubit>().changeText(textController.text),
       ),
     );
   }

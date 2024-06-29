@@ -3,9 +3,9 @@ import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 
-class SingleTodoCubit extends Cubit<Todo> {
+class TodoSingleCubit extends Cubit<Todo> {
   final TodoAction action;
-  SingleTodoCubit({required this.action})
+  TodoSingleCubit({required this.action})
       : super(
           switch (action) {
             CreateTodo _ => Todo(

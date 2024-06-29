@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
+import 'package:todo_list/generated/l10n.dart';
 
 class DoneTodoCountWidget extends StatelessWidget {
   const DoneTodoCountWidget({super.key});
@@ -16,7 +17,7 @@ class DoneTodoCountWidget extends StatelessWidget {
           case TodoLoading _:
             return const SizedBox.shrink();
           case TodoError _:
-            return Text('Ошибка: ${state.message}');
+            return Text(S.of(context).errorMessage(state.message));
           case TodoLoaded _:
             if (state.todos.isNotEmpty) {
               final doneCount = state.todos.where((todo) => todo.done).length;
@@ -39,7 +40,7 @@ class _TodoCountText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Выполнено — $count',
+      S.of(context).doneTodoCount(count),
       style: Theme.of(context)
           .textTheme
           .bodyMedium!

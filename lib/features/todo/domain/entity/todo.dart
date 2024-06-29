@@ -49,7 +49,7 @@ class Todo {
     required this.done,
   });
 
-  Id get isarId => fastHash(id);
+  Id get isarId => _fastHash(id);
 
   factory Todo.fromJson(Map<String, dynamic> json) => _$TodoFromJson(json);
 
@@ -102,29 +102,25 @@ class Todo {
       unix == null ? null : DateTime.fromMillisecondsSinceEpoch(unix);
   static int? _dateToJsonNullable(DateTime? time) =>
       time?.millisecondsSinceEpoch;
+
+  int _fastHash(String string) {
+    var hash = 0xcbf29ce484222325;
+
+    var i = 0;
+    while (i < string.length) {
+      final codeUnit = string.codeUnitAt(i++);
+      hash ^= codeUnit >> 8;
+      hash *= 0x100000001b3;
+      hash ^= codeUnit & 0xFF;
+      hash *= 0x100000001b3;
+    }
+
+    return hash;
+  }
 }
 
 enum Importance {
-  basic(displayName: 'Нет'),
-  low(displayName: 'Низкий'),
-  important(displayName: '!! Высокий');
-
-  final String displayName;
-
-  const Importance({required this.displayName});
-}
-
-int fastHash(String string) {
-  var hash = 0xcbf29ce484222325;
-
-  var i = 0;
-  while (i < string.length) {
-    final codeUnit = string.codeUnitAt(i++);
-    hash ^= codeUnit >> 8;
-    hash *= 0x100000001b3;
-    hash ^= codeUnit & 0xFF;
-    hash *= 0x100000001b3;
-  }
-
-  return hash;
+  basic,
+  low,
+  important;
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_button_base.dart';
+import 'package:todo_list/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 
 class TodoSaveButton extends StatelessWidget {
   final TodoAction action;
@@ -17,7 +18,7 @@ class TodoSaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SingleTodoCubit, Todo>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return CustomButtonBase(
           margin: const EdgeInsets.only(top: 8, right: 8),
@@ -51,7 +52,7 @@ class TodoSaveButton extends StatelessWidget {
                 }
               : null,
           child: Text(
-            'СОХРАНИТЬ',
+            S.of(context).todoSaveButtonTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
         );

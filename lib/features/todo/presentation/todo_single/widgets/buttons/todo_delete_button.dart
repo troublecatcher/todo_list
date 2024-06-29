@@ -5,9 +5,10 @@ import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/features/todo/presentation/common/dialog_manager.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/generated/l10n.dart';
 
 class TodoDeleteButton extends StatelessWidget {
   final TodoAction action;
@@ -18,7 +19,7 @@ class TodoDeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SingleTodoCubit, Todo>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return FittedBox(
           child: CustomButtonBase(
@@ -44,7 +45,7 @@ class TodoDeleteButton extends StatelessWidget {
                   },
                 ),
                 Text(
-                  'Удалить',
+                  S.of(context).todoDeleteButtonTitle,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: switch (action) {
                           CreateTodo _ => Theme.of(context).disabledColor,

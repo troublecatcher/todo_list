@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
+import 'package:todo_list/generated/l10n.dart';
 
 class TodoDeadlineSelectionTile extends StatelessWidget {
   const TodoDeadlineSelectionTile({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SingleTodoCubit, Todo>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return AnimatedSize(
           duration: Durations.medium1,
@@ -19,7 +20,7 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
                 await _handleDateSelection(value, context),
             contentPadding: EdgeInsets.zero,
             title: Text(
-              'Сделать до',
+              S.of(context).todoDeadline,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             subtitle: todo.deadline != null
@@ -39,7 +40,7 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
 
   Future<void> _handleDateSelection(
       bool includeDeadline, BuildContext context) async {
-    final cubit = context.read<SingleTodoCubit>();
+    final cubit = context.read<TodoSingleCubit>();
     if (includeDeadline) {
       final newDeadline = await showDatePicker(
         context: context,

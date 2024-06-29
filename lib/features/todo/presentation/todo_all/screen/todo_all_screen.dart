@@ -11,14 +11,14 @@ import 'package:todo_list/features/todo/presentation/todo_all/widgets/no_todos_p
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/fast_todo_creation_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/todo_tile/todo_tile.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class TodoAllScreen extends StatefulWidget {
+  const TodoAllScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => HomeScreenState();
+  State<TodoAllScreen> createState() => TodoAllScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class TodoAllScreenState extends State<TodoAllScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

@@ -1,0 +1,14 @@
+{
+  "homeHeaderTitle": "Мои дела",
+  "errorMessage": "Ошибка: {errorMessage}",
+  "doneTodoCount": "Выполнено — {count}",
+  "todoSaveButtonTitle": "СОХРАНИТЬ",
+  "todoTextfieldPlaceholder": "Что надо сделать...",
+  "todoImportance": "Приоритет",
+  "todoImportance_basic": "Нет",
+  "todoImportance_low": "Низкий",
+  "todoImportance_important": "!! Высокий",
+  "todoDeadline": "Дедлайн",
+  "todoDeleteButtonTitle": "Удалить",
+  "todoFastCreateTitle": "Новое..."
+}

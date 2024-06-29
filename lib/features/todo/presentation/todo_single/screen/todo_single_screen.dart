@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/single_todo_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_content_text_field.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_deadline_selection_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/buttons/todo_delete_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_priority_selection_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_importance_selection_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/buttons/todo_save_button.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoSingleScreen extends StatelessWidget {
   final TodoAction action;
-  const TodoScreen({super.key, required this.action});
+  const TodoSingleScreen({super.key, required this.action});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SingleTodoCubit(action: action),
+      create: (context) => TodoSingleCubit(action: action),
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
@@ -37,7 +37,7 @@ class TodoScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TodoContentTextField(),
-                    TodoPrioritySelectionTile(),
+                    TodoImportanceSelectionTile(),
                     Divider(height: 0),
                     TodoDeadlineSelectionTile(),
                   ],

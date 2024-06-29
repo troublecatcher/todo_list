@@ -1,0 +1,14 @@
+{
+  "homeHeaderTitle": "My tasks",
+  "errorMessage": "Error: {errorMessage}",
+  "doneTodoCount": "Completed — {count}",
+  "todoSaveButtonTitle": "SAVE",
+  "todoTextfieldPlaceholder": "What should be done...",
+  "todoImportance": "Importance",
+  "todoImportance_basic": "None",
+  "todoImportance_low": "Low",
+  "todoImportance_important": "!! High",
+  "todoDeadline": "Deadline",
+  "todoDeleteButtonTitle": "Delete",
+  "todoFastCreateTitle": "Create new..."
+}
