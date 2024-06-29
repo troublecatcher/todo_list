@@ -1,17 +1,16 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/navigation_logger.dart';
 import 'package:todo_list/config/theme/theme.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/service_locator.dart';
-import 'package:todo_list/features/todo/data/remote_todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository/remote_todo_repository.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/home_screen.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/screen/single_todo_screen.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
-import 'package:todo_list/features/todo/data/local_todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository/local_todo_repository.dart';
 
 import 'package:todo_list/core/services/isar_service.dart';
 
@@ -27,7 +26,6 @@ void main() async {
 
   final networkRepository = RemoteTodoRepository();
   final persistenceRepository = LocalTodoRepository(isar);
-  HttpOverrides.global = MyHttpOverrides();
 
   runApp(
     BlocProvider(
@@ -73,14 +71,5 @@ class MainApp extends StatelessWidget {
         }
       },
     );
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/data/todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 
 class RemoteTodoRepository implements TodoRepository {
   final _sp = GetIt.I<SharedPreferencesService>();

@@ -1,6 +1,6 @@
 import 'package:isar/isar.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/data/todo_repository.dart';
+import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 
 class LocalTodoRepository implements TodoRepository {
   final Isar _isar;
