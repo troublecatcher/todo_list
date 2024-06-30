@@ -10,7 +10,6 @@ class AuthInterceptor extends Interceptor {
     final prefs = GetIt.I<SharedPreferencesService>();
     final String? authHeader =
         prefs.bearer ?? (prefs.oauth ?? dotenv.env['auth']);
-    print(authHeader);
     options.headers['Authorization'] = authHeader;
     options.headers['X-Last-Known-Revision'] = prefs.revision;
     return handler.next(options);
