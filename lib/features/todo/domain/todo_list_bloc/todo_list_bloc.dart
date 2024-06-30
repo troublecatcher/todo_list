@@ -3,10 +3,10 @@ import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/common/cubit/todo_operation_notifier.dart';
+import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_notifier.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _remote;
@@ -31,20 +31,24 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     emit(TodoLoading());
     final int localRevision = _sp.revision;
     try {
+      Log.i('Fetching todos remote');
       final (List<Todo> remoteTodos, int remoteRevision) =
           await _remote.getTodos();
       if (remoteRevision < localRevision) {
         final (List<Todo> localTodos, _) = await _local.getTodos();
         await _remote.putFresh(localTodos);
         await _sp.setRev(remoteRevision);
+        Log.w('Local revision won, overwritten remote');
         emit(TodoLoaded(localTodos));
       } else {
         await _local.putFresh(remoteTodos);
         await _sp.setRev(remoteRevision);
+        Log.w('Remote revision won, overwritten local');
         emit(TodoLoaded(remoteTodos));
       }
     } catch (e, s) {
       Log.e('Error fetching todos from remote: $e, $s');
+      Log.i('Fetching todos local');
       try {
         final (List<Todo> localTodos, _) = await _local.getTodos();
         emit(TodoLoaded(localTodos));

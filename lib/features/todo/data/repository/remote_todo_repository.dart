@@ -6,8 +6,7 @@ import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 class RemoteTodoRepository implements TodoRepository {
   final Dio _dio;
 
-  RemoteTodoRepository()
-      : _dio = Dio(BaseOptions(baseUrl: 'https://hive.mrdekk.ru/todo/')) {
+  RemoteTodoRepository(this._dio) {
     _dio.interceptors.add(AuthInterceptor());
   }
 
@@ -21,25 +20,18 @@ class RemoteTodoRepository implements TodoRepository {
   }
 
   @override
-  Future<void> addTodo(Todo todo) async => await _dio.post(
-        'list',
-        data: {'element': todo.toJson()},
-      );
+  Future<void> addTodo(Todo todo) async =>
+      await _dio.post('list', data: {'element': todo.toJson()});
 
   @override
-  Future<void> putFresh(List<Todo> todos) async => await _dio.patch(
-        'list',
-        data: {'list': todos.map((todo) => todo.toJson()).toList()},
-      );
+  Future<void> putFresh(List<Todo> todos) async => await _dio.patch('list',
+      data: {'list': todos.map((todo) => todo.toJson()).toList()});
 
   @override
-  Future<void> updateTodo(Todo todo) async => await _dio.put(
-        'list/${todo.id}',
-        data: {'element': todo.toJson()},
-      );
+  Future<void> updateTodo(Todo todo) async =>
+      await _dio.put('list/${todo.id}', data: {'element': todo.toJson()});
 
   @override
-  Future<void> deleteTodo(Todo todo) async => await _dio.delete(
-        'list/${todo.id}',
-      );
+  Future<void> deleteTodo(Todo todo) async =>
+      await _dio.delete('list/${todo.id}');
 }

@@ -7,7 +7,7 @@ class AppTheme {
     final lightThemeColors = LightThemeColors();
     return ThemeData(
       brightness: Brightness.light,
-      useMaterial3: false,
+      useMaterial3: _useMaterial3,
       scaffoldBackgroundColor: lightThemeColors.backgroundPrimary,
       textTheme: _textTheme,
       disabledColor: lightThemeColors.labelDisabled,
@@ -22,16 +22,7 @@ class AppTheme {
         surface: lightThemeColors.backgroundElevated,
         tertiary: lightThemeColors.labelTertiary,
       ),
-      extensions: [
-        CustomColors(
-          red: const Color.fromRGBO(255, 59, 48, 1),
-          green: const Color.fromRGBO(52, 199, 89, 1),
-          blue: const Color.fromRGBO(0, 122, 255, 1),
-          grey: const Color.fromRGBO(142, 142, 147, 1),
-          lightGrey: const Color.fromRGBO(209, 209, 214, 1),
-          white: const Color.fromRGBO(255, 255, 255, 1),
-        ),
-      ],
+      extensions: _extensions,
     );
   }
 
@@ -39,7 +30,7 @@ class AppTheme {
     final darkThemeColors = DarkThemeColors();
     return ThemeData(
       brightness: Brightness.dark,
-      useMaterial3: false,
+      useMaterial3: _useMaterial3,
       scaffoldBackgroundColor: darkThemeColors.backgroundPrimary,
       textTheme: _textTheme,
       disabledColor: darkThemeColors.labelDisabled,
@@ -58,6 +49,10 @@ class AppTheme {
       extensions: _extensions,
     );
   }
+
+  // I believe this is not the best solution, I'm open to hear your opinion
+
+  static bool get _useMaterial3 => false;
 
   static List<ThemeExtension> get _extensions => [
         CustomColors(

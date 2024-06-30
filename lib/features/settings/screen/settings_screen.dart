@@ -5,8 +5,8 @@ import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.d
 import 'package:todo_list/config/locale/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/ui/custom_back_button.dart';
-import 'package:todo_list/core/ui/custom_button_base.dart';
+import 'package:todo_list/core/ui/widget/custom_back_button.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/generated/l10n.dart';
 
 class SettingsScreen extends StatefulWidget {

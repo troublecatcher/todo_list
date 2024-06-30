@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 
 class NavigationLogger extends NavigatorObserver {
   @override
@@ -8,7 +8,7 @@ class NavigationLogger extends NavigatorObserver {
     if (route is MaterialPageRoute) {
       final args = route.settings.arguments;
       if (args != null) {
-        if (args is EditTodo) {
+        if (args is EditTodoIntent) {
           Log.i(
               '$NavigationLogger.didPush: ${route.settings.name}, todo (id ${args.todo.id})');
           return;
@@ -24,7 +24,7 @@ class NavigationLogger extends NavigatorObserver {
     if (route is MaterialPageRoute) {
       final args = route.settings.arguments;
       if (args != null) {
-        if (args is EditTodo) {
+        if (args is EditTodoIntent) {
           Log.i(
               '$NavigationLogger.didPop: ${route.settings.name}, todo (id ${args.todo.id})');
           return;

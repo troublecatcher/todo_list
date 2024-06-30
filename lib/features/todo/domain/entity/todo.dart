@@ -29,6 +29,7 @@ class Todo {
   @JsonKey(name: 'last_updated_by')
   late String lastUpdatedBy;
 
+  // for fetching
   Todo._({
     required this.id,
     required this.text,
@@ -40,7 +41,7 @@ class Todo {
     required this.changedAt,
     required this.lastUpdatedBy,
   });
-
+  // for creating
   Todo({
     required this.text,
     required this.importance,

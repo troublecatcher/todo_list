@@ -3,9 +3,7 @@ import 'package:todo_list/config/theme/custom_colors.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get _theme => Theme.of(this);
-
   TextTheme get textTheme => _theme.textTheme;
-
   ColorScheme get colorScheme => _theme.colorScheme;
 
   CustomColors get customColors {
@@ -16,6 +14,5 @@ extension ThemeExtension on BuildContext {
 
   Color get scaffoldBackgroundColor => _theme.scaffoldBackgroundColor;
   Color get dividerColor => _theme.dividerColor;
-
   Color get disabledColor => _theme.disabledColor;
 }

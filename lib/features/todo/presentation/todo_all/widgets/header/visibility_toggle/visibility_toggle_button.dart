@@ -2,10 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/ui/custom_icon_button.dart';
-import 'package:todo_list/core/ui/loading_widget.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_state.dart';
+import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
+import 'package:todo_list/core/ui/widget/loading_widget.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_mode.dart';
 

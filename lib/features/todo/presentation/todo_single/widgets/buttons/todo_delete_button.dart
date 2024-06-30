@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
-import 'package:todo_list/core/ui/custom_button_base.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/features/todo/presentation/common/dialog_manager.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/core/ui/service/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 import 'package:todo_list/generated/l10n.dart';
 
 class TodoDeleteButton extends StatelessWidget {
-  final TodoAction action;
+  final TodoIntent intent;
   const TodoDeleteButton({
     super.key,
-    required this.action,
+    required this.intent,
   });
 
   @override
@@ -25,9 +25,9 @@ class TodoDeleteButton extends StatelessWidget {
       builder: (context, todo) {
         return FittedBox(
           child: CustomButtonBase(
-            onPressed: switch (action) {
-              CreateTodo _ => null,
-              EditTodo _ => () {
+            onPressed: switch (intent) {
+              CreateTodoIntent _ => null,
+              EditTodoIntent _ => () {
                   if (GetIt.I<SharedPreferencesService>().confirmDialogs) {
                     DialogManager.showDeleteConfirmationDialog(context, todo)
                         .then(
@@ -47,9 +47,9 @@ class TodoDeleteButton extends StatelessWidget {
                 }
             },
             child: Builder(builder: (context) {
-              final color = switch (action) {
-                CreateTodo _ => context.disabledColor,
-                EditTodo _ => context.customColors.red,
+              final color = switch (intent) {
+                CreateTodoIntent _ => context.disabledColor,
+                EditTodoIntent _ => context.customColors.red,
               };
               return Row(
                 children: [

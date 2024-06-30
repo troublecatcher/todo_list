@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/ui/custom_button_base.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 
 class TodoSaveButton extends StatelessWidget {
-  final TodoAction action;
+  final TodoIntent intent;
   const TodoSaveButton({
     super.key,
-    required this.action,
+    required this.intent,
   });
 
   @override
@@ -27,8 +27,8 @@ class TodoSaveButton extends StatelessWidget {
           margin: const EdgeInsets.only(top: 8, right: 8),
           onPressed: todoHasText(todo)
               ? () {
-                  switch (action) {
-                    case CreateTodo _:
+                  switch (intent) {
+                    case CreateTodoIntent _:
                       const uuid = Uuid();
                       context.read<TodoListBloc>().add(
                             AddTodoEvent(
@@ -41,7 +41,7 @@ class TodoSaveButton extends StatelessWidget {
                             ),
                           );
                       break;
-                    case EditTodo _:
+                    case EditTodoIntent _:
                       context.read<TodoListBloc>().add(
                             UpdateTodoEvent(
                               todo

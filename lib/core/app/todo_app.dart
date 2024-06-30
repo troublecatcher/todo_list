@@ -6,7 +6,7 @@ import 'package:todo_list/config/logger/navigation_logger.dart';
 import 'package:todo_list/config/theme/app_theme.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/features/settings/screen/settings_screen.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_action.dart';
+import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/todo_all_screen.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_single_screen.dart';
 import 'package:todo_list/generated/l10n.dart';
@@ -53,7 +53,7 @@ class _TodoAppState extends State<TodoApp> {
                   case '/todo':
                     return MaterialPageRoute(
                       builder: (_) => TodoSingleScreen(
-                          action: settings.arguments as TodoAction),
+                          action: settings.arguments as TodoIntent),
                       settings: settings,
                     );
                   case '/settings':
