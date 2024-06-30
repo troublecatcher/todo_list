@@ -249,6 +249,36 @@ class S {
       args: [],
     );
   }
+
+  /// `There are no todos`
+  String get noTodos {
+    return Intl.message(
+      'There are no todos',
+      name: 'noTodos',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lucky you!`
+  String get luckyYou {
+    return Intl.message(
+      'Lucky you!',
+      name: 'luckyYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

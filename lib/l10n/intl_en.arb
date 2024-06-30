@@ -18,5 +18,8 @@
   "settings": "Settings",
   "theme": "Theme",
   "language": "Language",
-  "confirmTodoDeletion": "Confirm todo deletion"
+  "confirmTodoDeletion": "Confirm todo deletion",
+  "noTodos": "There are no todos",
+  "luckyYou": "Lucky you!",
+  "save": "Save"
 }

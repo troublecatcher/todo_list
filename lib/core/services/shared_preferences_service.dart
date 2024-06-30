@@ -6,6 +6,8 @@ class SharedPreferencesService {
   static String get _confirmDialogs => 'confirm_dialogs';
   static String get _revKey => 'revision';
   static String get _deviceIdKey => 'device_id';
+  static String get _bearer => 'bearer';
+  static String get _oauth => 'oauth';
   late SharedPreferences? _prefs;
 
   Future<SharedPreferencesService> init() async {
@@ -28,6 +30,14 @@ class SharedPreferencesService {
   bool get confirmDialogs => _prefs!.getBool(_confirmDialogs)!;
   Future<void> setConfirmDialogs(bool confirm) =>
       _prefs!.setBool(_confirmDialogs, confirm);
+
+  String? get bearer => _prefs!.getString(_bearer);
+  Future<void> setBearer(String bearer) => _prefs!.setString(_bearer, bearer);
+  Future<void> clearBearer() => _prefs!.remove(_bearer);
+
+  String? get oauth => _prefs!.getString(_oauth);
+  Future<void> setOAuth(String oauth) => _prefs!.setString(_oauth, oauth);
+  Future<void> clearOAuth() => _prefs!.remove(_oauth);
 
   int get revision => _prefs?.getInt(_revKey) ?? -1;
   Future<void> incRev() async => await _prefs?.setInt(_revKey, revision + 1);

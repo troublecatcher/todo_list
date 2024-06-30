@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/generated/l10n.dart';
 
 class NoTodosPlaceholder extends StatelessWidget {
   const NoTodosPlaceholder({
@@ -20,11 +21,11 @@ class NoTodosPlaceholder extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'Дел нет',
+            S.of(context).noTodos,
             style: context.textTheme.displayLarge,
           ),
           Text(
-            'Счастливый Вы человек!',
+            S.of(context).luckyYou,
             style: context.textTheme.titleMedium,
           ),
           const SizedBox(height: 100),

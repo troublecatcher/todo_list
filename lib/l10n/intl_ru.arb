@@ -18,5 +18,8 @@
   "settings": "Настройки",
   "theme": "Тема",
   "language": "Язык",
-  "confirmTodoDeletion": "Подтверждать удаление дел"
+  "confirmTodoDeletion": "Подтверждать удаление дел",
+  "noTodos": "Дел нет",
+  "luckyYou": "Счастливый Вы человек!",
+  "save": "Сохранить"
 }

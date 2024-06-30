@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/config/api_key/api_key_cubit.dart';
 import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/locale/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/custom_back_button.dart';
+import 'package:todo_list/core/ui/custom_button_base.dart';
 import 'package:todo_list/generated/l10n.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -15,6 +17,16 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final bearerController = TextEditingController();
+  final oauthController = TextEditingController();
+
+  @override
+  void dispose() {
+    bearerController.dispose();
+    oauthController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,9 +105,102 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                     },
                   ),
+                  Text('API key', style: context.textTheme.titleMedium),
+                  BlocBuilder<ApiKeyCubit, ApiKeyState>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          ApiKeyItem(
+                            type: ApiKeyType.bearer,
+                            text: state.type == ApiKeyType.bearer
+                                ? state.key
+                                : null,
+                            currentType: state.type,
+                          ),
+                          ApiKeyItem(
+                            type: ApiKeyType.oauth,
+                            text: state.type == ApiKeyType.oauth
+                                ? state.key
+                                : null,
+                            currentType: state.type,
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ApiKeyItem extends StatefulWidget {
+  final ApiKeyType type;
+  final ApiKeyType currentType;
+  final String? text;
+  const ApiKeyItem({
+    super.key,
+    required this.type,
+    required this.text,
+    required this.currentType,
+  });
+
+  @override
+  State<ApiKeyItem> createState() => _ApiKeyItemState();
+}
+
+class _ApiKeyItemState extends State<ApiKeyItem> {
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.text = widget.text ?? '';
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        border: Border.all(color: context.dividerColor),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        children: [
+          Text(widget.type.name),
+          TextField(
+            controller: controller,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButtonBase(
+                onPressed: widget.currentType != widget.type
+                    ? () async => await context
+                        .read<ApiKeyCubit>()
+                        .set(widget.type, controller.text)
+                    : null,
+                child: Text(S.of(context).save),
+              ),
+              CustomButtonBase(
+                onPressed: () async =>
+                    await context.read<ApiKeyCubit>().set(ApiKeyType.env, ''),
+                child: Text(S.of(context).delete),
+              ),
+            ],
           ),
         ],
       ),

@@ -34,6 +34,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorMessage": m1,
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("Мои дела"),
         "language": MessageLookupByLibrary.simpleMessage("Язык"),
+        "luckyYou":
+            MessageLookupByLibrary.simpleMessage("Счастливый Вы человек!"),
+        "noTodos": MessageLookupByLibrary.simpleMessage("Дел нет"),
+        "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Дедлайн"),
