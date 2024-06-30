@@ -8,16 +8,26 @@ environment:
 
 dependencies:
   bloc: ^8.1.4
-  equatable: ^2.0.5
+  device_info_plus: ^10.1.0
+  dio: ^5.4.3+1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_dotenv: ^5.1.0
+  flutter_localizations:
+    sdk: flutter
+  flutter_staggered_animations: ^1.1.1
   flutter_svg: ^2.0.10+1
+  get_it: ^7.7.0
   intl: ^0.19.0
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
+  json_annotation: ^4.9.0
   logger: ^2.3.0
   path_provider: ^2.1.3
+  shared_preferences: ^2.2.3
+  shimmer_animation: ^2.2.1
+  uuid: ^4.4.0
 
 dev_dependencies:
   flutter_test:
@@ -25,8 +35,19 @@ dev_dependencies:
   flutter_lints: ^3.0.0
   build_runner: ^2.4.9
   isar_generator: ^3.1.0+1
+  json_serializable: ^6.8.0
 
 flutter:
   uses-material-design: true
   assets:
+    - assets/.env
     - assets/icons/priority/
+
+flutter_intl:
+  enabled: true
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image: assets/app_icon/icon.png

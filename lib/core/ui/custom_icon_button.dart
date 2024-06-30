@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/ui/custom_button_base.dart';
 
 class CustomIconButton extends StatefulWidget {
   final IconData icon;
@@ -26,33 +27,14 @@ class _CustomIconButtonState extends State<CustomIconButton> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (details) => setState(() => shrank = true),
-      onTapUp: (details) => setState(() => shrank = false),
-      onTapCancel: () => setState(() => shrank = false),
-      onTap: widget.onPressed,
-      child: Opacity(
-        opacity: widget.onPressed == null ? 0.5 : 1,
-        child: Container(
-          // workaround to make area around icon
-          // clickable aswell
-          padding: widget.padding ?? const EdgeInsets.all(8),
-          margin: widget.margin ?? EdgeInsets.zero,
-          color: Colors.transparent,
-          child: AnimatedScale(
-            scale: shrank ? 0.8 : 1,
-            duration: Durations.short1,
-            child: AnimatedOpacity(
-              duration: Durations.short1,
-              opacity: shrank ? 0.8 : 1,
-              child: Icon(
-                widget.icon,
-                size: widget.iconSize ?? 24,
-                color: widget.color,
-              ),
-            ),
-          ),
-        ),
+    return CustomButtonBase(
+      margin: widget.margin,
+      padding: widget.padding,
+      onPressed: widget.onPressed,
+      child: Icon(
+        widget.icon,
+        size: widget.iconSize ?? 24,
+        color: widget.color,
       ),
     );
   }
