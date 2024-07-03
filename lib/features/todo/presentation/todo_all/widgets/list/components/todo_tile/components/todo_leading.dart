@@ -7,9 +7,9 @@ import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dar
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
-class ClickableCheckbox extends StatelessWidget {
+class TodoLeading extends StatelessWidget {
   final Todo todo;
-  const ClickableCheckbox({
+  const TodoLeading({
     super.key,
     required this.todo,
   });
@@ -48,7 +48,7 @@ class ClickableCheckbox extends StatelessWidget {
     Log.i(
       'trying to change todo ${todo.id} completeness status to ${!todo.done}',
     );
-    bloc.add(UpdateTodoEvent(
+    bloc.add(TodoUpdated(
       todo.copyWithEdit(
         done: !todo.done,
         changedAt: DateTime.now(),

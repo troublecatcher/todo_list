@@ -10,7 +10,7 @@ import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.da
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/clickable_checkbox.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_leading.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_delete_background.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_done_background.dart';
 import 'package:todo_list/core/ui/service/dialog_manager.dart';
@@ -94,7 +94,7 @@ class _TodoTileState extends State<TodoTile> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClickableCheckbox(todo: widget.todo),
+                              TodoLeading(todo: widget.todo),
                               TodoContent(widget: widget),
                               TodoTrailing(
                                 isBeingProcessed: isBeingProcessed,
@@ -129,7 +129,7 @@ class _TodoTileState extends State<TodoTile> {
         'trying to change todo ${todo.id} completeness status to ${!todo.done}',
       );
       bloc.add(
-        UpdateTodoEvent(
+        TodoUpdated(
           todo.copyWithEdit(
             done: !todo.done,
             changedAt: DateTime.now(),
@@ -144,10 +144,10 @@ class _TodoTileState extends State<TodoTile> {
       if (GetIt.I<SharedPreferencesService>().confirmDialogs) {
         final result =
             await DialogManager.showDeleteConfirmationDialog(context, todo);
-        if (result != null && result) bloc.add(DeleteTodoEvent(widget.todo));
+        if (result != null && result) bloc.add(TodoDeleted(widget.todo));
         return result ?? false;
       } else {
-        bloc.add(DeleteTodoEvent(widget.todo));
+        bloc.add(TodoDeleted(widget.todo));
         return true;
       }
     }

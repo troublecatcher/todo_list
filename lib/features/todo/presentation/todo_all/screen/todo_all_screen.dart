@@ -30,7 +30,7 @@ class TodoAllScreenState extends State<TodoAllScreen> {
           child: RefreshIndicator(
             edgeOffset: 124,
             onRefresh: () async =>
-                context.read<TodoListBloc>().add(FetchTodos()),
+                context.read<TodoListBloc>().add(TodosFetchStarted()),
             child: CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
@@ -43,14 +43,14 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                 BlocBuilder<TodoListBloc, TodoState>(
                   builder: (context, state) {
                     switch (state) {
-                      case TodoLoading _:
+                      case TodoLoadInProgress _:
                         return const TodoShimmerList();
-                      case TodoError _:
+                      case TodoFailure _:
                         return TodoErrorWidget(message: state.message);
                       case TodoInitial _:
                         return const SliverToBoxAdapter(
                             child: SizedBox.shrink());
-                      case TodoLoaded loadedState:
+                      case TodoLoadSuccess loadedState:
                         final List<Todo> todos = loadedState.todos;
                         if (todos.isEmpty) {
                           return const NoTodosPlaceholder();

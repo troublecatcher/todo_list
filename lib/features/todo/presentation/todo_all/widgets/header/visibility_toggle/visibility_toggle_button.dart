@@ -18,7 +18,7 @@ class VisibilityToggleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoListBloc, TodoState>(
       builder: (context, state) {
-        if (state is! TodoLoading) {
+        if (state is! TodoLoadInProgress) {
           return BlocBuilder<VisibilityCubit, VisibilityMode>(
             builder: (context, mode) {
               return CustomIconButton(

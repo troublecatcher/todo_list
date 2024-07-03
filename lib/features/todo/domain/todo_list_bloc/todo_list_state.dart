@@ -4,17 +4,17 @@ sealed class TodoState {}
 
 class TodoInitial extends TodoState {}
 
-class TodoLoading extends TodoState {}
+class TodoLoadInProgress extends TodoState {}
 
-class TodoLoaded extends TodoState {
+class TodoLoadSuccess extends TodoState {
   final List<Todo> todos;
 
-  TodoLoaded(List<Todo> todos)
+  TodoLoadSuccess(List<Todo> todos)
       : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
 }
 
-class TodoError extends TodoState {
+class TodoFailure extends TodoState {
   final String message;
 
-  TodoError(this.message);
+  TodoFailure(this.message);
 }

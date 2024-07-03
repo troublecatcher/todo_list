@@ -44,7 +44,7 @@ void main() async {
             remote: remoteRepository,
             local: localRepository,
             operationStatusNotifier: context.read<TodoOperationCubit>(),
-          )..add(FetchTodos()),
+          )..add(TodosFetchStarted()),
         ),
       ],
       child: const TodoApp(),

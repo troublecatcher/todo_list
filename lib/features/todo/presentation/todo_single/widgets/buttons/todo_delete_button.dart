@@ -33,15 +33,13 @@ class TodoDeleteButton extends StatelessWidget {
                         .then(
                       (result) {
                         if (result != null && result) {
-                          context
-                              .read<TodoListBloc>()
-                              .add(DeleteTodoEvent(todo));
+                          context.read<TodoListBloc>().add(TodoDeleted(todo));
                           Navigator.of(context).pop();
                         }
                       },
                     );
                   } else {
-                    context.read<TodoListBloc>().add(DeleteTodoEvent(todo));
+                    context.read<TodoListBloc>().add(TodoDeleted(todo));
                     Navigator.of(context).pop();
                   }
                 }

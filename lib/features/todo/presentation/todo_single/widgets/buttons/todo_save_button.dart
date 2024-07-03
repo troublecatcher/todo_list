@@ -31,7 +31,7 @@ class TodoSaveButton extends StatelessWidget {
                     case CreateTodoIntent _:
                       const uuid = Uuid();
                       context.read<TodoListBloc>().add(
-                            AddTodoEvent(
+                            TodoAdded(
                               todo
                                 ..createdAt = DateTime.now()
                                 ..changedAt = DateTime.now()
@@ -43,7 +43,7 @@ class TodoSaveButton extends StatelessWidget {
                       break;
                     case EditTodoIntent _:
                       context.read<TodoListBloc>().add(
-                            UpdateTodoEvent(
+                            TodoUpdated(
                               todo
                                 ..createdAt = todo.createdAt
                                 ..changedAt = DateTime.now()

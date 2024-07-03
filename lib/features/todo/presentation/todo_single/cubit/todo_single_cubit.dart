@@ -33,7 +33,7 @@ class TodoSingleCubit extends Cubit<Todo> {
       deadline: state.deadline,
       color: state.color,
     ));
-    Log.i('updated todo content: $text');
+    Log.i('updated todo text: $text');
   }
 
   void changeImportance(Importance importance) {
@@ -51,7 +51,7 @@ class TodoSingleCubit extends Cubit<Todo> {
       deadline: state.deadline,
       color: state.color,
     ));
-    Log.i('updated todo priority ${importance.name}');
+    Log.i('updated todo importance ${importance.name}');
   }
 
   void changeDeadline(DateTime? deadline) {

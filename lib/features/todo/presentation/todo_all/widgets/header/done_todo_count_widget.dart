@@ -20,9 +20,9 @@ class DoneTodoCountWidget extends StatelessWidget {
           ),
           child: switch (state) {
             TodoInitial _ => const _TodoCountText(count: 0),
-            TodoLoading _ => const SizedBox.shrink(),
-            TodoError _ => Text(S.of(context).errorMessage(state.message)),
-            TodoLoaded _ => _TodoCountText(
+            TodoLoadInProgress _ => const SizedBox.shrink(),
+            TodoFailure _ => Text(S.of(context).errorMessage(state.message)),
+            TodoLoadSuccess _ => _TodoCountText(
                 count: state.todos.where((todo) => todo.done).length,
               ),
           },

@@ -2,22 +2,22 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 
 abstract class TodoEvent {}
 
-class FetchTodos extends TodoEvent {}
+class TodosFetchStarted extends TodoEvent {}
 
-class AddTodoEvent extends TodoEvent {
+class TodoAdded extends TodoEvent {
   final Todo todo;
 
-  AddTodoEvent(this.todo);
+  TodoAdded(this.todo);
 }
 
-class UpdateTodoEvent extends TodoEvent {
+class TodoUpdated extends TodoEvent {
   final Todo todo;
 
-  UpdateTodoEvent(this.todo);
+  TodoUpdated(this.todo);
 }
 
-class DeleteTodoEvent extends TodoEvent {
+class TodoDeleted extends TodoEvent {
   final Todo todo;
 
-  DeleteTodoEvent(this.todo);
+  TodoDeleted(this.todo);
 }

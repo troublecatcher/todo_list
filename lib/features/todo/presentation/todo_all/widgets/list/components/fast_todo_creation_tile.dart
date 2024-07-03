@@ -130,7 +130,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                                     const uuid = Uuid();
                                     newTodoId = uuid.v4();
                                     context.read<TodoListBloc>().add(
-                                          AddTodoEvent(
+                                          TodoAdded(
                                             Todo(
                                               text: fastTodoNameController.text,
                                               importance: Importance.basic,
