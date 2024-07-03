@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
@@ -39,7 +37,7 @@ class _TodoTileState extends State<TodoTile> {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoOperationCubit, TodoOperationState>(
       builder: (context, state) {
-        final isBeingProcessed = state is TodoOperationProcessingState &&
+        final bool isBeingProcessed = state is TodoOperationProcessingState &&
             state.todo.id == widget.todo.id;
         return AbsorbPointer(
           absorbing: isBeingProcessed,
@@ -89,33 +87,28 @@ class _TodoTileState extends State<TodoTile> {
                       },
                     ),
                     child: AnimatedSize(
-                      duration: Durations.medium1,
-                      child: IntrinsicHeight(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TodoLeading(todo: widget.todo),
-                            TodoContent(widget: widget),
-                            TodoTrailing(
-                              isBeingProcessed: isBeingProcessed,
-                              todo: widget.todo,
+                      duration: Durations.long4,
+                      curve: Curves.elasticOut,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TodoLeading(todo: widget.todo),
+                                TodoContent(widget: widget),
+                                TodoTrailing(todo: widget.todo),
+                              ],
                             ),
-                            AnimatedContainer(
-                              duration: Durations.medium1,
-                              width: 5,
-                              color: switch (widget.todo.done) {
-                                true => context.customColors.green,
-                                false => switch (widget.todo.importance) {
-                                    Importance.basic => null,
-                                    Importance.low =>
-                                      context.customColors.orange,
-                                    Importance.important =>
-                                      context.customColors.red,
-                                  },
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          switch (isBeingProcessed) {
+                            true => const LinearProgressIndicator(
+                                backgroundColor: Colors.transparent,
+                              ),
+                            false => const SizedBox(height: 4),
+                          },
+                        ],
                       ),
                     ),
                   ),
