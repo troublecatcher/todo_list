@@ -57,6 +57,7 @@ class AppTheme {
   static List<ThemeExtension> get _extensions => [
         CustomColors(
           red: const Color.fromRGBO(255, 59, 48, 1),
+          orange: const Color.fromRGBO(252, 172, 111, 1),
           green: const Color.fromRGBO(52, 199, 89, 1),
           blue: const Color.fromRGBO(0, 122, 255, 1),
           grey: const Color.fromRGBO(142, 142, 147, 1),

@@ -41,7 +41,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/.env
-    - assets/icons/priority/
 
 flutter_intl:
   enabled: true

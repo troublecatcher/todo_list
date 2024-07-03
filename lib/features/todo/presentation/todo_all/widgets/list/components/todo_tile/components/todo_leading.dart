@@ -29,12 +29,20 @@ class TodoLeading extends StatelessWidget {
                   context.customColors.red.withOpacity(.3),
                 ),
             },
-          _ => null,
+          Importance.low => switch (todo.done) {
+              true => null,
+              false => WidgetStatePropertyAll(
+                  context.customColors.orange.withOpacity(.3),
+                ),
+            },
+          Importance.basic => null,
         },
         side: switch (todo.importance) {
           Importance.important =>
             BorderSide(color: context.customColors.red, width: 2),
-          _ => null,
+          Importance.low =>
+            BorderSide(color: context.customColors.orange, width: 2),
+          Importance.basic => null,
         },
         value: todo.done,
         onChanged: (_) => _changeTodoCompletenessStatus(

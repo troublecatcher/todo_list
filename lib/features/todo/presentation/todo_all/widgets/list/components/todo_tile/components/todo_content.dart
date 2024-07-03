@@ -24,24 +24,6 @@ class TodoContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (!widget.todo.done)
-                  switch (widget.todo.importance) {
-                    Importance.important => Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/priority/high.svg',
-                          ),
-                          const SizedBox(width: 3),
-                        ],
-                      ),
-                    Importance.low => Row(
-                        children: [
-                          SvgPicture.asset('assets/icons/priority/low.svg'),
-                          const SizedBox(width: 3),
-                        ],
-                      ),
-                    Importance.basic => const SizedBox.shrink(),
-                  },
                 Expanded(
                   child: Text(
                     widget.todo.text,

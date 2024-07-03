@@ -26,12 +26,7 @@ class TodoTrailing extends StatelessWidget {
       child: isBeingProcessed
           ? const LoadingWidget()
           : CustomIconButton(
-              padding: const EdgeInsets.only(
-                top: 12,
-                right: 16,
-                bottom: 12,
-                left: 12,
-              ),
+              padding: const EdgeInsets.all(12),
               icon: Icons.info_outline,
               onPressed: () => Navigator.of(context).pushNamed(
                 '/todo',
