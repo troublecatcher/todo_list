@@ -43,12 +43,10 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
     if (includeDeadline) {
       final newDeadline = await showDatePicker(
         context: context,
-        firstDate: DateTime(2000),
-        lastDate: DateTime(2100),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(const Duration(days: 365 * 1000)),
       );
-      if (newDeadline != null) {
-        cubit.changeDeadline(newDeadline);
-      }
+      if (newDeadline != null) cubit.changeDeadline(newDeadline);
     } else {
       cubit.changeDeadline(null);
     }

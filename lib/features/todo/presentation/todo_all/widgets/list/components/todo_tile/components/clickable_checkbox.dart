@@ -18,54 +18,43 @@ class ClickableCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButtonBase(
       padding: EdgeInsets.zero,
-      onPressed: () {
-        final bloc = context.read<TodoListBloc>();
-        bloc.add(
-          UpdateTodoEvent(
-            todo.copyWithEdit(
-              done: !todo.done,
-              changedAt: DateTime.now(),
-              deadline: todo.deadline,
-              color: todo.color,
-            ),
-          ),
-        );
-        Log.i('changed todo ${todo.id} completeness status to ${!todo.done}');
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(
-          top: 12,
-          right: 12,
-          bottom: 12,
-          left: 16,
-        ),
-        child: switch (todo.done) {
-          true => Icon(
-              Icons.check_box,
-              color: context.customColors.green,
-            ),
-          false => switch (todo.importance) {
-              Importance.important => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: 16,
-                      height: 16,
-                      color: context.customColors.red.withOpacity(0.16),
-                    ),
-                    Icon(
-                      Icons.check_box_outline_blank_rounded,
-                      color: context.customColors.red,
-                    ),
-                  ],
-                ),
-              _ => Icon(
-                  Icons.check_box_outline_blank,
-                  color: context.dividerColor,
+      onPressed: () {},
+      child: Checkbox(
+        splashRadius: 0,
+        activeColor: context.customColors.green,
+        fillColor: switch (todo.importance) {
+          Importance.important => switch (todo.done) {
+              true => null,
+              false => WidgetStatePropertyAll(
+                  context.customColors.red.withOpacity(.3),
                 ),
             },
+          _ => null,
         },
+        side: switch (todo.importance) {
+          Importance.important =>
+            BorderSide(color: context.customColors.red, width: 2),
+          _ => null,
+        },
+        value: todo.done,
+        onChanged: (_) => _changeTodoCompletenessStatus(
+          context.read<TodoListBloc>(),
+        ),
       ),
     );
+  }
+
+  void _changeTodoCompletenessStatus(TodoListBloc bloc) {
+    Log.i(
+      'trying to change todo ${todo.id} completeness status to ${!todo.done}',
+    );
+    bloc.add(UpdateTodoEvent(
+      todo.copyWithEdit(
+        done: !todo.done,
+        changedAt: DateTime.now(),
+        deadline: todo.deadline,
+        color: todo.color,
+      ),
+    ));
   }
 }
