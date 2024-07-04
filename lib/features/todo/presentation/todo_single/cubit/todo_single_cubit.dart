@@ -4,23 +4,23 @@ import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 
 class TodoSingleCubit extends Cubit<Todo> {
-  final TodoIntent action;
-  TodoSingleCubit({required this.action})
+  final TodoIntent intent;
+  TodoSingleCubit({required this.intent})
       : super(
-          switch (action) {
+          switch (intent) {
             CreateTodoIntent _ => Todo(
                 text: '',
                 importance: Importance.basic,
                 deadline: null,
                 done: false,
               ),
-            EditTodoIntent _ => action.todo,
+            EditTodoIntent _ => intent.todo,
           },
         );
 
   void changeText(String text) {
     late Function fn;
-    switch (action) {
+    switch (intent) {
       case CreateTodoIntent _:
         fn = state.copyWithCreate;
         break;
@@ -38,7 +38,7 @@ class TodoSingleCubit extends Cubit<Todo> {
 
   void changeImportance(Importance importance) {
     late Function fn;
-    switch (action) {
+    switch (intent) {
       case CreateTodoIntent _:
         fn = state.copyWithCreate;
         break;
@@ -56,7 +56,7 @@ class TodoSingleCubit extends Cubit<Todo> {
 
   void changeDeadline(DateTime? deadline) {
     late Function fn;
-    switch (action) {
+    switch (intent) {
       case CreateTodoIntent _:
         fn = state.copyWithCreate;
         break;

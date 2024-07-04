@@ -17,7 +17,7 @@ class AppShimmer extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Shimmer(
         duration: const Duration(seconds: 3),
-        interval: const Duration(seconds: 5),
+        interval: const Duration(seconds: 2),
         color: context.colorScheme.primary,
         enabled: enabled,
         direction: const ShimmerDirection.fromLeftToRight(),

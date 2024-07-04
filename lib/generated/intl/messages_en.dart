@@ -32,8 +32,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "doneTodoCount": m0,
         "errorMessage": m1,
-        "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("My tasks"),
+        "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("My todos"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
         "luckyYou": MessageLookupByLibrary.simpleMessage("Lucky you!"),
         "noTodos": MessageLookupByLibrary.simpleMessage("There are no todos"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
@@ -44,7 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "todoDeleteDialogContent":
             MessageLookupByLibrary.simpleMessage("This action is irreversible"),
         "todoDeleteDialogTitle": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to delete this task?"),
+            "Are you sure you want to delete this todo?"),
         "todoFastCreateTitle":
             MessageLookupByLibrary.simpleMessage("Create new..."),
         "todoImportance": MessageLookupByLibrary.simpleMessage("Importance"),

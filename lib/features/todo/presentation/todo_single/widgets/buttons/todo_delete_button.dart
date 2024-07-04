@@ -28,20 +28,15 @@ class TodoDeleteButton extends StatelessWidget {
             onPressed: switch (intent) {
               CreateTodoIntent _ => null,
               EditTodoIntent _ => () {
-                  if (GetIt.I<SharedPreferencesService>().confirmDialogs) {
-                    DialogManager.showDeleteConfirmationDialog(context, todo)
-                        .then(
-                      (result) {
-                        if (result != null && result) {
-                          context.read<TodoListBloc>().add(TodoDeleted(todo));
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    );
-                  } else {
-                    context.read<TodoListBloc>().add(TodoDeleted(todo));
-                    Navigator.of(context).pop();
-                  }
+                  DialogManager.showDeleteConfirmationDialog(context, todo)
+                      .then(
+                    (result) {
+                      if (result != null && result) {
+                        context.read<TodoListBloc>().add(TodoDeleted(todo));
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  );
                 }
             },
             child: Builder(builder: (context) {

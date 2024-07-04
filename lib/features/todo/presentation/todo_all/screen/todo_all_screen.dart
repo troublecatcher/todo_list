@@ -1,5 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/config/connectivity/cubit/connectivity_cubit.dart';
+import 'package:todo_list/config/connectivity/cubit/connectivity_state.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
@@ -22,44 +26,86 @@ class TodoAllScreen extends StatefulWidget {
 class TodoAllScreenState extends State<TodoAllScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => VisibilityCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => VisibilityCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ConnectivityCubit(),
+        ),
+      ],
       child: Scaffold(
         body: SafeArea(
           bottom: false,
-          child: RefreshIndicator(
-            edgeOffset: 124,
-            onRefresh: () async =>
-                context.read<TodoListBloc>().add(TodosFetchStarted()),
-            child: CustomScrollView(
-              slivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CustomHeaderDelegate(
-                    expandedHeight: 116,
-                    collapsedHeight: 56,
+          child: BlocListener<ConnectivityCubit, ConnectivityState>(
+            listener: (context, state) {
+              print(state);
+              if (state is ConnectivityOffline) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    elevation: 0,
+                    dismissDirection: DismissDirection.none,
+                    content: const Align(
+                      alignment: Alignment.center,
+                      child: Text('Offline mode'),
+                    ),
+                    backgroundColor: context.dividerColor,
+                    duration: const Duration(days: 365), // Indefinite duration
                   ),
-                ),
-                BlocBuilder<TodoListBloc, TodoState>(
-                  builder: (context, state) {
-                    switch (state) {
-                      case TodoLoadInProgress _:
-                        return const TodoShimmerList();
-                      case TodoFailure _:
-                        return TodoErrorWidget(message: state.message);
-                      case TodoInitial _:
-                        return const SliverToBoxAdapter(
-                            child: SizedBox.shrink());
-                      case TodoLoadSuccess loadedState:
-                        final List<Todo> todos = loadedState.todos;
-                        if (todos.isEmpty) {
-                          return const NoTodosPlaceholder();
-                        }
-                        return TodoList(todos: todos);
-                    }
-                  },
-                ),
-              ],
+                );
+              } else if (state is ConnectivityOnline) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    elevation: 0,
+                    dismissDirection: DismissDirection.none,
+                    content: const Align(
+                      alignment: Alignment.center,
+                      child: Text('Back online'),
+                    ),
+                    backgroundColor: context.customColors.green,
+                    duration:
+                        const Duration(seconds: 3), // Show for a short duration
+                  ),
+                );
+              }
+            },
+            child: RefreshIndicator(
+              edgeOffset: 124,
+              onRefresh: () async =>
+                  context.read<TodoListBloc>().add(TodosFetchStarted()),
+              child: CustomScrollView(
+                slivers: [
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: CustomHeaderDelegate(
+                      expandedHeight: 116,
+                      collapsedHeight: 56,
+                    ),
+                  ),
+                  BlocBuilder<TodoListBloc, TodoState>(
+                    builder: (context, state) {
+                      switch (state) {
+                        case TodoLoadInProgress _:
+                          return const TodoShimmerList();
+                        case TodoFailure _:
+                          return TodoErrorWidget(message: state.message);
+                        case TodoInitial _:
+                          return const SliverToBoxAdapter(
+                            child: SizedBox.shrink(),
+                          );
+                        case TodoLoadSuccess loadedState:
+                          final List<Todo> todos = loadedState.todos;
+                          if (todos.isEmpty) {
+                            return const NoTodosPlaceholder();
+                          }
+                          return TodoList(todos: todos);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

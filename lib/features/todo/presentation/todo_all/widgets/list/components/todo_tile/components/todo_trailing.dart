@@ -34,7 +34,7 @@ class TodoTrailing extends StatelessWidget {
             duration: Durations.medium1,
             width: 5,
             color: switch (todo.done) {
-              true => context.customColors.green,
+              true => null,
               false => switch (todo.importance) {
                   Importance.basic => null,
                   Importance.low => context.customColors.orange,

@@ -42,8 +42,9 @@ class _TodoCountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       S.of(context).doneTodoCount(count),
-      style: context.textTheme.bodyMedium!
-          .copyWith(color: context.colorScheme.tertiary),
+      style: context.textTheme.bodyMedium!.copyWith(
+        color: context.colorScheme.tertiary,
+      ),
     );
   }
 }

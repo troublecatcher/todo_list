@@ -16,7 +16,7 @@ class TodoSingleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TodoSingleCubit(action: action),
+      create: (context) => TodoSingleCubit(intent: action),
       child: Scaffold(
         body: CustomScrollView(
           slivers: [

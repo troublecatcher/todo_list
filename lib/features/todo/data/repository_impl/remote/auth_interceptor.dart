@@ -7,7 +7,7 @@ class AuthInterceptor extends Interceptor {
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final prefs = GetIt.I<SharedPreferencesService>();
+    final SharedPreferencesService prefs = GetIt.I<SharedPreferencesService>();
     final String? authHeader =
         prefs.bearer ?? (prefs.oauth ?? dotenv.env['auth']);
     options.headers['Authorization'] = authHeader;

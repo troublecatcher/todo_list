@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todo_list/config/theme/app_colors.dart';
 import 'package:todo_list/config/theme/custom_colors.dart';
 
@@ -13,6 +14,9 @@ class AppTheme {
       disabledColor: lightThemeColors.labelDisabled,
       appBarTheme: AppBarTheme(
         backgroundColor: lightThemeColors.backgroundPrimary,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+        ),
       ),
       dividerColor: lightThemeColors.supportSeparator,
       colorScheme: ColorScheme.light(
@@ -35,6 +39,9 @@ class AppTheme {
       textTheme: _textTheme,
       disabledColor: darkThemeColors.labelDisabled,
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+        ),
         backgroundColor: darkThemeColors.backgroundPrimary,
       ),
       dividerColor: darkThemeColors.supportSeparator,
@@ -49,8 +56,6 @@ class AppTheme {
       extensions: _extensions,
     );
   }
-
-  // I believe this is not the best solution, I'm open to hear your opinion
 
   static bool get _useMaterial3 => false;
 

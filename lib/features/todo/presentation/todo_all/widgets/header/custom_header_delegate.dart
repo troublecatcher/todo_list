@@ -1,6 +1,11 @@
 import 'dart:ui';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/config/connectivity/cubit/connectivity_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
@@ -50,12 +55,26 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  S.of(context).homeHeaderTitle,
-                  style: TextStyle(
-                    fontSize: lerpDouble(32, 20, collapsePercent),
-                    fontWeight: FontWeight.w500,
-                  ),
+                BlocBuilder<TodoListBloc, TodoState>(
+                  builder: (context, state) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 100),
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      ),
+                      child: Text(
+                        switch (state is TodoLoadInProgress) {
+                          true => S.of(context).loading,
+                          false => S.of(context).homeHeaderTitle,
+                        },
+                        style: TextStyle(
+                          fontSize: lerpDouble(32, 20, collapsePercent),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 SizedBox(height: 4 - 4 * collapsePercent),
                 AnimatedContainer(

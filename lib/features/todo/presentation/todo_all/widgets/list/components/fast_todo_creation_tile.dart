@@ -70,7 +70,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                     },
                     child: isTextPresent
                         ? Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 12),
+                            padding: const EdgeInsets.all(12),
                             child: Icon(
                               Icons.check_box_outline_blank,
                               color: context.dividerColor,
@@ -124,7 +124,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                               } else {
                                 return CustomIconButton(
                                   padding: const EdgeInsets.only(
-                                      left: 12, right: 16),
+                                      left: 12, right: 12 + 5),
                                   icon: Icons.arrow_circle_up_rounded,
                                   onPressed: () async {
                                     const uuid = Uuid();

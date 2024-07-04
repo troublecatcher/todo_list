@@ -57,6 +57,9 @@ class _TodoTileState extends State<TodoTile> {
                     onUpdate: (details) => _handleDragUpdate(details),
                     confirmDismiss: (direction) =>
                         _handleDismiss(direction, context),
+                    onDismissed: (direction) {
+                      print(direction);
+                    },
                     background: ValueListenableBuilder<bool>(
                       valueListenable: _reachedNotifier,
                       builder: (context, reached, child) {
@@ -127,7 +130,9 @@ class _TodoTileState extends State<TodoTile> {
   }
 
   Future<bool> _handleDismiss(
-      DismissDirection direction, BuildContext context) async {
+    DismissDirection direction,
+    BuildContext context,
+  ) async {
     final bloc = context.read<TodoListBloc>();
     final todo = widget.todo;
     if (direction == DismissDirection.startToEnd) {
@@ -147,15 +152,10 @@ class _TodoTileState extends State<TodoTile> {
       );
       return false;
     } else if (direction == DismissDirection.endToStart) {
-      if (GetIt.I<SharedPreferencesService>().confirmDialogs) {
-        final result =
-            await DialogManager.showDeleteConfirmationDialog(context, todo);
-        if (result != null && result) bloc.add(TodoDeleted(widget.todo));
-        return result ?? false;
-      } else {
-        bloc.add(TodoDeleted(widget.todo));
-        return true;
-      }
+      final result =
+          await DialogManager.showDeleteConfirmationDialog(context, todo);
+      if (result != null && result) bloc.add(TodoDeleted(widget.todo));
+      return result ?? false;
     }
     return false;
   }

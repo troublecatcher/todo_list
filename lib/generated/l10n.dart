@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `My tasks`
+  /// `My todos`
   String get homeHeaderTitle {
     return Intl.message(
-      'My tasks',
+      'My todos',
       name: 'homeHeaderTitle',
       desc: '',
       args: [],
@@ -170,10 +170,10 @@ class S {
     );
   }
 
-  /// `Are you sure you want to delete this task?`
+  /// `Are you sure you want to delete this todo?`
   String get todoDeleteDialogTitle {
     return Intl.message(
-      'Are you sure you want to delete this task?',
+      'Are you sure you want to delete this todo?',
       name: 'todoDeleteDialogTitle',
       desc: '',
       args: [],
@@ -275,6 +275,16 @@ class S {
     return Intl.message(
       'Save',
       name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading...`
+  String get loading {
+    return Intl.message(
+      'Loading...',
+      name: 'loading',
       desc: '',
       args: [],
     );
