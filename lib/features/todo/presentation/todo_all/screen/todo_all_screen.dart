@@ -1,8 +1,7 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/connectivity/cubit/connectivity_cubit.dart';
-import 'package:todo_list/config/connectivity/cubit/connectivity_state.dart';
+import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
+import 'package:todo_list/config/connectivity/connectivity_state.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
@@ -40,7 +39,6 @@ class TodoAllScreenState extends State<TodoAllScreen> {
           bottom: false,
           child: BlocListener<ConnectivityCubit, ConnectivityState>(
             listener: (context, state) {
-              print(state);
               if (state is ConnectivityOffline) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -51,7 +49,7 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                       child: Text('Offline mode'),
                     ),
                     backgroundColor: context.dividerColor,
-                    duration: const Duration(days: 365), // Indefinite duration
+                    duration: const Duration(days: 365),
                   ),
                 );
               } else if (state is ConnectivityOnline) {
@@ -65,8 +63,7 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                       child: Text('Back online'),
                     ),
                     backgroundColor: context.customColors.green,
-                    duration:
-                        const Duration(seconds: 3), // Show for a short duration
+                    duration: const Duration(seconds: 3),
                   ),
                 );
               }

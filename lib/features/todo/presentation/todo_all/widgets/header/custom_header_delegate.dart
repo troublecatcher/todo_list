@@ -1,8 +1,6 @@
 import 'dart:ui';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/connectivity/cubit/connectivity_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';

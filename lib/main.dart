@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
 import 'package:todo_list/config/api_key/api_key_cubit.dart';
-import 'package:todo_list/config/connectivity/cubit/connectivity_cubit.dart';
+import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/locale/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';

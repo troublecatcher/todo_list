@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/shared_preferences_service.dart';
@@ -29,14 +30,14 @@ class DialogManager {
               ),
               actions: [
                 CustomButtonBase(
-                  onPressed: () => Navigator.of(context).pop(false),
+                  onPressed: () => context.pop(false),
                   child: Text(
                     S.of(context).cancel,
                     style: context.textTheme.bodyMedium,
                   ),
                 ),
                 CustomButtonBase(
-                  onPressed: () => Navigator.of(context).pop(true),
+                  onPressed: () => context.pop(true),
                   child: Text(
                     S.of(context).delete,
                     style: context.textTheme.bodyMedium!

@@ -1,30 +1,29 @@
 import 'package:bloc/bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
 
 class TodoSingleCubit extends Cubit<Todo> {
-  final TodoIntent intent;
-  TodoSingleCubit({required this.intent})
+  final Todo? todo;
+  TodoSingleCubit({required this.todo})
       : super(
-          switch (intent) {
-            CreateTodoIntent _ => Todo(
+          switch (todo) {
+            null => Todo(
                 text: '',
                 importance: Importance.basic,
                 deadline: null,
                 done: false,
               ),
-            EditTodoIntent _ => intent.todo,
+            Todo todo => todo,
           },
         );
 
   void changeText(String text) {
     late Function fn;
-    switch (intent) {
-      case CreateTodoIntent _:
+    switch (todo) {
+      case null:
         fn = state.copyWithCreate;
         break;
-      case EditTodoIntent _:
+      case Todo _:
         fn = state.copyWithEdit;
         break;
     }
@@ -38,11 +37,11 @@ class TodoSingleCubit extends Cubit<Todo> {
 
   void changeImportance(Importance importance) {
     late Function fn;
-    switch (intent) {
-      case CreateTodoIntent _:
+    switch (todo) {
+      case null:
         fn = state.copyWithCreate;
         break;
-      case EditTodoIntent _:
+      case Todo _:
         fn = state.copyWithEdit;
         break;
     }
@@ -56,11 +55,11 @@ class TodoSingleCubit extends Cubit<Todo> {
 
   void changeDeadline(DateTime? deadline) {
     late Function fn;
-    switch (intent) {
-      case CreateTodoIntent _:
+    switch (todo) {
+      case null:
         fn = state.copyWithCreate;
         break;
-      case EditTodoIntent _:
+      case Todo _:
         fn = state.copyWithEdit;
         break;
     }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:todo_list/config/connectivity/cubit/connectivity_state.dart';
+import 'package:todo_list/config/connectivity/connectivity_state.dart';
 
 class ConnectivityCubit extends Cubit<ConnectivityState> {
   late StreamSubscription<List<ConnectivityResult>> _subscription;

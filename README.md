@@ -1,4 +1,4 @@
-# JUST TODO IT app 2.0.1
+# Just Todo It app 2.0.1
 
 Last updated 30 Jun, 2024
 

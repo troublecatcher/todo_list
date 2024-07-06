@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/services/shared_preferences_service.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
@@ -57,9 +56,7 @@ class _TodoTileState extends State<TodoTile> {
                     onUpdate: (details) => _handleDragUpdate(details),
                     confirmDismiss: (direction) =>
                         _handleDismiss(direction, context),
-                    onDismissed: (direction) {
-                      print(direction);
-                    },
+                    onDismissed: (direction) => setState(() {}),
                     background: ValueListenableBuilder<bool>(
                       valueListenable: _reachedNotifier,
                       builder: (context, reached, child) {
