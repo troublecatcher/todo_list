@@ -1,0 +1,4 @@
+enum AuthSource {
+  env,
+  manual;
+}

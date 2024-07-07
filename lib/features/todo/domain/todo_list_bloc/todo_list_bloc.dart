@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/core/services/shared_preferences_service.dart';
+import 'package:todo_list/core/services/preferences/preferences/revision_preference.dart';
+import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
 import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
@@ -11,7 +12,7 @@ import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operati
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _remote;
   final TodoRepository _local;
-  final SharedPreferencesService _sp = GetIt.I<SharedPreferencesService>();
+  final RevisionPreference _revision = GetIt.I<PreferencesService>().revision;
   final OperationStatusNotifier operationStatusNotifier;
 
   TodoListBloc({
@@ -29,7 +30,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
 
   Future<void> _fetchTodos(Emitter<TodoState> emit) async {
     emit(TodoLoadInProgress());
-    final int localRevision = _sp.revision;
+    final int localRevision = _revision.value;
     try {
       Log.i('Fetching todos remote');
       final (List<Todo> remoteTodos, int remoteRevision) =
@@ -37,12 +38,12 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       if (remoteRevision < localRevision) {
         final (List<Todo> localTodos, _) = await _local.getTodos();
         await _remote.putFresh(localTodos);
-        await _sp.setRev(remoteRevision);
+        await _revision.set(remoteRevision);
         Log.w('Local revision won, overwritten remote');
         emit(TodoLoadSuccess(localTodos));
       } else {
         await _local.putFresh(remoteTodos);
-        await _sp.setRev(remoteRevision);
+        await _revision.set(remoteRevision);
         Log.w('Remote revision won, overwritten local');
         emit(TodoLoadSuccess(remoteTodos));
       }
@@ -114,13 +115,13 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     bool saved = false;
     try {
       await remoteAction();
-      await _sp.incRev().then((_) => saved = true);
+      await _revision.increment().then((_) => saved = true);
     } catch (e, s) {
       Log.e('Error in remote: $e, $s');
     }
     try {
       await localAction();
-      if (!saved) await _sp.incRev();
+      if (!saved) await _revision.increment();
       onSuccess();
     } catch (e, s) {
       onError(e, s);

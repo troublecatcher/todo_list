@@ -1,15 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/shared_preferences_service.dart';
+import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
 
 class LocaleCubit extends Cubit<String> {
-  final _prefs = GetIt.I<SharedPreferencesService>();
+  final _locale = GetIt.I<PreferencesService>().locale;
   LocaleCubit() : super('en') {
     init();
   }
-  init() => emit(_prefs.locale);
+  init() => emit(_locale.value);
   set(String locale) async {
-    await _prefs.setLocale(locale);
+    await _locale.set(locale);
     emit(locale);
   }
 }
