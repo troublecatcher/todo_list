@@ -6,7 +6,7 @@ import 'package:isar/isar.dart';
 import 'package:todo_list/config/api_key/auth_cubit.dart';
 import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/config/dialog/dialog_confirmation_cubit.dart';
-import 'package:todo_list/config/locale/locale_cubit.dart';
+import 'package:todo_list/config/l10n/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/services/service_setupper.dart';
 import 'package:todo_list/features/todo/data/repository_impl/remote/todo_repository_remote.dart';

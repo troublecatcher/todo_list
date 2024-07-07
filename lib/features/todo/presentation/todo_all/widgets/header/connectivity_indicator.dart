@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/config/connectivity/connectivity_state.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class ConnectivityIndicator extends StatelessWidget {
   const ConnectivityIndicator({

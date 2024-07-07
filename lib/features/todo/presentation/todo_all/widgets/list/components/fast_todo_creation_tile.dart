@@ -12,7 +12,7 @@ import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.da
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
 
 class FastTodoCreationTile extends StatefulWidget {

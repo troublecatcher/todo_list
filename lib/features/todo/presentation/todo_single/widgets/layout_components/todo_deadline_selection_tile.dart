@@ -4,7 +4,7 @@ import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class TodoDeadlineSelectionTile extends StatelessWidget {
   const TodoDeadlineSelectionTile({super.key});

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';

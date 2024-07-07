@@ -4,14 +4,14 @@ import 'package:todo_list/config/api_key/auth_cubit.dart';
 import 'package:todo_list/config/api_key/auth_state.dart';
 import 'package:todo_list/config/api_key/auth_type.dart';
 import 'package:todo_list/config/dialog/dialog_confirmation_cubit.dart';
-import 'package:todo_list/config/locale/locale_cubit.dart';
+import 'package:todo_list/config/l10n/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/layout_constants.dart';
 import 'package:todo_list/core/ui/widget/custom_back_button.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/settings/widgets/api_key_change_tile.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

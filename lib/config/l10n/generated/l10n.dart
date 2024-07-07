@@ -50,260 +50,260 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `My todos`
+  /// `Мои дела`
   String get homeHeaderTitle {
     return Intl.message(
-      'My todos',
+      'Мои дела',
       name: 'homeHeaderTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Error: {errorMessage}`
+  /// `Ошибка: {errorMessage}`
   String errorMessage(Object errorMessage) {
     return Intl.message(
-      'Error: $errorMessage',
+      'Ошибка: $errorMessage',
       name: 'errorMessage',
       desc: '',
       args: [errorMessage],
     );
   }
 
-  /// `Completed — {count}`
+  /// `Выполнено — {count}`
   String doneTodoCount(Object count) {
     return Intl.message(
-      'Completed — $count',
+      'Выполнено — $count',
       name: 'doneTodoCount',
       desc: '',
       args: [count],
     );
   }
 
-  /// `Save`
+  /// `Сохранить`
   String get todoSaveButtonTitle {
     return Intl.message(
-      'Save',
+      'Сохранить',
       name: 'todoSaveButtonTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `What should be done...`
+  /// `Что надо сделать...`
   String get todoTextfieldPlaceholder {
     return Intl.message(
-      'What should be done...',
+      'Что надо сделать...',
       name: 'todoTextfieldPlaceholder',
       desc: '',
       args: [],
     );
   }
 
-  /// `Importance`
+  /// `Приоритет`
   String get todoImportance {
     return Intl.message(
-      'Importance',
+      'Приоритет',
       name: 'todoImportance',
       desc: '',
       args: [],
     );
   }
 
-  /// `None`
+  /// `Нет`
   String get todoImportance_basic {
     return Intl.message(
-      'None',
+      'Нет',
       name: 'todoImportance_basic',
       desc: '',
       args: [],
     );
   }
 
-  /// `Low`
+  /// `Низкий`
   String get todoImportance_low {
     return Intl.message(
-      'Low',
+      'Низкий',
       name: 'todoImportance_low',
       desc: '',
       args: [],
     );
   }
 
-  /// `!! High`
+  /// `!! Высокий`
   String get todoImportance_important {
     return Intl.message(
-      '!! High',
+      '!! Высокий',
       name: 'todoImportance_important',
       desc: '',
       args: [],
     );
   }
 
-  /// `Deadline`
+  /// `Дедлайн`
   String get todoDeadline {
     return Intl.message(
-      'Deadline',
+      'Дедлайн',
       name: 'todoDeadline',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delete`
+  /// `Удалить`
   String get todoDeleteButtonTitle {
     return Intl.message(
-      'Delete',
+      'Удалить',
       name: 'todoDeleteButtonTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create new...`
+  /// `Новое...`
   String get todoFastCreateTitle {
     return Intl.message(
-      'Create new...',
+      'Новое...',
       name: 'todoFastCreateTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to delete this todo?`
+  /// `Уверены, что хотите удалить дело?`
   String get todoDeleteDialogTitle {
     return Intl.message(
-      'Are you sure you want to delete this todo?',
+      'Уверены, что хотите удалить дело?',
       name: 'todoDeleteDialogTitle',
       desc: '',
       args: [],
     );
   }
 
-  /// `This action is irreversible`
+  /// `Это действие необратимо`
   String get todoDeleteDialogContent {
     return Intl.message(
-      'This action is irreversible',
+      'Это действие необратимо',
       name: 'todoDeleteDialogContent',
       desc: '',
       args: [],
     );
   }
 
-  /// `Cancel`
+  /// `Отмена`
   String get cancel {
     return Intl.message(
-      'Cancel',
+      'Отмена',
       name: 'cancel',
       desc: '',
       args: [],
     );
   }
 
-  /// `Delete`
+  /// `Удалить`
   String get delete {
     return Intl.message(
-      'Delete',
+      'Удалить',
       name: 'delete',
       desc: '',
       args: [],
     );
   }
 
-  /// `Settings`
+  /// `Настройки`
   String get settings {
     return Intl.message(
-      'Settings',
+      'Настройки',
       name: 'settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `Theme`
+  /// `Тема`
   String get theme {
     return Intl.message(
-      'Theme',
+      'Тема',
       name: 'theme',
       desc: '',
       args: [],
     );
   }
 
-  /// `Language`
+  /// `Язык`
   String get language {
     return Intl.message(
-      'Language',
+      'Язык',
       name: 'language',
       desc: '',
       args: [],
     );
   }
 
-  /// `Confirm todo deletion`
+  /// `Подтверждать удаление дел`
   String get confirmTodoDeletion {
     return Intl.message(
-      'Confirm todo deletion',
+      'Подтверждать удаление дел',
       name: 'confirmTodoDeletion',
       desc: '',
       args: [],
     );
   }
 
-  /// `There are no todos`
+  /// `Дел нет`
   String get noTodos {
     return Intl.message(
-      'There are no todos',
+      'Дел нет',
       name: 'noTodos',
       desc: '',
       args: [],
     );
   }
 
-  /// `Lucky you!`
+  /// `Счастливый Вы человек!`
   String get luckyYou {
     return Intl.message(
-      'Lucky you!',
+      'Счастливый Вы человек!',
       name: 'luckyYou',
       desc: '',
       args: [],
     );
   }
 
-  /// `Save`
+  /// `Сохранить`
   String get save {
     return Intl.message(
-      'Save',
+      'Сохранить',
       name: 'save',
       desc: '',
       args: [],
     );
   }
 
-  /// `Loading...`
+  /// `Загрузка...`
   String get loading {
     return Intl.message(
-      'Loading...',
+      'Загрузка...',
       name: 'loading',
       desc: '',
       args: [],
     );
   }
 
-  /// `Offline mode`
+  /// `Автономный режим`
   String get offlineMode {
     return Intl.message(
-      'Offline mode',
+      'Автономный режим',
       name: 'offlineMode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Back online`
+  /// `Подключение восстановлено`
   String get backOnline {
     return Intl.message(
-      'Back online',
+      'Подключение восстановлено',
       name: 'backOnline',
       desc: '',
       args: [],
@@ -316,8 +316,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ru'),
+      Locale.fromSubtags(languageCode: 'en'),
     ];
   }
 

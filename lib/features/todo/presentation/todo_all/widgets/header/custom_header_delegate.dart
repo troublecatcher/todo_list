@@ -7,7 +7,7 @@ import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.da
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;

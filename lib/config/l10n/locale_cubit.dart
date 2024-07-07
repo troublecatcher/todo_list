@@ -4,7 +4,7 @@ import 'package:todo_list/core/services/preferences/preferences_service/preferen
 
 class LocaleCubit extends Cubit<String> {
   final _locale = GetIt.I<PreferencesService>().locale;
-  LocaleCubit() : super('en') {
+  LocaleCubit() : super('ru') {
     init();
   }
   init() => emit(_locale.value);
