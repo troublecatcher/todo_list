@@ -17,31 +17,35 @@ class ConnectivityIndicator extends StatelessWidget {
         return Row(
           children: [
             Expanded(
-              child: AnimatedSize(
+              child: AnimatedContainer(
                 duration: Durations.long4,
-                curve: Curves.easeOutCirc,
-                child: AnimatedContainer(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  duration: Durations.medium1,
-                  height: switch (connectivityState) {
-                    ConnectivityInitial _ => 0,
-                    _ => null,
-                  },
-                  color: switch (connectivityState) {
-                    ConnectivityOffline _ => context.colorScheme.tertiary,
-                    ConnectivityOnline _ => context.customColors.green,
-                    ConnectivityInitial _ => null,
-                  },
-                  child: Text(
-                    switch (connectivityState) {
-                      ConnectivityOffline _ => S.of(context).offlineMode,
-                      ConnectivityOnline _ => S.of(context).backOnline,
-                      ConnectivityInitial _ => '',
+                color: switch (connectivityState) {
+                  ConnectivityOffline _ => context.colorScheme.tertiary,
+                  ConnectivityOnline _ => context.customColors.green,
+                  ConnectivityInitial _ => context.scaffoldBackgroundColor,
+                },
+                child: AnimatedSize(
+                  duration: Durations.long4,
+                  curve: Curves.easeOutCirc,
+                  child: SizedBox(
+                    height: switch (connectivityState) {
+                      ConnectivityInitial _ => 0,
+                      _ => null,
                     },
-                    style: context.textTheme.bodyMedium!.copyWith(
-                      color: context.colorScheme.onPrimary,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        switch (connectivityState) {
+                          ConnectivityOffline _ => S.of(context).offlineMode,
+                          ConnectivityOnline _ => S.of(context).backOnline,
+                          ConnectivityInitial _ => '',
+                        },
+                        style: context.textTheme.bodyMedium!.copyWith(
+                          color: context.colorScheme.onPrimary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
               ),

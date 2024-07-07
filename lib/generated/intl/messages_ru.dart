@@ -40,8 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "luckyYou":
             MessageLookupByLibrary.simpleMessage("Счастливый Вы человек!"),
         "noTodos": MessageLookupByLibrary.simpleMessage("Дел нет"),
-        "offlineMode":
-            MessageLookupByLibrary.simpleMessage("Нет подключения к Интернету"),
+        "offlineMode": MessageLookupByLibrary.simpleMessage("Автономный режим"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
