@@ -16,8 +16,8 @@ class AppShimmer extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Shimmer(
-        duration: const Duration(seconds: 3),
-        interval: const Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
+        interval: Duration.zero,
         color: context.colorScheme.primary,
         enabled: enabled,
         direction: const ShimmerDirection.fromLeftToRight(),

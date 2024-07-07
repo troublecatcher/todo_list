@@ -12,7 +12,7 @@ import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operati
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_leading.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_delete_background.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_done_background.dart';
-import 'package:todo_list/core/ui/service/dialog_manager.dart';
+import 'package:todo_list/config/user_interaction/dialog_manager.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_content.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_trailing.dart';
 

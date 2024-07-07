@@ -22,5 +22,7 @@
   "noTodos": "There are no todos",
   "luckyYou": "Lucky you!",
   "save": "Save",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "offlineMode": "Offline mode",
+  "backOnline": "Back online"
 }

@@ -7,7 +7,7 @@ import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dar
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entity/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/core/ui/service/dialog_manager.dart';
+import 'package:todo_list/config/user_interaction/dialog_manager.dart';
 import 'package:todo_list/generated/l10n.dart';
 
 class TodoDeleteButton extends StatelessWidget {

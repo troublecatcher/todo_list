@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/api_key/api_key_cubit.dart';
-import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
+import 'package:todo_list/config/user_interaction/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/locale/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';

@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "backOnline":
+            MessageLookupByLibrary.simpleMessage("Подключение восстановлено"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "confirmTodoDeletion":
             MessageLookupByLibrary.simpleMessage("Подтверждать удаление дел"),
@@ -38,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "luckyYou":
             MessageLookupByLibrary.simpleMessage("Счастливый Вы человек!"),
         "noTodos": MessageLookupByLibrary.simpleMessage("Дел нет"),
+        "offlineMode":
+            MessageLookupByLibrary.simpleMessage("Нет подключения к Интернету"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),

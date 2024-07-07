@@ -289,6 +289,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Offline mode`
+  String get offlineMode {
+    return Intl.message(
+      'Offline mode',
+      name: 'offlineMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back online`
+  String get backOnline {
+    return Intl.message(
+      'Back online',
+      name: 'backOnline',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
