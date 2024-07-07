@@ -1,1 +1,23 @@
 include: package:flutter_lints/flutter.yaml
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "lib/config/l10n/**"
+
+  language:
+    strict-inference: true
+    strict-raw-types: true
+    strict-casts: true
+
+  errors:
+    missing_required_param: error
+    missing_return: error
+    record_literal_one_positional_no_trailing_comma: ignore
+    dangling_library_doc_comments: ignore
+    invalid_annotation_target: ignore
+
+linter:
+  rules:
+    avoid_print: true
+    prefer_single_quotes: true
+    require_trailing_commas: true

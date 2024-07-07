@@ -7,8 +7,8 @@ class DialogConfirmationCubit extends Cubit<bool> {
   DialogConfirmationCubit() : super(true) {
     init();
   }
-  init() => emit(_confirmDialogs.value);
-  set(bool confirm) async {
+  void init() => emit(_confirmDialogs.value);
+  Future<void> set(bool confirm) async {
     await _confirmDialogs.set(confirm);
     emit(confirm);
   }

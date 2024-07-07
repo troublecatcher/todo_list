@@ -56,13 +56,15 @@ class TodoLeading extends StatelessWidget {
     Log.i(
       'trying to change todo ${todo.id} completeness status to ${!todo.done}',
     );
-    bloc.add(TodoUpdated(
-      todo.copyWithEdit(
-        done: !todo.done,
-        changedAt: DateTime.now(),
-        deadline: todo.deadline,
-        color: todo.color,
+    bloc.add(
+      TodoUpdated(
+        todo.copyWithEdit(
+          done: !todo.done,
+          changedAt: DateTime.now(),
+          deadline: todo.deadline,
+          color: todo.color,
+        ),
       ),
-    ));
+    );
   }
 }

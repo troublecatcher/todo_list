@@ -68,7 +68,7 @@ class AppTheme {
           grey: const Color.fromRGBO(142, 142, 147, 1),
           lightGrey: const Color.fromRGBO(209, 209, 214, 1),
           white: const Color.fromRGBO(255, 255, 255, 1),
-        )
+        ),
       ];
 
   static TextTheme get _textTheme => const TextTheme(

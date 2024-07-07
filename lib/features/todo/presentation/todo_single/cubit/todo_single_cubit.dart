@@ -27,11 +27,13 @@ class TodoSingleCubit extends Cubit<Todo> {
         fn = state.copyWithEdit;
         break;
     }
-    emit(fn(
-      text: text,
-      deadline: state.deadline,
-      color: state.color,
-    ));
+    emit(
+      fn(
+        text: text,
+        deadline: state.deadline,
+        color: state.color,
+      ),
+    );
     Log.i('updated todo text: $text');
   }
 
@@ -45,11 +47,13 @@ class TodoSingleCubit extends Cubit<Todo> {
         fn = state.copyWithEdit;
         break;
     }
-    emit(fn(
-      importance: importance,
-      deadline: state.deadline,
-      color: state.color,
-    ));
+    emit(
+      fn(
+        importance: importance,
+        deadline: state.deadline,
+        color: state.color,
+      ),
+    );
     Log.i('updated todo importance ${importance.name}');
   }
 
@@ -63,10 +67,12 @@ class TodoSingleCubit extends Cubit<Todo> {
         fn = state.copyWithEdit;
         break;
     }
-    emit(fn(
-      deadline: deadline,
-      color: state.color,
-    ));
+    emit(
+      fn(
+        deadline: deadline,
+        color: state.color,
+      ),
+    );
     Log.i('updated todo deadline: ${deadline?.toIso8601String()}');
   }
 }

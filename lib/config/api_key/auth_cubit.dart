@@ -10,7 +10,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthState(source: AuthSource.env, key: '')) {
     init();
   }
-  init() {
+  void init() {
     if (_auth.value != null) {
       emit(AuthState(source: AuthSource.manual, key: _auth.value!));
     } else {

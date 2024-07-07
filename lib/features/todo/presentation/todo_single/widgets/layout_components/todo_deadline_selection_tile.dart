@@ -38,7 +38,9 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
   }
 
   Future<void> _handleDateSelection(
-      bool includeDeadline, BuildContext context) async {
+    bool includeDeadline,
+    BuildContext context,
+  ) async {
     final cubit = context.read<TodoSingleCubit>();
     if (includeDeadline) {
       final newDeadline = await showDatePicker(

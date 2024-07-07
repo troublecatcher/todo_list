@@ -7,8 +7,8 @@ class LocaleCubit extends Cubit<String> {
   LocaleCubit() : super('ru') {
     init();
   }
-  init() => emit(_locale.value);
-  set(String locale) async {
+  void init() => emit(_locale.value);
+  Future<void> set(String locale) async {
     await _locale.set(locale);
     emit(locale);
   }

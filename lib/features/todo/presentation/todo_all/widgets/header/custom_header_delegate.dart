@@ -20,7 +20,10 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final collapsePercent = shrinkOffset / expandedHeight;
     final currentHeight =
         (1 - collapsePercent) * (expandedHeight - minExtent) + minExtent;
@@ -38,7 +41,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   color: Colors.black26,
                   blurRadius: 5 * shadowPercent,
                   spreadRadius: 5 * shadowPercent,
-                )
+                ),
               ]
             : [],
       ),

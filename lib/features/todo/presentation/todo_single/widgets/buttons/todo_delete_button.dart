@@ -37,25 +37,28 @@ class TodoDeleteButton extends StatelessWidget {
                   );
                 }
             },
-            child: Builder(builder: (context) {
-              final color = switch (todoo) {
-                null => context.disabledColor,
-                Todo _ => context.customColors.red,
-              };
-              return Row(
-                children: [
-                  Icon(
-                    Icons.delete,
-                    color: color,
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    S.of(context).todoDeleteButtonTitle,
-                    style: context.textTheme.bodyMedium!.copyWith(color: color),
-                  ),
-                ],
-              );
-            }),
+            child: Builder(
+              builder: (context) {
+                final color = switch (todoo) {
+                  null => context.disabledColor,
+                  Todo _ => context.customColors.red,
+                };
+                return Row(
+                  children: [
+                    Icon(
+                      Icons.delete,
+                      color: color,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      S.of(context).todoDeleteButtonTitle,
+                      style:
+                          context.textTheme.bodyMedium!.copyWith(color: color),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         );
       },

@@ -46,7 +46,9 @@ class _TodoImportanceSelectionTileState
     final renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
     _showPriorityMenu(
-        context, Offset(offset.dx, offset.dy + renderBox.size.height));
+      context,
+      Offset(offset.dx, offset.dy + renderBox.size.height),
+    );
   }
 
   Future<void> _showPriorityMenu(BuildContext context, Offset offset) async {

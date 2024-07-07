@@ -106,8 +106,8 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _executeAction({
-    required Function() remoteAction,
-    required Function() localAction,
+    required Future<void> Function() remoteAction,
+    required Future<void> Function() localAction,
     required void Function() onSuccess,
     required void Function(dynamic e, dynamic s) onError,
     required Emitter<TodoState> emit,

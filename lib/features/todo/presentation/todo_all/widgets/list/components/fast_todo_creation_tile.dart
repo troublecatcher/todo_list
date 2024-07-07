@@ -124,7 +124,9 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                               } else {
                                 return CustomIconButton(
                                   padding: const EdgeInsets.only(
-                                      left: 12, right: 12 + 5),
+                                    left: 12,
+                                    right: 12 + 5,
+                                  ),
                                   icon: Icons.arrow_circle_up_rounded,
                                   onPressed: () async {
                                     const uuid = Uuid();

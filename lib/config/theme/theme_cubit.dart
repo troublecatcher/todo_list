@@ -8,9 +8,9 @@ class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.system) {
     init();
   }
-  init() =>
+  void init() =>
       emit(ThemeMode.values.firstWhere((pref) => pref.name == _theme.value));
-  set(ThemeMode preference) async {
+  Future<void> set(ThemeMode preference) async {
     await _theme.set(preference.name);
     emit(preference);
   }

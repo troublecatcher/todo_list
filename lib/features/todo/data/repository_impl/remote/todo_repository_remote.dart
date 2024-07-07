@@ -13,32 +13,35 @@ class TodoRepositoryRemote implements TodoRepository {
   @override
   Future<(List<Todo>, int)> getTodos() async {
     final Response<dynamic> response = await _dio.get('list');
-    final int revision = response.data['revision'];
-    final List todoList = (response.data['list'] as List);
+    final int revision = response.data['revision'] as int;
+    final List<Map<String, dynamic>> todoList =
+        (response.data['list'] as List).cast<Map<String, dynamic>>();
     final List<Todo> todos = todoList.map((e) => Todo.fromJson(e)).toList();
     return (todos, revision);
   }
 
   @override
   Future<void> addTodo(Todo todo) async {
-    final Map data = {'element': todo.toJson()};
-    await _dio.post('list', data: data);
+    final Map<String, Map<String, dynamic>> data = {'element': todo.toJson()};
+    await _dio.post<Response<dynamic>>('list', data: data);
   }
 
   @override
   Future<void> putFresh(List<Todo> todos) async {
-    final Map data = {'list': todos.map((todo) => todo.toJson()).toList()};
-    await _dio.patch('list', data: data);
+    final Map<String, dynamic> data = {
+      'list': todos.map((todo) => todo.toJson()).toList(),
+    };
+    await _dio.patch<Response<dynamic>>('list', data: data);
   }
 
   @override
   Future<void> updateTodo(Todo todo) async {
-    final Map data = {'element': todo.toJson()};
-    await _dio.put('list/${todo.id}', data: data);
+    final Map<String, Map<String, dynamic>> data = {'element': todo.toJson()};
+    await _dio.put<Response<dynamic>>('list/${todo.id}', data: data);
   }
 
   @override
   Future<void> deleteTodo(Todo todo) async {
-    await _dio.delete('list/${todo.id}');
+    await _dio.delete<Response<dynamic>>('list/${todo.id}');
   }
 }

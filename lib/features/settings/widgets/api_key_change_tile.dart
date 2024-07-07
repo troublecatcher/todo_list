@@ -70,7 +70,8 @@ class _ApiKeyChangeTileState extends State<ApiKeyChangeTile> {
                           .toList(),
                       onChanged: state.source == AuthSource.env
                           ? (value) => setState(
-                              () => currentManualApiKeyType = value as String)
+                                () => currentManualApiKeyType = value as String,
+                              )
                           : null,
                     ),
                   ),

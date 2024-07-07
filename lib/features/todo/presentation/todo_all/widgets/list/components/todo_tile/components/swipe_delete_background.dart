@@ -19,9 +19,10 @@ class DismissDeleteBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            right: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
+          right: reached
+              ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+              : (24 * (4 * progress)),
+        ),
         child: Icon(Icons.delete, color: context.customColors.white),
       ),
     );

@@ -6,7 +6,9 @@ import 'package:todo_list/core/services/preferences/preferences_service/preferen
 class AuthInterceptor extends Interceptor {
   @override
   Future<void> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final auth = GetIt.I<PreferencesService>().auth;
     final revision = GetIt.I<PreferencesService>().revision;
     final String authHeader = auth.value ?? dotenv.env['auth'] ?? '';

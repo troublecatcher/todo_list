@@ -10,7 +10,9 @@ import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class DialogManager {
   static Future<bool?> showDeleteConfirmationDialog(
-      BuildContext context, Todo todo) async {
+    BuildContext context,
+    Todo todo,
+  ) async {
     Log.i('prompted to delete todo ${todo.id})');
     final bool confirmDialogs =
         GetIt.I<PreferencesService>().confirmDialogs.value;

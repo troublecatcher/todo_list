@@ -18,7 +18,7 @@ class DeviceInfoService {
         IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
         _info = iosInfo.identifierForVendor ?? 'Couldn\'t get device id';
       } else {
-        throw UnsupportedError("Unsupported platform");
+        throw UnsupportedError('Unsupported platform');
       }
     } on PlatformException {
       _info = 'Failed to get platform version.';

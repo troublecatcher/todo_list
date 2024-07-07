@@ -25,9 +25,10 @@ class DismissDoneBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            left: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
+          left: reached
+              ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+              : (24 * (4 * progress)),
+        ),
         child: Icon(
           todo.done ? Icons.close_rounded : Icons.check,
           color: context.customColors.white,

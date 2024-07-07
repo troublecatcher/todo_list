@@ -26,7 +26,7 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
             results.contains(ConnectivityResult.vpn)) {
           if (state is ConnectivityOffline) {
             emit(ConnectivityOnline());
-            await Future.delayed(const Duration(seconds: 2));
+            await Future<void>.delayed(const Duration(seconds: 2));
             emit(ConnectivityInitial());
           }
         }
