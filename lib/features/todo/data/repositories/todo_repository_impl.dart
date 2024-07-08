@@ -6,7 +6,7 @@ import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
+import 'package:todo_list/core/services/settings/service/settings_service.dart';
 
 part '../mapping_extensions/entity_to_dtos.dart';
 part '../mapping_extensions/local_to_entity.dart';
@@ -15,14 +15,14 @@ part '../mapping_extensions/remote_to_entity.dart';
 class TodoRepositoryImpl implements TodoRepository {
   final RemoteTodoSource _remote;
   final LocalTodoSource _local;
-  final RevisionPreference _revision;
+  final RevisionSetting _revision;
 
   TodoRepositoryImpl({
     required RemoteTodoSource remote,
     required LocalTodoSource local,
   })  : _remote = remote,
         _local = local,
-        _revision = GetIt.I<PreferencesService>().revision;
+        _revision = GetIt.I<SettingsService>().revision;
 
   @override
   Future<List<TodoEntity>> fetchTodos() async {

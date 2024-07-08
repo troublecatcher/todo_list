@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
+import 'package:todo_list/core/services/settings/service/settings_service.dart';
 
 part 'auth_type.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final _auth = GetIt.I<PreferencesService>().auth;
+  final _auth = GetIt.I<SettingsService>().auth;
   AuthCubit() : super(AuthState(source: AuthSource.env, key: '')) {
     init();
   }

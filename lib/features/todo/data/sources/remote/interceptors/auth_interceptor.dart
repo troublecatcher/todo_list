@@ -6,7 +6,7 @@ class _AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final auth = GetIt.I<PreferencesService>().auth;
+    final auth = GetIt.I<SettingsService>().auth;
     final String authHeader = auth.value ?? dotenv.env['auth'] ?? '';
     options.headers['Authorization'] = authHeader;
     return handler.next(options);

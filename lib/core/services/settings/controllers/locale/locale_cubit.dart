@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
+import 'package:todo_list/core/services/settings/service/settings_service.dart';
 
 class LocaleCubit extends Cubit<String> {
-  final _locale = GetIt.I<PreferencesService>().locale;
+  final _locale = GetIt.I<SettingsService>().locale;
   LocaleCubit() : super('ru') {
     init();
   }

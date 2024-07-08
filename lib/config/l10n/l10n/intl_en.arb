@@ -24,5 +24,7 @@
   "save": "Save",
   "loading": "Loading...",
   "offlineMode": "Offline mode",
-  "backOnline": "Back online"
+  "backOnline": "Back online",
+  "useEnvFile": "Use .env file",
+  "apiKey": "API key"
 }

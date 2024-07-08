@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "apiKey": MessageLookupByLibrary.simpleMessage("API key"),
         "backOnline": MessageLookupByLibrary.simpleMessage("Back online"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirmTodoDeletion":
@@ -57,6 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "todoImportance_low": MessageLookupByLibrary.simpleMessage("Low"),
         "todoSaveButtonTitle": MessageLookupByLibrary.simpleMessage("Save"),
         "todoTextfieldPlaceholder":
-            MessageLookupByLibrary.simpleMessage("What should be done...")
+            MessageLookupByLibrary.simpleMessage("What should be done..."),
+        "useEnvFile": MessageLookupByLibrary.simpleMessage("Use .env file")
       };
 }

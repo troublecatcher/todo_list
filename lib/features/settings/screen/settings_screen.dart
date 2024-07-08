@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/api_key/auth_cubit.dart';
-import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
-import 'package:todo_list/config/l10n/locale_cubit.dart';
-import 'package:todo_list/config/theme/theme_cubit.dart';
+import 'package:todo_list/core/services/settings/controllers/auth/auth_cubit.dart';
+import 'package:todo_list/core/services/settings/controllers/delete_confirmation/delete_confirmation_cubit.dart';
+import 'package:todo_list/core/services/settings/controllers/locale/locale_cubit.dart';
+import 'package:todo_list/core/services/settings/controllers/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/layout_constants.dart';
 import 'package:todo_list/core/ui/widget/custom_back_button.dart';
@@ -103,18 +103,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ),
                     ],
                   ),
-                  BlocBuilder<DialogConfirmationCubit, bool>(
+                  BlocBuilder<DeleteConfirmationCubit, bool>(
                     builder: (context, confirm) {
                       return SwitchListTile(
                         contentPadding: EdgeInsets.zero,
                         title: Text(S.of(context).confirmTodoDeletion),
                         value: confirm,
                         onChanged: (value) =>
-                            context.read<DialogConfirmationCubit>().set(value),
+                            context.read<DeleteConfirmationCubit>().set(value),
                       );
                     },
                   ),
-                  Text('API key', style: context.textTheme.titleMedium),
+                  Text(
+                    S.of(context).apiKey,
+                    style: context.textTheme.titleMedium,
+                  ),
                   const ApiKeyChangeTile(),
                   BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
@@ -124,7 +127,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 .read<AuthCubit>()
                                 .set(AuthSource.env, '')
                             : null,
-                        child: const Text('Restore .env'),
+                        child: Text(S.of(context).useEnvFile),
                       );
                     },
                   ),

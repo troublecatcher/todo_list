@@ -6,7 +6,7 @@ class _RevisionInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final revision = GetIt.I<PreferencesService>().revision;
+    final revision = GetIt.I<SettingsService>().revision;
     options.headers['X-Last-Known-Revision'] = revision.value;
     return handler.next(options);
   }

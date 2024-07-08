@@ -309,6 +309,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Использовать файл .env`
+  String get useEnvFile {
+    return Intl.message(
+      'Использовать файл .env',
+      name: 'useEnvFile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `API ключ`
+  String get apiKey {
+    return Intl.message(
+      'API ключ',
+      name: 'apiKey',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
