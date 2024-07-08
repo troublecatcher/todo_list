@@ -15,33 +15,19 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
     _subscription = Connectivity().onConnectivityChanged.listen(
       (results) async {
         if (results.contains(ConnectivityResult.none)) {
-          if (state is ConnectivityInitial) {
-            emit(ConnectivityOffline());
-          }
+          if (state is ConnectivityInitial) emit(ConnectivityOffline());
         }
         if (results.contains(ConnectivityResult.wifi) ||
-            results.contains(ConnectivityResult.mobile) ||
-            results.contains(ConnectivityResult.other) ||
-            results.contains(ConnectivityResult.ethernet) ||
-            results.contains(ConnectivityResult.vpn)) {
+            results.contains(ConnectivityResult.mobile)) {
           if (state is ConnectivityOffline) {
             emit(ConnectivityOnline());
-            await Future<void>.delayed(const Duration(seconds: 2));
+            await Future<void>.delayed(const Duration(seconds: 3));
             emit(ConnectivityInitial());
           }
         }
       },
     );
   }
-
-  // ConnectivityResult _mapResultsToState(List<ConnectivityResult> results) {
-  //   if (results.contains(ConnectivityResult.none)) {
-  //     return ConnectivityResult.none;
-  //   }
-  //   // Assuming ConnectivityResult.none is the only case indicating no connection
-  //   return results.firstWhere((result) => result != ConnectivityResult.none,
-  //       orElse: () => ConnectivityResult.none);
-  // }
 
   @override
   Future<void> close() {
