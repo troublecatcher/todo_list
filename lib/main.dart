@@ -10,7 +10,6 @@ import 'package:todo_list/config/l10n/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/core/application/todo_app.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 

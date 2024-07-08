@@ -1,4 +1,4 @@
-import 'package:todo_list/config/api_key/auth_type.dart';
+part of 'auth_cubit.dart';
 
 final class AuthState {
   final AuthSource source;

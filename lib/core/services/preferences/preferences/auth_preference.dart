@@ -1,5 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list/core/services/preferences/base_preference/base_preference.dart';
+part of '../preferences_service/preferences_service.dart';
 
 class AuthPreference extends BasePreference<String?> {
   static const String _authKey = 'auth';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/config/theme/custom_colors.dart';
+
+import '../../config/theme/app_theme.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get _theme => Theme.of(this);

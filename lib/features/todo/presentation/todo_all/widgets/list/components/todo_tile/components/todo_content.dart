@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/helpers/formatting_helper.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
+part of '../todo_tile.dart';
 
 class TodoContent extends StatelessWidget {
   const TodoContent({

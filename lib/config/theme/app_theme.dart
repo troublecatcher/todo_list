@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
-import 'package:todo_list/config/theme/custom_colors.dart';
+
+part 'app_colors.dart';
+part 'custom_colors.dart';
 
 class AppTheme {
   static ThemeData getLightTheme() {

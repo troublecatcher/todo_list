@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
+part of '../todo_tile.dart';
 
 class DismissDeleteBackground extends StatelessWidget {
   const DismissDeleteBackground({

@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
 
 import '../../repository/todo_repository.dart';
 part '../../usecases/usecases.dart';
+part 'todo_list_event.dart';
+part 'todo_list_state.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _todoRepository;

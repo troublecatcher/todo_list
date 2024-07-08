@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
+part of '../layout/todo_list.dart';
 
 class TodoErrorWidget extends StatelessWidget {
   final String message;

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+part of '../todo_tile.dart';
 
 class DismissDoneBackground extends StatelessWidget {
   final TodoEntity todo;

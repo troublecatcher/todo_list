@@ -1,6 +1,4 @@
-import 'package:todo_list/features/todo/data/dto/local/local_todo_dto.dart';
-import 'package:todo_list/features/todo/data/dto/remote/remote_todo_dto.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+part of '../repositories/todo_repository_impl.dart';
 
 extension EntityToDtos on TodoEntity {
   RemoteTodoDto toRemote() {

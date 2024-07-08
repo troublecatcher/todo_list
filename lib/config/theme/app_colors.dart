@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'app_theme.dart';
 
 abstract class AppColors {
   final Color supportSeparator;

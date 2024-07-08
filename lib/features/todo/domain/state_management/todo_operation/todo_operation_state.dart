@@ -1,4 +1,4 @@
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+part of 'todo_operation_cubit.dart';
 
 sealed class TodoOperationState {}
 

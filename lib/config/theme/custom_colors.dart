@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'app_theme.dart';
 
 class CustomColors extends ThemeExtension<CustomColors> {
   final Color red;

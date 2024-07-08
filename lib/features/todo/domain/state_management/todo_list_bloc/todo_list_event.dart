@@ -1,4 +1,4 @@
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+part of 'todo_list_bloc.dart';
 
 abstract class TodoEvent {}
 

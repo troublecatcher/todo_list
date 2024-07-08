@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/device_info/device_info_service.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
+import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_state.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_leading.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_delete_background.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/swipe_done_background.dart';
 import 'package:todo_list/core/ui/dialog_manager/dialog_manager.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_content.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_trailing.dart';
+
+part 'components/swipe_delete_background.dart';
+part 'components/swipe_done_background.dart';
+part 'components/todo_content.dart';
+part 'components/todo_leading.dart';
+part 'components/todo_trailing.dart';
 
 class TodoTile extends StatefulWidget {
   const TodoTile({

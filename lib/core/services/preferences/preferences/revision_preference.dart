@@ -1,5 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list/core/services/preferences/base_preference/base_preference.dart';
+part of '../preferences_service/preferences_service.dart';
 
 class RevisionPreference extends BasePreference<int> {
   static const String _revKey = 'revision';

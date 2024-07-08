@@ -1,9 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list/core/services/preferences/preferences/auth_preference.dart';
-import 'package:todo_list/core/services/preferences/preferences/confirm_dialogs_preference.dart';
-import 'package:todo_list/core/services/preferences/preferences/locale_preference.dart';
-import 'package:todo_list/core/services/preferences/preferences/revision_preference.dart';
-import 'package:todo_list/core/services/preferences/preferences/theme_preference.dart';
+
+import '../base_preference/base_preference.dart';
+part '../preferences/auth_preference.dart';
+part '../preferences/confirm_dialogs_preference.dart';
+part '../preferences/locale_preference.dart';
+part '../preferences/revision_preference.dart';
+part '../preferences/theme_preference.dart';
 
 class PreferencesService {
   late SharedPreferences _prefs;

@@ -1,16 +1,16 @@
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/core/services/preferences/preferences/revision_preference.dart';
 import 'package:todo_list/features/todo/data/dto/local/local_todo_dto.dart';
 import 'package:todo_list/features/todo/data/dto/remote/remote_todo_dto.dart';
-import 'package:todo_list/features/todo/data/mapping_extensions/local_to_entity.dart';
-import 'package:todo_list/features/todo/data/mapping_extensions/remote_to_entity.dart';
-import 'package:todo_list/features/todo/data/mapping_extensions/entity_to_dtos.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
+
+part '../mapping_extensions/entity_to_dtos.dart';
+part '../mapping_extensions/local_to_entity.dart';
+part '../mapping_extensions/remote_to_entity.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final RemoteTodoSource _remote;
