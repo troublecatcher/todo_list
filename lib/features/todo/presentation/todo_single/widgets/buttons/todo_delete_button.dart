@@ -6,31 +6,35 @@ import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/config/dialog/dialog_manager.dart';
 
 class TodoDeleteButton extends StatelessWidget {
-  final Todo? todoo;
+  final TodoEntity? todo;
   const TodoDeleteButton({
     super.key,
-    required this.todoo,
+    required this.todo,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoSingleCubit, Todo>(
-      builder: (context, todo) {
+    return BlocBuilder<TodoSingleCubit, TodoEntity>(
+      builder: (context, currentTodo) {
         return FittedBox(
           child: CustomButtonBase(
-            onPressed: switch (todoo) {
+            onPressed: switch (todo) {
               null => null,
-              Todo _ => () {
-                  DialogManager.showDeleteConfirmationDialog(context, todo)
-                      .then(
+              TodoEntity _ => () {
+                  DialogManager.showDeleteConfirmationDialog(
+                    context,
+                    currentTodo,
+                  ).then(
                     (result) {
                       if (result != null && result) {
-                        context.read<TodoListBloc>().add(TodoDeleted(todo));
+                        context
+                            .read<TodoListBloc>()
+                            .add(TodoDeleted(currentTodo));
                         context.pop();
                       }
                     },
@@ -39,9 +43,9 @@ class TodoDeleteButton extends StatelessWidget {
             },
             child: Builder(
               builder: (context) {
-                final color = switch (todoo) {
+                final color = switch (todo) {
                   null => context.disabledColor,
-                  Todo _ => context.customColors.red,
+                  TodoEntity _ => context.customColors.red,
                 };
                 return Row(
                   children: [

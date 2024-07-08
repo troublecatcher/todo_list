@@ -1,26 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/core/services/preferences/preferences/revision_preference.dart';
-import 'package:todo_list/core/services/preferences/preferences_service/preferences_service.dart';
-import 'package:todo_list/features/todo/data/repository/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_notifier.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
-  final TodoRepository _remote;
-  final TodoRepository _local;
-  final RevisionPreference _revision = GetIt.I<PreferencesService>().revision;
+  final TodoRepository _todoRepository;
   final OperationStatusNotifier operationStatusNotifier;
 
   TodoListBloc({
-    required TodoRepository remote,
-    required TodoRepository local,
+    required TodoRepository todoRepository,
     required this.operationStatusNotifier,
-  })  : _local = local,
-        _remote = remote,
+  })  : _todoRepository = todoRepository,
         super(TodoInitial()) {
     on<TodosFetchStarted>((event, emit) => _fetchTodos(emit));
     on<TodoAdded>((event, emit) => _addTodo(event, emit));
@@ -30,33 +23,11 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
 
   Future<void> _fetchTodos(Emitter<TodoState> emit) async {
     emit(TodoLoadInProgress());
-    final int localRevision = _revision.value;
     try {
-      Log.i('Fetching todos remote');
-      final (List<Todo> remoteTodos, int remoteRevision) =
-          await _remote.getTodos();
-      if (remoteRevision < localRevision) {
-        final (List<Todo> localTodos, _) = await _local.getTodos();
-        await _remote.putFresh(localTodos);
-        await _revision.set(remoteRevision);
-        Log.w('Local revision won, overwritten remote');
-        emit(TodoLoadSuccess(localTodos));
-      } else {
-        await _local.putFresh(remoteTodos);
-        await _revision.set(remoteRevision);
-        Log.w('Remote revision won, overwritten local');
-        emit(TodoLoadSuccess(remoteTodos));
-      }
-    } catch (e, s) {
-      Log.e('Error fetching todos from remote: $e, $s');
-      Log.i('Fetching todos local');
-      try {
-        final (List<Todo> localTodos, _) = await _local.getTodos();
-        emit(TodoLoadSuccess(localTodos));
-      } catch (e, s) {
-        Log.e('Error fetching todos from local: $e, $s');
-        emit(TodoFailure(e.toString()));
-      }
+      final todos = await _todoRepository.fetchTodos();
+      emit(TodoLoadSuccess(todos));
+    } catch (e) {
+      emit(TodoFailure(e.toString()));
     }
   }
 
@@ -65,13 +36,13 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     operationStatusNotifier.startOperation(event.todo);
-    await _executeAction(
-      remoteAction: () => _remote.addTodo(event.todo),
-      localAction: () => _local.addTodo(event.todo),
-      onSuccess: () => _updateStateWithNewTodo(event.todo, emit),
-      onError: (e, s) => Log.e('Error creating todo ${event.todo.id}: $e, $s'),
-      emit: emit,
-    );
+    try {
+      await _todoRepository.addTodo(event.todo);
+      _updateStateWithNewTodo(event.todo, emit);
+    } catch (e) {
+      Log.e('Error creating todo ${event.todo.id}: $e');
+      emit(TodoFailure(e.toString()));
+    }
     operationStatusNotifier.endOperation();
   }
 
@@ -80,13 +51,13 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     operationStatusNotifier.startOperation(event.todo);
-    await _executeAction(
-      remoteAction: () => _remote.updateTodo(event.todo),
-      localAction: () => _local.updateTodo(event.todo),
-      onSuccess: () => _updateStateWithUpdatedTodo(event.todo, emit),
-      onError: (e, s) => Log.e('Error updating todo ${event.todo.id}: $e, $s'),
-      emit: emit,
-    );
+    try {
+      await _todoRepository.updateTodo(event.todo);
+      _updateStateWithUpdatedTodo(event.todo, emit);
+    } catch (e) {
+      Log.e('Error updating todo ${event.todo.id}: $e');
+      emit(TodoFailure(e.toString()));
+    }
     operationStatusNotifier.endOperation();
   }
 
@@ -95,52 +66,28 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) async {
     operationStatusNotifier.startOperation(event.todo);
-    await _executeAction(
-      remoteAction: () => _remote.deleteTodo(event.todo),
-      localAction: () => _local.deleteTodo(event.todo),
-      onSuccess: () => _updateStateWithDeletedTodo(event.todo, emit),
-      onError: (e, s) => Log.e('Error deleting todo ${event.todo.id}: $e, $s'),
-      emit: emit,
-    );
+    try {
+      await _todoRepository.deleteTodo(event.todo);
+      _updateStateWithDeletedTodo(event.todo, emit);
+    } catch (e) {
+      Log.e('Error deleting todo ${event.todo.id}: $e');
+      emit(TodoFailure(e.toString()));
+    }
     operationStatusNotifier.endOperation();
   }
 
-  Future<void> _executeAction({
-    required Future<void> Function() remoteAction,
-    required Future<void> Function() localAction,
-    required void Function() onSuccess,
-    required void Function(dynamic e, dynamic s) onError,
-    required Emitter<TodoState> emit,
-  }) async {
-    bool saved = false;
-    try {
-      await remoteAction();
-      await _revision.increment().then((_) => saved = true);
-    } catch (e, s) {
-      Log.e('Error in remote: $e, $s');
-    }
-    try {
-      await localAction();
-      if (!saved) await _revision.increment();
-      onSuccess();
-    } catch (e, s) {
-      onError(e, s);
-      emit(TodoFailure(e.toString()));
-    }
-  }
-
   void _updateStateWithNewTodo(
-    Todo todo,
+    TodoEntity todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Added todo ${todo.id}');
     final currentState = state as TodoLoadSuccess;
-    final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
+    final updatedTodos = List<TodoEntity>.from(currentState.todos)..add(todo);
     emit(TodoLoadSuccess(updatedTodos));
   }
 
   void _updateStateWithUpdatedTodo(
-    Todo todo,
+    TodoEntity todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Updated todo ${todo.id}');
@@ -152,7 +99,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _updateStateWithDeletedTodo(
-    Todo todo,
+    TodoEntity todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Deleted todo ${todo.id}');

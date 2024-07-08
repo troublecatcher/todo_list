@@ -7,9 +7,10 @@ import 'package:todo_list/core/ui/layout/app_shimmer.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
 import 'package:todo_list/core/ui/widget/loading_widget.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
@@ -133,18 +134,18 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                                     newTodoId = uuid.v4();
                                     context.read<TodoListBloc>().add(
                                           TodoAdded(
-                                            Todo(
+                                            TodoEntity(
+                                              id: newTodoId!,
                                               text: fastTodoNameController.text,
                                               importance: Importance.basic,
                                               deadline: null,
                                               done: false,
-                                            )
-                                              ..id = newTodoId!
-                                              ..createdAt = DateTime.now()
-                                              ..changedAt = DateTime.now()
-                                              ..lastUpdatedBy =
+                                              createdAt: DateTime.now(),
+                                              changedAt: DateTime.now(),
+                                              lastUpdatedBy:
                                                   GetIt.I<DeviceInfoService>()
                                                       .info,
+                                            ),
                                           ),
                                         );
                                   },

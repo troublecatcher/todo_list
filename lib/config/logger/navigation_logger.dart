@@ -1,37 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
 class NavigationLogger extends NavigatorObserver {
   @override
-  void didPush(Route route, Route? previousRoute) {
-    if (route is GoRoute) {
-      // final args = route.settings.arguments;
-      // if (args != null) {
-      //   if (args is EditTodoIntent) {
-      //     Log.i(
-      //         '$NavigationLogger.didPush: ${route.settings}, todo ${args.todo.id})');
-      //     return;
-      //   }
-      // }
-      Log.i('$NavigationLogger.didPush: ${route.settings.name}');
-    }
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    _logRoute('didPush', route);
     super.didPush(route, previousRoute);
   }
 
   @override
-  void didPop(Route route, Route? previousRoute) {
-    if (route is PageRoute) {
-      // final args = route.settings.arguments;
-      // if (args != null) {
-      //   if (args is EditTodoIntent) {
-      //     Log.i(
-      //         '$NavigationLogger.didPop: ${route.settings}, todo ${args.todo.id})');
-      //     return;
-      //   }
-      // }
-      Log.i('$NavigationLogger.didPop: ${route.settings.name}');
-    }
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    _logRoute('didPop', route);
     super.didPop(route, previousRoute);
+  }
+
+  void _logRoute(String methodName, Route<dynamic> route) {
+    final settings = route.settings;
+    if (settings.arguments is TodoEntity) {
+      final todo = settings.arguments as TodoEntity;
+      Log.i('$NavigationLogger.$methodName: ${settings.name}, todo ${todo.id}');
+    } else {
+      Log.i('$NavigationLogger.$methodName: ${settings.name}');
+    }
   }
 }

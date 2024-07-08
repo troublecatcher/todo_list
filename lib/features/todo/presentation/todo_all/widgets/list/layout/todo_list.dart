@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_mode.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/fast_todo_creation_tile.dart';
@@ -13,13 +13,13 @@ class TodoList extends StatelessWidget {
     required this.todos,
   });
 
-  final List<Todo> todos;
+  final List<TodoEntity> todos;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<VisibilityCubit, VisibilityMode>(
       builder: (context, mode) {
-        List<Todo> maybeFilteredTodos = todos;
+        List<TodoEntity> maybeFilteredTodos = todos;
         if (mode == VisibilityMode.undone) {
           maybeFilteredTodos = todos.where((todo) => !todo.done).toList();
         }
@@ -41,7 +41,7 @@ class TodoList extends StatelessWidget {
                     ),
                   );
                 } else {
-                  final Todo todo = maybeFilteredTodos[index];
+                  final TodoEntity todo = maybeFilteredTodos[index];
                   return AnimationConfiguration.staggeredList(
                     position: index,
                     duration: const Duration(milliseconds: 375),

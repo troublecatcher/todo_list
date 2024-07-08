@@ -4,7 +4,7 @@ import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/connectivity_indicator.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/create_todo_button.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
@@ -62,7 +62,8 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                                   child: SizedBox.shrink(),
                                 );
                               case TodoLoadSuccess loadedState:
-                                final List<Todo> todos = loadedState.todos;
+                                final List<TodoEntity> todos =
+                                    loadedState.todos;
                                 if (todos.isEmpty) {
                                   return const NoTodosPlaceholder();
                                 }

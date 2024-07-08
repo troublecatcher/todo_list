@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/widget/custom_back_button.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_content_text_field.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_deadline_selection_tile.dart';
@@ -10,7 +10,7 @@ import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/buttons/todo_save_button.dart';
 
 class TodoSingleScreen extends StatelessWidget {
-  final Todo? todo;
+  final TodoEntity? todo;
   const TodoSingleScreen({super.key, required this.todo});
 
   @override
@@ -24,7 +24,7 @@ class TodoSingleScreen extends StatelessWidget {
               elevation: 0,
               scrolledUnderElevation: 5,
               leading: const CustomBackButton(),
-              actions: [TodoSaveButton(todoo: todo)],
+              actions: [TodoSaveButton(currentTodo: todo)],
               pinned: true,
             ),
             const SliverPadding(
@@ -46,7 +46,7 @@ class TodoSingleScreen extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: TodoDeleteButton(todoo: todo),
+                  child: TodoDeleteButton(todo: todo),
                 ),
               ),
             ),

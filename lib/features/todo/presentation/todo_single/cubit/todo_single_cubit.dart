@@ -1,78 +1,74 @@
 import 'package:bloc/bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
-class TodoSingleCubit extends Cubit<Todo> {
-  final Todo? todo;
-  TodoSingleCubit({required this.todo})
+class TodoSingleCubit extends Cubit<TodoEntity> {
+  TodoSingleCubit({TodoEntity? todo})
       : super(
-          switch (todo) {
-            null => Todo(
+          todo ??
+              TodoEntity(
+                id: '', // Assuming id will be set later when saving
                 text: '',
                 importance: Importance.basic,
                 deadline: null,
                 done: false,
+                createdAt:
+                    DateTime.now(), // Set to now by default for new todos
+                changedAt:
+                    DateTime.now(), // Set to now by default for new todos
+                lastUpdatedBy:
+                    '', // Assuming lastUpdatedBy will be set later when saving
               ),
-            Todo todo => todo,
-          },
         );
 
   void changeText(String text) {
-    late Function fn;
-    switch (todo) {
-      case null:
-        fn = state.copyWithCreate;
-        break;
-      case Todo _:
-        fn = state.copyWithEdit;
-        break;
-    }
     emit(
-      fn(
+      state.copyWith(
         text: text,
-        deadline: state.deadline,
-        color: state.color,
+        changedAt: DateTime.now(), // Update the changedAt timestamp
       ),
     );
-    Log.i('updated todo text: $text');
+    Log.i('Updated todo text: $text');
   }
 
   void changeImportance(Importance importance) {
-    late Function fn;
-    switch (todo) {
-      case null:
-        fn = state.copyWithCreate;
-        break;
-      case Todo _:
-        fn = state.copyWithEdit;
-        break;
-    }
     emit(
-      fn(
+      state.copyWith(
         importance: importance,
-        deadline: state.deadline,
-        color: state.color,
+        changedAt: DateTime.now(), // Update the changedAt timestamp
       ),
     );
-    Log.i('updated todo importance ${importance.name}');
+    Log.i('Updated todo importance: ${importance.name}');
   }
 
   void changeDeadline(DateTime? deadline) {
-    late Function fn;
-    switch (todo) {
-      case null:
-        fn = state.copyWithCreate;
-        break;
-      case Todo _:
-        fn = state.copyWithEdit;
-        break;
-    }
     emit(
-      fn(
+      state.copyWith(
         deadline: deadline,
-        color: state.color,
+        changedAt: DateTime.now(), // Update the changedAt timestamp
       ),
     );
-    Log.i('updated todo deadline: ${deadline?.toIso8601String()}');
+    Log.i('Updated todo deadline: ${deadline?.toIso8601String()}');
+  }
+
+  void changeColor(String? color) {
+    emit(
+      state.copyWith(
+        color: color,
+        changedAt: DateTime.now(), // Update the changedAt timestamp
+      ),
+    );
+    Log.i('Updated todo color: $color');
+  }
+
+  void toggleDone(bool done) {
+    emit(
+      state.copyWith(
+        done: done,
+        changedAt: DateTime.now(), // Update the changedAt timestamp
+      ),
+    );
+    Log.i('Updated todo done status: $done');
   }
 }

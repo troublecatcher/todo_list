@@ -9,12 +9,13 @@ import 'package:todo_list/config/dialog/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/l10n/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
 import 'package:todo_list/core/services/service_setupper.dart';
-import 'package:todo_list/features/todo/data/repository_impl/remote/todo_repository_remote.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/data/dto/local/local_todo.dart';
+import 'package:todo_list/features/todo/data/repositories/todo_repository_impl.dart';
+import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source_impl.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/data/repository_impl/local/todo_repository_local.dart';
-import 'package:todo_list/core/app/todo_app.dart';
+import 'package:todo_list/features/todo/data/sources/local/local_todo_source_impl.dart';
+import 'package:todo_list/core/application/todo_app.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -26,11 +27,11 @@ void main() async {
   await ServiceSetupper.setupDeviceInfoService();
 
   final dir = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open([TodoSchema], directory: dir.path);
-  final localRepository = TodoRepositoryLocal(isar);
+  final isar = await Isar.open([LocalTodoSchema], directory: dir.path);
+  final localRepository = LocalTodoSourceImpl(isar);
 
   final dio = Dio(BaseOptions(baseUrl: 'https://hive.mrdekk.ru/todo/'));
-  final remoteRepository = TodoRepositoryRemote(dio);
+  final remoteRepository = RemoteTodoSourceImpl(dio);
 
   runApp(
     MultiBlocProvider(
@@ -43,8 +44,10 @@ void main() async {
         BlocProvider(create: (context) => TodoOperationCubit()),
         BlocProvider(
           create: (context) => TodoListBloc(
-            remote: remoteRepository,
-            local: localRepository,
+            todoRepository: TodoRepositoryImpl(
+              remote: remoteRepository,
+              local: localRepository,
+            ),
             operationStatusNotifier: context.read<TodoOperationCubit>(),
           )..add(TodosFetchStarted()),
         ),

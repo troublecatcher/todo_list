@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
 class TodoTrailing extends StatelessWidget {
-  final Todo todo;
+  final TodoEntity todo;
 
   const TodoTrailing({super.key, required this.todo});
 

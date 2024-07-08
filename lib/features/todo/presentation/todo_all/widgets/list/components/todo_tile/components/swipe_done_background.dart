@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
 class DismissDoneBackground extends StatelessWidget {
-  final Todo todo;
+  final TodoEntity todo;
   final bool reached;
   final double progress;
 

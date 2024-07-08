@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
 class TodoLeading extends StatelessWidget {
-  final Todo todo;
+  final TodoEntity todo;
   const TodoLeading({
     super.key,
     required this.todo,
@@ -58,7 +59,7 @@ class TodoLeading extends StatelessWidget {
     );
     bloc.add(
       TodoUpdated(
-        todo.copyWithEdit(
+        todo.copyWith(
           done: !todo.done,
           changedAt: DateTime.now(),
           deadline: todo.deadline,

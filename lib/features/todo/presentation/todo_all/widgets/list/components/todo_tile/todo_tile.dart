@@ -6,7 +6,7 @@ import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/components/todo_leading.dart';
@@ -22,7 +22,7 @@ class TodoTile extends StatefulWidget {
     required this.todo,
   });
 
-  final Todo todo;
+  final TodoEntity todo;
 
   @override
   State<TodoTile> createState() => _TodoTileState();
@@ -137,7 +137,7 @@ class _TodoTileState extends State<TodoTile> {
       );
       bloc.add(
         TodoUpdated(
-          todo.copyWithEdit(
+          todo.copyWith(
             done: !todo.done,
             changedAt: DateTime.now(),
             deadline: todo.deadline,
