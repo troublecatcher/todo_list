@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 
 class ConnectivityIndicator extends StatelessWidget {
   const ConnectivityIndicator({
@@ -11,7 +12,12 @@ class ConnectivityIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ConnectivityCubit, ConnectivityState>(
+    return BlocConsumer<ConnectivityCubit, ConnectivityState>(
+      listener: (context, state) {
+        if (state is ConnectivityOnline) {
+          context.read<TodoListBloc>().add(TodosFetchStarted());
+        }
+      },
       builder: (context, connectivityState) {
         return Row(
           children: [
