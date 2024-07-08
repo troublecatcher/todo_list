@@ -1,30 +1,36 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_state.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
-import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_notifier.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
+
+import '../../repository/todo_repository.dart';
+part '../../usecases/usecases.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _todoRepository;
-  final OperationStatusNotifier operationStatusNotifier;
+  final TodoOperation _todoOperation;
 
   TodoListBloc({
     required TodoRepository todoRepository,
-    required this.operationStatusNotifier,
+    required TodoOperation todoOperation,
   })  : _todoRepository = todoRepository,
+        _todoOperation = todoOperation,
         super(TodoInitial()) {
-    on<TodosFetchStarted>((event, emit) => _fetchTodos(emit));
+    on<TodosFetchStarted>((event, emit) => _fetchTodos(event, emit));
     on<TodoAdded>((event, emit) => _addTodo(event, emit));
     on<TodoUpdated>((event, emit) => _updateTodo(event, emit));
     on<TodoDeleted>((event, emit) => _deleteTodo(event, emit));
   }
 
-  Future<void> _fetchTodos(Emitter<TodoState> emit) async {
+  Future<void> _fetchTodos(
+    TodosFetchStarted event,
+    Emitter<TodoState> emit,
+  ) async {
     emit(TodoLoadInProgress());
     try {
-      final todos = await _todoRepository.fetchTodos();
+      final todos = await FetchTodosUseCase(_todoRepository).call();
       emit(TodoLoadSuccess(todos));
     } catch (e) {
       emit(TodoFailure(e.toString()));
@@ -35,45 +41,45 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     TodoAdded event,
     Emitter<TodoState> emit,
   ) async {
-    operationStatusNotifier.startOperation(event.todo);
+    _todoOperation.startOperation(event.todo);
     try {
-      await _todoRepository.addTodo(event.todo);
+      await AddTodoUseCase(_todoRepository).call(event.todo);
       _updateStateWithNewTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error creating todo ${event.todo.id}: $e');
       emit(TodoFailure(e.toString()));
     }
-    operationStatusNotifier.endOperation();
+    _todoOperation.endOperation();
   }
 
   Future<void> _updateTodo(
     TodoUpdated event,
     Emitter<TodoState> emit,
   ) async {
-    operationStatusNotifier.startOperation(event.todo);
+    _todoOperation.startOperation(event.todo);
     try {
-      await _todoRepository.updateTodo(event.todo);
+      await UpdateTodoUseCase(_todoRepository).call(event.todo);
       _updateStateWithUpdatedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error updating todo ${event.todo.id}: $e');
       emit(TodoFailure(e.toString()));
     }
-    operationStatusNotifier.endOperation();
+    _todoOperation.endOperation();
   }
 
   Future<void> _deleteTodo(
     TodoDeleted event,
     Emitter<TodoState> emit,
   ) async {
-    operationStatusNotifier.startOperation(event.todo);
+    _todoOperation.startOperation(event.todo);
     try {
-      await _todoRepository.deleteTodo(event.todo);
+      await DeleteTodoUseCase(_todoRepository).call(event.todo);
       _updateStateWithDeletedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error deleting todo ${event.todo.id}: $e');
       emit(TodoFailure(e.toString()));
     }
-    operationStatusNotifier.endOperation();
+    _todoOperation.endOperation();
   }
 
   void _updateStateWithNewTodo(

@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'remote_todo.dart';
+part of 'remote_todo_dto.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-RemoteTodo _$RemoteTodoFromJson(Map<String, dynamic> json) => RemoteTodo(
+RemoteTodoDto _$RemoteTodoDtoFromJson(Map<String, dynamic> json) =>
+    RemoteTodoDto(
       id: json['id'] as String,
       text: json['text'] as String,
       importance: $enumDecode(_$ImportanceEnumMap, json['importance']),
@@ -18,7 +19,7 @@ RemoteTodo _$RemoteTodoFromJson(Map<String, dynamic> json) => RemoteTodo(
       lastUpdatedBy: json['last_updated_by'] as String,
     );
 
-Map<String, dynamic> _$RemoteTodoToJson(RemoteTodo instance) =>
+Map<String, dynamic> _$RemoteTodoDtoToJson(RemoteTodoDto instance) =>
     <String, dynamic>{
       'id': instance.id,
       'text': instance.text,

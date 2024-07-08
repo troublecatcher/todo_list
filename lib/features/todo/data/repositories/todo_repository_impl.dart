@@ -1,8 +1,10 @@
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/services/preferences/preferences/revision_preference.dart';
-import 'package:todo_list/features/todo/data/dto/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/dto/remote/remote_todo.dart';
-import 'package:todo_list/features/todo/data/extensions.dart';
+import 'package:todo_list/features/todo/data/dto/local/local_todo_dto.dart';
+import 'package:todo_list/features/todo/data/dto/remote/remote_todo_dto.dart';
+import 'package:todo_list/features/todo/data/mapping_extensions/local_to_entity.dart';
+import 'package:todo_list/features/todo/data/mapping_extensions/remote_to_entity.dart';
+import 'package:todo_list/features/todo/data/mapping_extensions/entity_to_dtos.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
@@ -27,14 +29,15 @@ class TodoRepositoryImpl implements TodoRepository {
     final int localRevision = _revision.value;
     try {
       Log.i('Fetching todos remote');
-      final (List<RemoteTodo> remoteTodos, int remoteRevision) =
+      final (List<RemoteTodoDto> remoteTodos, int remoteRevision) =
           await _remote.getTodos();
       if (remoteRevision < localRevision) {
-        final List<LocalTodo> localTodos = await _local.getTodos();
+        final List<LocalTodoDto> localTodos = await _local.getTodos();
         final localEntities =
             localTodos.map((localTodo) => localTodo.toEntity()).toList();
         await _remote.putFresh(
-            localEntities.map((entity) => entity.toRemote()).toList(),);
+          localEntities.map((entity) => entity.toRemote()).toList(),
+        );
         await _revision.set(remoteRevision);
         Log.w('Local revision won, overwritten remote');
         return localEntities;
@@ -42,7 +45,8 @@ class TodoRepositoryImpl implements TodoRepository {
         final remoteEntities =
             remoteTodos.map((remoteTodo) => remoteTodo.toEntity()).toList();
         await _local.putFresh(
-            remoteEntities.map((entity) => entity.toLocal()).toList(),);
+          remoteEntities.map((entity) => entity.toLocal()).toList(),
+        );
         await _revision.set(remoteRevision);
         Log.w('Remote revision won, overwritten local');
         return remoteEntities;
@@ -51,7 +55,7 @@ class TodoRepositoryImpl implements TodoRepository {
       Log.e('Error fetching todos from remote: $e, $s');
       Log.i('Fetching todos local');
       try {
-        final List<LocalTodo> localTodos = await _local.getTodos();
+        final List<LocalTodoDto> localTodos = await _local.getTodos();
         return localTodos.map((localTodo) => localTodo.toEntity()).toList();
       } catch (e, s) {
         Log.e('Error fetching todos from local: $e, $s');

@@ -4,8 +4,8 @@ import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 
 class TodoLeading extends StatelessWidget {

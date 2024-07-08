@@ -1,38 +1,23 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:isar/isar.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/api_key/auth_cubit.dart';
 import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
-import 'package:todo_list/config/dialog/dialog_confirmation_cubit.dart';
+import 'package:todo_list/config/service_locator/service_locator.dart';
+import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
 import 'package:todo_list/config/l10n/locale_cubit.dart';
 import 'package:todo_list/config/theme/theme_cubit.dart';
-import 'package:todo_list/core/services/service_setupper.dart';
-import 'package:todo_list/features/todo/data/dto/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/repositories/todo_repository_impl.dart';
-import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source_impl.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/data/sources/local/local_todo_source_impl.dart';
+import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/core/application/todo_app.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 
 void main() async {
   await dotenv.load(fileName: 'assets/.env');
   WidgetsFlutterBinding.ensureInitialized();
-
-  await ServiceSetupper.setupSharedPreferencesService();
-  await ServiceSetupper.setupDeviceInfoService();
-
-  final dir = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open([LocalTodoSchema], directory: dir.path);
-  final localRepository = LocalTodoSourceImpl(isar);
-
-  final dio = Dio(BaseOptions(baseUrl: 'https://hive.mrdekk.ru/todo/'));
-  final remoteRepository = RemoteTodoSourceImpl(dio);
-
+  await initDependecies();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -44,11 +29,8 @@ void main() async {
         BlocProvider(create: (context) => TodoOperationCubit()),
         BlocProvider(
           create: (context) => TodoListBloc(
-            todoRepository: TodoRepositoryImpl(
-              remote: remoteRepository,
-              local: localRepository,
-            ),
-            operationStatusNotifier: context.read<TodoOperationCubit>(),
+            todoRepository: GetIt.I<TodoRepository>(),
+            todoOperation: context.read<TodoOperationCubit>(),
           )..add(TodosFetchStarted()),
         ),
       ],

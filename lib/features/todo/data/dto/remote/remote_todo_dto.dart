@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 
-part 'remote_todo.g.dart';
+part 'remote_todo_dto.g.dart';
 
 @JsonSerializable()
-class RemoteTodo {
+class RemoteTodoDto {
   final String id;
   final String text;
   final Importance importance;
@@ -21,7 +21,7 @@ class RemoteTodo {
   @JsonKey(name: 'last_updated_by')
   final String lastUpdatedBy;
 
-  RemoteTodo({
+  RemoteTodoDto({
     required this.id,
     required this.text,
     required this.importance,
@@ -33,8 +33,8 @@ class RemoteTodo {
     required this.lastUpdatedBy,
   });
 
-  factory RemoteTodo.fromJson(Map<String, dynamic> json) =>
-      _$RemoteTodoFromJson(json);
+  factory RemoteTodoDto.fromJson(Map<String, dynamic> json) =>
+      _$RemoteTodoDtoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoteTodoToJson(this);
+  Map<String, dynamic> toJson() => _$RemoteTodoDtoToJson(this);
 }

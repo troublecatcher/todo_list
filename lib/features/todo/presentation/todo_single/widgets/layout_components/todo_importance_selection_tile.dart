@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class TodoImportanceSelectionTile extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_notifier.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_state.dart';
 
 class TodoOperationCubit extends Cubit<TodoOperationState>
-    implements OperationStatusNotifier {
+    implements TodoOperation {
   TodoOperationCubit() : super(TodoOperationIdleState());
 
   @override

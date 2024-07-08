@@ -4,11 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_event.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/config/dialog/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
+import 'package:todo_list/core/ui/dialog_manager/dialog_manager.dart';
 
 class TodoDeleteButton extends StatelessWidget {
   final TodoEntity? todo;
