@@ -1,7 +1,7 @@
 import 'package:logger/logger.dart';
 
 class Log {
-  static const bool _enabled = false;
+  static const bool _enabled = true;
   static final Logger _logger = Logger(
     filter: DevelopmentFilter(),
     printer: PrettyPrinter(),

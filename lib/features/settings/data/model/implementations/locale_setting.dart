@@ -1,4 +1,4 @@
-part of '../../service/settings_service.dart';
+part of '../../../../../core/services/settings/service/settings_service.dart';
 
 class LocaleSetting implements Setting<String> {
   final SettingsStorage _storage;

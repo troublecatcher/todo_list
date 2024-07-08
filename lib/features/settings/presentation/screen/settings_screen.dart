@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/services/settings/controllers/auth/auth_cubit.dart';
-import 'package:todo_list/core/services/settings/controllers/delete_confirmation/delete_confirmation_cubit.dart';
-import 'package:todo_list/core/services/settings/controllers/locale/locale_cubit.dart';
-import 'package:todo_list/core/services/settings/controllers/theme/theme_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/delete_confirmation/delete_confirmation_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/layout_constants.dart';
 import 'package:todo_list/core/ui/widget/custom_back_button.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
-import 'package:todo_list/features/settings/widgets/api_key_change_tile.dart';
+import 'package:todo_list/features/settings/presentation/widgets/api_key_change_tile.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class SettingsScreen extends StatefulWidget {

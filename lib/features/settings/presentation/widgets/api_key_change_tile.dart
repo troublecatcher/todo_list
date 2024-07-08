@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/services/settings/controllers/auth/auth_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/layout_constants.dart';
