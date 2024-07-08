@@ -62,8 +62,6 @@ class TodoLeading extends StatelessWidget {
         todo.copyWith(
           done: !todo.done,
           changedAt: DateTime.now(),
-          deadline: todo.deadline,
-          color: todo.color,
         ),
       ),
     );

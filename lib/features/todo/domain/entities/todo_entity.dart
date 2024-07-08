@@ -1,4 +1,5 @@
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
+import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
 
 class TodoEntity {
   final String id;
@@ -27,9 +28,9 @@ class TodoEntity {
     String? id,
     String? text,
     Importance? importance,
-    DateTime? deadline,
+    Wrapped<DateTime?>? deadline,
     bool? done,
-    String? color,
+    Wrapped<String?>? color,
     DateTime? createdAt,
     DateTime? changedAt,
     String? lastUpdatedBy,
@@ -38,9 +39,9 @@ class TodoEntity {
       id: id ?? this.id,
       text: text ?? this.text,
       importance: importance ?? this.importance,
-      deadline: deadline,
+      deadline: deadline != null ? deadline.value : this.deadline,
       done: done ?? this.done,
-      color: color,
+      color: color != null ? color.value : this.color,
       createdAt: createdAt ?? this.createdAt,
       changedAt: changedAt ?? this.changedAt,
       lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,

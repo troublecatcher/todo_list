@@ -140,8 +140,6 @@ class _TodoTileState extends State<TodoTile> {
           todo.copyWith(
             done: !todo.done,
             changedAt: DateTime.now(),
-            deadline: todo.deadline,
-            color: todo.color,
             lastUpdatedBy: GetIt.I<DeviceInfoService>().info,
           ),
         ),

@@ -36,10 +36,6 @@ class TodoSaveButton extends StatelessWidget {
                   if (currentTodo == null) {
                     context.read<TodoListBloc>().add(TodoAdded(newTodo));
                   } else {
-                    newTodo = newTodo.copyWith(
-                      deadline: todo.deadline,
-                      color: todo.color,
-                    );
                     context.read<TodoListBloc>().add(TodoUpdated(newTodo));
                   }
                   context.pop();

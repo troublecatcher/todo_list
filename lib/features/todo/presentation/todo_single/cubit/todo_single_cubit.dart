@@ -2,23 +2,22 @@ import 'package:bloc/bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
 
 class TodoSingleCubit extends Cubit<TodoEntity> {
   TodoSingleCubit({TodoEntity? todo})
       : super(
           todo ??
               TodoEntity(
-                id: '', // Assuming id will be set later when saving
+                id: '', // will be updated upon saving
                 text: '',
                 importance: Importance.basic,
                 deadline: null,
                 done: false,
-                createdAt:
-                    DateTime.now(), // Set to now by default for new todos
-                changedAt:
-                    DateTime.now(), // Set to now by default for new todos
-                lastUpdatedBy:
-                    '', // Assuming lastUpdatedBy will be set later when saving
+                color: null,
+                createdAt: DateTime.now(), // will be updated upon saving
+                changedAt: DateTime.now(), // will be updated upon saving
+                lastUpdatedBy: '', // will be updated upon saving
               ),
         );
 
@@ -26,7 +25,6 @@ class TodoSingleCubit extends Cubit<TodoEntity> {
     emit(
       state.copyWith(
         text: text,
-        changedAt: DateTime.now(), // Update the changedAt timestamp
       ),
     );
     Log.i('Updated todo text: $text');
@@ -36,7 +34,6 @@ class TodoSingleCubit extends Cubit<TodoEntity> {
     emit(
       state.copyWith(
         importance: importance,
-        changedAt: DateTime.now(), // Update the changedAt timestamp
       ),
     );
     Log.i('Updated todo importance: ${importance.name}');
@@ -45,8 +42,7 @@ class TodoSingleCubit extends Cubit<TodoEntity> {
   void changeDeadline(DateTime? deadline) {
     emit(
       state.copyWith(
-        deadline: deadline,
-        changedAt: DateTime.now(), // Update the changedAt timestamp
+        deadline: Wrapped.value(deadline),
       ),
     );
     Log.i('Updated todo deadline: ${deadline?.toIso8601String()}');
@@ -55,20 +51,9 @@ class TodoSingleCubit extends Cubit<TodoEntity> {
   void changeColor(String? color) {
     emit(
       state.copyWith(
-        color: color,
-        changedAt: DateTime.now(), // Update the changedAt timestamp
+        color: Wrapped.value(color),
       ),
     );
     Log.i('Updated todo color: $color');
-  }
-
-  void toggleDone(bool done) {
-    emit(
-      state.copyWith(
-        done: done,
-        changedAt: DateTime.now(), // Update the changedAt timestamp
-      ),
-    );
-    Log.i('Updated todo done status: $done');
   }
 }
