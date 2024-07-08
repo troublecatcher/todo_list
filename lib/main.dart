@@ -1,66 +1,53 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/logging/navigation_logger.dart';
-import 'package:todo_list/config/theme/theme.dart';
-import 'package:todo_list/core/helpers/formatting_helper.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_bloc.dart';
-import 'package:todo_list/features/todo/domain/bloc/todo_event.dart';
-import 'package:todo_list/features/todo/presentation/screens/home_screen.dart';
-import 'package:todo_list/features/todo/presentation/screens/todo_screen.dart';
-import 'package:todo_list/features/todo/presentation/utility/todo_action.dart';
-import 'package:todo_list/features/todo/data/isar_todo_repository.dart';
-
-import 'package:todo_list/core/services/isar_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:isar/isar.dart';
+import 'package:todo_list/config/api_key/api_key_cubit.dart';
+import 'package:todo_list/config/dialog_confirmation/dialog_confirmation_cubit.dart';
+import 'package:todo_list/config/locale/locale_cubit.dart';
+import 'package:todo_list/config/theme/theme_cubit.dart';
+import 'package:todo_list/core/services/service_setupper.dart';
+import 'package:todo_list/features/todo/data/repository/remote_todo_repository.dart';
+import 'package:todo_list/features/todo/domain/entity/todo.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
+import 'package:todo_list/features/todo/data/repository/local_todo_repository.dart';
+import 'package:todo_list/core/app/todo_app.dart';
+import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
+  await dotenv.load(fileName: 'assets/.env');
   WidgetsFlutterBinding.ensureInitialized();
 
-  await FormattingHelper.init();
+  await ServiceSetupper.setupSharedPreferencesService();
+  await ServiceSetupper.setupDeviceInfoService();
 
-  final isarService = IsarService();
-  final isar = await isarService.initializeIsar();
-  final todoRepository = IsarTodoRepository(isar);
+  final dir = await getApplicationDocumentsDirectory();
+  final isar = await Isar.open([TodoSchema], directory: dir.path);
+  final localRepository = LocalTodoRepository(isar);
+
+  final dio = Dio(BaseOptions(baseUrl: 'https://hive.mrdekk.ru/todo/'));
+  final remoteRepository = RemoteTodoRepository(dio);
+
   runApp(
-    BlocProvider(
-      create: (context) =>
-          TodoBloc(todoRepository: todoRepository)..add(LoadTodos()),
-      child: const MainApp(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LocaleCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => DialogConfirmationCubit()),
+        BlocProvider(create: (context) => ApiKeyCubit()),
+        BlocProvider(create: (context) => TodoOperationCubit()),
+        BlocProvider(
+          create: (context) => TodoListBloc(
+            remote: remoteRepository,
+            local: localRepository,
+            operationStatusNotifier: context.read<TodoOperationCubit>(),
+          )..add(FetchTodos()),
+        ),
+      ],
+      child: const TodoApp(),
     ),
   );
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'JUST TODO IT',
-      theme: getLightTheme(),
-      darkTheme: getDarkTheme(),
-      debugShowCheckedModeBanner: false,
-      locale: const Locale('ru', 'RU'),
-      navigatorObservers: [
-        NavigationLogger(),
-      ],
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case '/':
-            return MaterialPageRoute(
-              builder: (_) => const HomeScreen(),
-              settings: settings,
-            );
-          case '/todo':
-            return MaterialPageRoute(
-              builder: (_) =>
-                  TodoScreen(action: settings.arguments as TodoAction),
-              settings: settings,
-            );
-
-          default:
-            return null;
-        }
-      },
-    );
-  }
 }

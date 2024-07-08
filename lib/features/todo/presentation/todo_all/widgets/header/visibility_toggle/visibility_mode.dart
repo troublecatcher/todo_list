@@ -1,0 +1,1 @@
+enum VisibilityMode { all, undone }
