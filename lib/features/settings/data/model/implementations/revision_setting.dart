@@ -1,4 +1,4 @@
-part of '../../../../../core/services/settings/service/settings_service.dart';
+part of '../../../../../core/services/settings/settings_service.dart';
 
 class RevisionSetting implements Setting<int> {
   final SettingsStorage _storage;

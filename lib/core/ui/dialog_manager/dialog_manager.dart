@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/services/settings/service/settings_service.dart';
+import 'package:todo_list/core/services/settings/settings_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';

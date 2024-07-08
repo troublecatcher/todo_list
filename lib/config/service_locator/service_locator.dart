@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_list/core/services/device_info/device_info_service.dart';
-import 'package:todo_list/core/services/settings/service/settings_service.dart';
+import 'package:todo_list/core/services/settings/settings_service.dart';
 import 'package:todo_list/features/todo/data/dto/local/local_todo_dto.dart';
 import 'package:todo_list/features/todo/data/repositories/todo_repository_impl.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source_impl.dart';

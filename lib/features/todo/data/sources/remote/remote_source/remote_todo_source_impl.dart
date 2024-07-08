@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/features/todo/data/dto/remote/remote_todo_dto.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
-import '../../../../../../core/services/settings/service/settings_service.dart';
+import '../../../../../../core/services/settings/settings_service.dart';
 
 part '../interceptors/auth_interceptor.dart';
 part '../interceptors/revision_interceptor.dart';

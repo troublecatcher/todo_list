@@ -1,4 +1,4 @@
-part of '../../../../../core/services/settings/service/settings_service.dart';
+part of '../../../../../core/services/settings/settings_service.dart';
 
 class ThemeSetting implements Setting<String> {
   final SettingsStorage _storage;
