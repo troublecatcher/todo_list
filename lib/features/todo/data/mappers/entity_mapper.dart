@@ -1,8 +1,8 @@
 part of '../repositories/todo_repository_impl.dart';
 
-extension EntityToDtos on TodoEntity {
-  RemoteTodoDto toRemote() {
-    return RemoteTodoDto(
+extension EntityMapper on Todo {
+  RemoteTodo toRemote() {
+    return RemoteTodo(
       id: id,
       text: text,
       importance: importance,
@@ -15,8 +15,8 @@ extension EntityToDtos on TodoEntity {
     );
   }
 
-  LocalTodoDto toLocal() {
-    return LocalTodoDto(
+  LocalTodo toLocal() {
+    return LocalTodo(
       id: id,
       text: text,
       importance: importance,

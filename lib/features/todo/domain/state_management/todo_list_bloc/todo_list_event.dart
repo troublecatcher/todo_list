@@ -5,19 +5,19 @@ abstract class TodoEvent {}
 class TodosFetchStarted extends TodoEvent {}
 
 class TodoAdded extends TodoEvent {
-  final TodoEntity todo;
+  final Todo todo;
 
   TodoAdded(this.todo);
 }
 
 class TodoUpdated extends TodoEvent {
-  final TodoEntity todo;
+  final Todo todo;
 
   TodoUpdated(this.todo);
 }
 
 class TodoDeleted extends TodoEvent {
-  final TodoEntity todo;
+  final Todo todo;
 
   TodoDeleted(this.todo);
 }

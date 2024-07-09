@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 
@@ -19,7 +19,7 @@ class _TodoImportanceSelectionTileState
     extends State<TodoImportanceSelectionTile> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoSingleCubit, TodoEntity>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return Builder(
           builder: (ctx) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 
@@ -11,7 +11,7 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoSingleCubit, TodoEntity>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return AnimatedSize(
           duration: Durations.medium1,

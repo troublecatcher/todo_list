@@ -1,7 +1,7 @@
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
 
-class TodoEntity {
+class Todo {
   final String id;
   final String text;
   final Importance importance;
@@ -12,7 +12,7 @@ class TodoEntity {
   final DateTime changedAt;
   final String lastUpdatedBy;
 
-  TodoEntity({
+  Todo({
     required this.id,
     required this.text,
     required this.importance,
@@ -24,7 +24,7 @@ class TodoEntity {
     required this.lastUpdatedBy,
   });
 
-  TodoEntity copyWith({
+  Todo copyWith({
     String? id,
     String? text,
     Importance? importance,
@@ -35,7 +35,7 @@ class TodoEntity {
     DateTime? changedAt,
     String? lastUpdatedBy,
   }) {
-    return TodoEntity(
+    return Todo(
       id: id ?? this.id,
       text: text ?? this.text,
       importance: importance ?? this.importance,

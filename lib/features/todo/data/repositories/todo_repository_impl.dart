@@ -1,16 +1,16 @@
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/data/dto/local/local_todo_dto.dart';
-import 'package:todo_list/features/todo/data/dto/remote/remote_todo_dto.dart';
+import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
+import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/settings/settings_service.dart';
+import 'package:todo_list/core/services/settings_service.dart';
 
-part '../mapping_extensions/entity_to_dtos.dart';
-part '../mapping_extensions/local_to_entity.dart';
-part '../mapping_extensions/remote_to_entity.dart';
+part '../mappers/entity_mapper.dart';
+part '../mappers/local_mappers.dart';
+part '../mappers/remote_mappers.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final RemoteTodoSource _remote;
@@ -25,38 +25,30 @@ class TodoRepositoryImpl implements TodoRepository {
         _revision = GetIt.I<SettingsService>().revision;
 
   @override
-  Future<List<TodoEntity>> fetchTodos() async {
-    final int localRevision = _revision.value;
+  Future<List<Todo>> fetchTodos() async {
     try {
+      final int localRevision = _revision.value;
       Log.i('Fetching todos remote');
-      final (List<RemoteTodoDto> remoteTodos, int remoteRevision) =
+      final (List<RemoteTodo> remoteTodos, int remoteRevision) =
           await _remote.getTodos();
       if (remoteRevision < localRevision) {
-        final List<LocalTodoDto> localTodos = await _local.getTodos();
-        final localEntities =
-            localTodos.map((localTodo) => localTodo.toEntity()).toList();
-        await _remote.putFresh(
-          localEntities.map((entity) => entity.toRemote()).toList(),
-        );
+        final List<LocalTodo> localTodos = await _local.getTodos();
+        await _remote.putFresh(localTodos.toRemoteTodos());
         await _revision.set(remoteRevision);
         Log.w('Local revision won, overwritten remote');
-        return localEntities;
+        return localTodos.toEntities();
       } else {
-        final remoteEntities =
-            remoteTodos.map((remoteTodo) => remoteTodo.toEntity()).toList();
-        await _local.putFresh(
-          remoteEntities.map((entity) => entity.toLocal()).toList(),
-        );
+        await _local.putFresh(remoteTodos.toLocalTodos());
         await _revision.set(remoteRevision);
         Log.w('Remote revision won, overwritten local');
-        return remoteEntities;
+        return remoteTodos.toEntities();
       }
     } catch (e, s) {
       Log.e('Error fetching todos from remote: $e, $s');
       Log.i('Fetching todos local');
       try {
-        final List<LocalTodoDto> localTodos = await _local.getTodos();
-        return localTodos.map((localTodo) => localTodo.toEntity()).toList();
+        final List<LocalTodo> localTodos = await _local.getTodos();
+        return localTodos.toEntities();
       } catch (e, s) {
         Log.e('Error fetching todos from local: $e, $s');
         rethrow;
@@ -65,7 +57,7 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<void> addTodo(TodoEntity todo) async {
+  Future<void> addTodo(Todo todo) async {
     await _executeAction(
       remoteAction: () => _remote.addTodo(todo.toRemote()),
       localAction: () => _local.addTodo(todo.toLocal()),
@@ -73,7 +65,7 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<void> updateTodo(TodoEntity todo) async {
+  Future<void> updateTodo(Todo todo) async {
     await _executeAction(
       remoteAction: () => _remote.updateTodo(todo.toRemote()),
       localAction: () => _local.updateTodo(todo.toLocal()),
@@ -81,7 +73,7 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Future<void> deleteTodo(TodoEntity todo) async {
+  Future<void> deleteTodo(Todo todo) async {
     await _executeAction(
       remoteAction: () => _remote.deleteTodo(todo.toRemote()),
       localAction: () => _local.deleteTodo(todo.toLocal()),
@@ -92,16 +84,17 @@ class TodoRepositoryImpl implements TodoRepository {
     required Future<void> Function() remoteAction,
     required Future<void> Function() localAction,
   }) async {
-    bool saved = false;
+    bool incremented = false;
     try {
       await remoteAction();
-      await _revision.increment().then((_) => saved = true);
+      await _revision.increment();
+      incremented = true;
     } catch (e, s) {
       Log.e('Error in remote: $e, $s');
     }
     try {
       await localAction();
-      if (!saved) await _revision.increment();
+      if (!incremented) await _revision.increment();
     } catch (e, s) {
       Log.e('Error in local: $e, $s');
       rethrow;

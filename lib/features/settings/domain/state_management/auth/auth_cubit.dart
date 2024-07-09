@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/settings/settings_service.dart';
+import 'package:todo_list/core/services/settings_service.dart';
 
 part 'auth_type.dart';
 part 'auth_state.dart';

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'local_todo_dto.dart';
+part of 'local_todo.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -9,13 +9,13 @@ part of 'local_todo_dto.dart';
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
 
-extension GetLocalTodoDtoCollection on Isar {
-  IsarCollection<LocalTodoDto> get localTodoDtos => this.collection();
+extension GetLocalTodoCollection on Isar {
+  IsarCollection<LocalTodo> get localTodos => this.collection();
 }
 
-const LocalTodoDtoSchema = CollectionSchema(
-  name: r'LocalTodoDto',
-  id: 357558065313945282,
+const LocalTodoSchema = CollectionSchema(
+  name: r'LocalTodo',
+  id: 3883041102750916970,
   properties: {
     r'changedAt': PropertySchema(
       id: 0,
@@ -51,7 +51,7 @@ const LocalTodoDtoSchema = CollectionSchema(
       id: 6,
       name: r'importance',
       type: IsarType.string,
-      enumMap: _LocalTodoDtoimportanceEnumValueMap,
+      enumMap: _LocalTodoimportanceEnumValueMap,
     ),
     r'lastUpdatedBy': PropertySchema(
       id: 7,
@@ -64,10 +64,10 @@ const LocalTodoDtoSchema = CollectionSchema(
       type: IsarType.string,
     )
   },
-  estimateSize: _localTodoDtoEstimateSize,
-  serialize: _localTodoDtoSerialize,
-  deserialize: _localTodoDtoDeserialize,
-  deserializeProp: _localTodoDtoDeserializeProp,
+  estimateSize: _localTodoEstimateSize,
+  serialize: _localTodoSerialize,
+  deserialize: _localTodoDeserialize,
+  deserializeProp: _localTodoDeserializeProp,
   idName: r'isarId',
   indexes: {
     r'id': IndexSchema(
@@ -86,14 +86,14 @@ const LocalTodoDtoSchema = CollectionSchema(
   },
   links: {},
   embeddedSchemas: {},
-  getId: _localTodoDtoGetId,
-  getLinks: _localTodoDtoGetLinks,
-  attach: _localTodoDtoAttach,
+  getId: _localTodoGetId,
+  getLinks: _localTodoGetLinks,
+  attach: _localTodoAttach,
   version: '3.1.0+1',
 );
 
-int _localTodoDtoEstimateSize(
-  LocalTodoDto object,
+int _localTodoEstimateSize(
+  LocalTodo object,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
@@ -131,8 +131,8 @@ int _localTodoDtoEstimateSize(
   return bytesCount;
 }
 
-void _localTodoDtoSerialize(
-  LocalTodoDto object,
+void _localTodoSerialize(
+  LocalTodo object,
   IsarWriter writer,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
@@ -148,28 +148,28 @@ void _localTodoDtoSerialize(
   writer.writeString(offsets[8], object.text);
 }
 
-LocalTodoDto _localTodoDtoDeserialize(
+LocalTodo _localTodoDeserialize(
   Id id,
   IsarReader reader,
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = LocalTodoDto(
+  final object = LocalTodo(
     changedAt: reader.readDateTimeOrNull(offsets[0]),
     color: reader.readStringOrNull(offsets[1]),
     createdAt: reader.readDateTimeOrNull(offsets[2]),
     deadline: reader.readDateTimeOrNull(offsets[3]),
     done: reader.readBoolOrNull(offsets[4]),
     id: reader.readStringOrNull(offsets[5]),
-    importance: _LocalTodoDtoimportanceValueEnumMap[
-        reader.readStringOrNull(offsets[6])],
+    importance:
+        _LocalTodoimportanceValueEnumMap[reader.readStringOrNull(offsets[6])],
     lastUpdatedBy: reader.readStringOrNull(offsets[7]),
     text: reader.readStringOrNull(offsets[8]),
   );
   return object;
 }
 
-P _localTodoDtoDeserializeProp<P>(
+P _localTodoDeserializeProp<P>(
   IsarReader reader,
   int propertyId,
   int offset,
@@ -189,8 +189,8 @@ P _localTodoDtoDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (_LocalTodoDtoimportanceValueEnumMap[
-          reader.readStringOrNull(offset)]) as P;
+      return (_LocalTodoimportanceValueEnumMap[reader.readStringOrNull(offset)])
+          as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
@@ -200,40 +200,39 @@ P _localTodoDtoDeserializeProp<P>(
   }
 }
 
-const _LocalTodoDtoimportanceEnumValueMap = {
+const _LocalTodoimportanceEnumValueMap = {
   r'basic': r'basic',
   r'low': r'low',
   r'important': r'important',
 };
-const _LocalTodoDtoimportanceValueEnumMap = {
+const _LocalTodoimportanceValueEnumMap = {
   r'basic': Importance.basic,
   r'low': Importance.low,
   r'important': Importance.important,
 };
 
-Id _localTodoDtoGetId(LocalTodoDto object) {
+Id _localTodoGetId(LocalTodo object) {
   return object.isarId;
 }
 
-List<IsarLinkBase<dynamic>> _localTodoDtoGetLinks(LocalTodoDto object) {
+List<IsarLinkBase<dynamic>> _localTodoGetLinks(LocalTodo object) {
   return [];
 }
 
-void _localTodoDtoAttach(
-    IsarCollection<dynamic> col, Id id, LocalTodoDto object) {}
+void _localTodoAttach(IsarCollection<dynamic> col, Id id, LocalTodo object) {}
 
-extension LocalTodoDtoQueryWhereSort
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QWhere> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhere> anyIsarId() {
+extension LocalTodoQueryWhereSort
+    on QueryBuilder<LocalTodo, LocalTodo, QWhere> {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhere> anyIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
     });
   }
 }
 
-extension LocalTodoDtoQueryWhere
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QWhereClause> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> isarIdEqualTo(
+extension LocalTodoQueryWhere
+    on QueryBuilder<LocalTodo, LocalTodo, QWhereClause> {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> isarIdEqualTo(
       Id isarId) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IdWhereClause.between(
@@ -243,7 +242,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> isarIdNotEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> isarIdNotEqualTo(
       Id isarId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -266,7 +265,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> isarIdGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> isarIdGreaterThan(
       Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -276,7 +275,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> isarIdLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> isarIdLessThan(
       Id isarId,
       {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
@@ -286,7 +285,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> isarIdBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> isarIdBetween(
     Id lowerIsarId,
     Id upperIsarId, {
     bool includeLower = true,
@@ -302,7 +301,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> idIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'id',
@@ -311,7 +310,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> idIsNotNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.between(
         indexName: r'id',
@@ -322,8 +321,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> idEqualTo(
-      String? id) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> idEqualTo(String? id) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(IndexWhereClause.equalTo(
         indexName: r'id',
@@ -332,7 +330,7 @@ extension LocalTodoDtoQueryWhere
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterWhereClause> idNotEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterWhereClause> idNotEqualTo(
       String? id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
@@ -368,10 +366,9 @@ extension LocalTodoDtoQueryWhere
   }
 }
 
-extension LocalTodoDtoQueryFilter
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QFilterCondition> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      changedAtIsNull() {
+extension LocalTodoQueryFilter
+    on QueryBuilder<LocalTodo, LocalTodo, QFilterCondition> {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> changedAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'changedAt',
@@ -379,7 +376,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       changedAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -388,8 +385,8 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      changedAtEqualTo(DateTime? value) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> changedAtEqualTo(
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'changedAt',
@@ -398,7 +395,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       changedAtGreaterThan(
     DateTime? value, {
     bool include = false,
@@ -412,8 +409,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      changedAtLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> changedAtLessThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -426,8 +422,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      changedAtBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> changedAtBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -444,8 +439,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'color',
@@ -453,8 +447,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorIsNotNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'color',
@@ -462,7 +455,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -475,8 +468,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -491,7 +483,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -506,7 +498,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -525,8 +517,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorStartsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -539,7 +530,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorEndsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -552,7 +543,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorContains(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -564,7 +555,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> colorMatches(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -576,8 +567,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorIsEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'color',
@@ -586,8 +576,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      colorIsNotEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> colorIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'color',
@@ -596,8 +585,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      createdAtIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> createdAtIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'createdAt',
@@ -605,7 +593,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       createdAtIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -614,8 +602,8 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      createdAtEqualTo(DateTime? value) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> createdAtEqualTo(
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'createdAt',
@@ -624,7 +612,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       createdAtGreaterThan(
     DateTime? value, {
     bool include = false,
@@ -638,8 +626,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      createdAtLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> createdAtLessThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -652,8 +639,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      createdAtBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> createdAtBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -670,8 +656,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      deadlineIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> deadlineIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'deadline',
@@ -679,7 +664,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       deadlineIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -688,8 +673,8 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      deadlineEqualTo(DateTime? value) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> deadlineEqualTo(
+      DateTime? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'deadline',
@@ -698,8 +683,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      deadlineGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> deadlineGreaterThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -712,8 +696,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      deadlineLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> deadlineLessThan(
     DateTime? value, {
     bool include = false,
   }) {
@@ -726,8 +709,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      deadlineBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> deadlineBetween(
     DateTime? lower,
     DateTime? upper, {
     bool includeLower = true,
@@ -744,7 +726,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> doneIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> doneIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'done',
@@ -752,8 +734,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      doneIsNotNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> doneIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'done',
@@ -761,7 +742,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> doneEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> doneEqualTo(
       bool? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -771,7 +752,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'id',
@@ -779,8 +760,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      idIsNotNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'id',
@@ -788,7 +768,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -801,7 +781,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -816,7 +796,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -831,7 +811,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -850,7 +830,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idStartsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -863,7 +843,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idEndsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -876,7 +856,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idContains(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -888,7 +868,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idMatches(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -900,7 +880,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> idIsEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -909,8 +889,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      idIsNotEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> idIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'id',
@@ -919,8 +898,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'importance',
@@ -928,7 +906,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       importanceIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -937,8 +915,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceEqualTo(
     Importance? value, {
     bool caseSensitive = true,
   }) {
@@ -951,7 +928,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       importanceGreaterThan(
     Importance? value, {
     bool include = false,
@@ -967,8 +944,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceLessThan(
     Importance? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -983,8 +959,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceBetween(
     Importance? lower,
     Importance? upper, {
     bool includeLower = true,
@@ -1003,7 +978,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       importanceStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1017,8 +992,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceEndsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1031,8 +1005,9 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceContains(String value, {bool caseSensitive = true}) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceContains(
+      String value,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
         property: r'importance',
@@ -1042,8 +1017,9 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      importanceMatches(String pattern, {bool caseSensitive = true}) {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> importanceMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
         property: r'importance',
@@ -1053,7 +1029,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       importanceIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1063,7 +1039,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       importanceIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1073,7 +1049,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> isarIdEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> isarIdEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1083,8 +1059,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      isarIdGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> isarIdGreaterThan(
     Id value, {
     bool include = false,
   }) {
@@ -1097,8 +1072,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      isarIdLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> isarIdLessThan(
     Id value, {
     bool include = false,
   }) {
@@ -1111,7 +1085,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> isarIdBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> isarIdBetween(
     Id lower,
     Id upper, {
     bool includeLower = true,
@@ -1128,7 +1102,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1137,7 +1111,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
@@ -1146,7 +1120,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByEqualTo(
     String? value, {
     bool caseSensitive = true,
@@ -1160,7 +1134,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByGreaterThan(
     String? value, {
     bool include = false,
@@ -1176,7 +1150,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByLessThan(
     String? value, {
     bool include = false,
@@ -1192,7 +1166,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByBetween(
     String? lower,
     String? upper, {
@@ -1212,7 +1186,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1226,7 +1200,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1240,7 +1214,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
@@ -1251,7 +1225,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
@@ -1262,7 +1236,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1272,7 +1246,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition>
       lastUpdatedByIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
@@ -1282,7 +1256,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textIsNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
         property: r'text',
@@ -1290,8 +1264,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      textIsNotNull() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
         property: r'text',
@@ -1299,7 +1272,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textEqualTo(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textEqualTo(
     String? value, {
     bool caseSensitive = true,
   }) {
@@ -1312,8 +1285,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      textGreaterThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textGreaterThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1328,7 +1300,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textLessThan(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textLessThan(
     String? value, {
     bool include = false,
     bool caseSensitive = true,
@@ -1343,7 +1315,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textBetween(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textBetween(
     String? lower,
     String? upper, {
     bool includeLower = true,
@@ -1362,8 +1334,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      textStartsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1376,7 +1347,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textEndsWith(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1389,7 +1360,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textContains(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textContains(
       String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1401,7 +1372,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition> textMatches(
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textMatches(
       String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1413,8 +1384,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      textIsEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'text',
@@ -1423,8 +1393,7 @@ extension LocalTodoDtoQueryFilter
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterFilterCondition>
-      textIsNotEmpty() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterFilterCondition> textIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'text',
@@ -1434,298 +1403,293 @@ extension LocalTodoDtoQueryFilter
   }
 }
 
-extension LocalTodoDtoQueryObject
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QFilterCondition> {}
+extension LocalTodoQueryObject
+    on QueryBuilder<LocalTodo, LocalTodo, QFilterCondition> {}
 
-extension LocalTodoDtoQueryLinks
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QFilterCondition> {}
+extension LocalTodoQueryLinks
+    on QueryBuilder<LocalTodo, LocalTodo, QFilterCondition> {}
 
-extension LocalTodoDtoQuerySortBy
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QSortBy> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByChangedAt() {
+extension LocalTodoQuerySortBy on QueryBuilder<LocalTodo, LocalTodo, QSortBy> {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByChangedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'changedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByChangedAtDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByChangedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'changedAt', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByColor() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'color', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByColorDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'color', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByCreatedAt() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByCreatedAtDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByDeadline() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByDeadline() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deadline', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByDeadlineDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByDeadlineDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deadline', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByDone() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByDone() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'done', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByDoneDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByDoneDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'done', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortById() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByIdDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByImportance() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByImportance() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'importance', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy>
-      sortByImportanceDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByImportanceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'importance', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByLastUpdatedBy() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByLastUpdatedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdatedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy>
-      sortByLastUpdatedByDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByLastUpdatedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdatedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByText() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> sortByTextDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> sortByTextDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.desc);
     });
   }
 }
 
-extension LocalTodoDtoQuerySortThenBy
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QSortThenBy> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByChangedAt() {
+extension LocalTodoQuerySortThenBy
+    on QueryBuilder<LocalTodo, LocalTodo, QSortThenBy> {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByChangedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'changedAt', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByChangedAtDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByChangedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'changedAt', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByColor() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByColor() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'color', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByColorDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByColorDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'color', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByCreatedAt() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByCreatedAtDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByCreatedAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByDeadline() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByDeadline() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deadline', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByDeadlineDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByDeadlineDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'deadline', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByDone() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByDone() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'done', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByDoneDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByDoneDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'done', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenById() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByIdDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByImportance() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByImportance() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'importance', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy>
-      thenByImportanceDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByImportanceDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'importance', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByIsarId() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByIsarId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByIsarIdDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByIsarIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isarId', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByLastUpdatedBy() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByLastUpdatedBy() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdatedBy', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy>
-      thenByLastUpdatedByDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByLastUpdatedByDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'lastUpdatedBy', Sort.desc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByText() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByText() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.asc);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QAfterSortBy> thenByTextDesc() {
+  QueryBuilder<LocalTodo, LocalTodo, QAfterSortBy> thenByTextDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'text', Sort.desc);
     });
   }
 }
 
-extension LocalTodoDtoQueryWhereDistinct
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> {
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByChangedAt() {
+extension LocalTodoQueryWhereDistinct
+    on QueryBuilder<LocalTodo, LocalTodo, QDistinct> {
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByChangedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'changedAt');
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByColor(
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByColor(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'color', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByCreatedAt() {
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByDeadline() {
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByDeadline() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'deadline');
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByDone() {
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByDone() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'done');
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctById(
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctById(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'id', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByImportance(
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByImportance(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'importance', caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByLastUpdatedBy(
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByLastUpdatedBy(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'lastUpdatedBy',
@@ -1733,7 +1697,7 @@ extension LocalTodoDtoQueryWhereDistinct
     });
   }
 
-  QueryBuilder<LocalTodoDto, LocalTodoDto, QDistinct> distinctByText(
+  QueryBuilder<LocalTodo, LocalTodo, QDistinct> distinctByText(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'text', caseSensitive: caseSensitive);
@@ -1741,65 +1705,63 @@ extension LocalTodoDtoQueryWhereDistinct
   }
 }
 
-extension LocalTodoDtoQueryProperty
-    on QueryBuilder<LocalTodoDto, LocalTodoDto, QQueryProperty> {
-  QueryBuilder<LocalTodoDto, int, QQueryOperations> isarIdProperty() {
+extension LocalTodoQueryProperty
+    on QueryBuilder<LocalTodo, LocalTodo, QQueryProperty> {
+  QueryBuilder<LocalTodo, int, QQueryOperations> isarIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'isarId');
     });
   }
 
-  QueryBuilder<LocalTodoDto, DateTime?, QQueryOperations> changedAtProperty() {
+  QueryBuilder<LocalTodo, DateTime?, QQueryOperations> changedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'changedAt');
     });
   }
 
-  QueryBuilder<LocalTodoDto, String?, QQueryOperations> colorProperty() {
+  QueryBuilder<LocalTodo, String?, QQueryOperations> colorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'color');
     });
   }
 
-  QueryBuilder<LocalTodoDto, DateTime?, QQueryOperations> createdAtProperty() {
+  QueryBuilder<LocalTodo, DateTime?, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });
   }
 
-  QueryBuilder<LocalTodoDto, DateTime?, QQueryOperations> deadlineProperty() {
+  QueryBuilder<LocalTodo, DateTime?, QQueryOperations> deadlineProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'deadline');
     });
   }
 
-  QueryBuilder<LocalTodoDto, bool?, QQueryOperations> doneProperty() {
+  QueryBuilder<LocalTodo, bool?, QQueryOperations> doneProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'done');
     });
   }
 
-  QueryBuilder<LocalTodoDto, String?, QQueryOperations> idProperty() {
+  QueryBuilder<LocalTodo, String?, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
     });
   }
 
-  QueryBuilder<LocalTodoDto, Importance?, QQueryOperations>
-      importanceProperty() {
+  QueryBuilder<LocalTodo, Importance?, QQueryOperations> importanceProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'importance');
     });
   }
 
-  QueryBuilder<LocalTodoDto, String?, QQueryOperations>
-      lastUpdatedByProperty() {
+  QueryBuilder<LocalTodo, String?, QQueryOperations> lastUpdatedByProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lastUpdatedBy');
     });
   }
 
-  QueryBuilder<LocalTodoDto, String?, QQueryOperations> textProperty() {
+  QueryBuilder<LocalTodo, String?, QQueryOperations> textProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'text');
     });

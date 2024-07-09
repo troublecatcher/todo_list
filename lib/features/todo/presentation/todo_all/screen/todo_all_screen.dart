@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/connectivity_indicator.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
@@ -57,8 +57,7 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                                   child: SizedBox.shrink(),
                                 );
                               case TodoLoadSuccess loadedState:
-                                final List<TodoEntity> todos =
-                                    loadedState.todos;
+                                final List<Todo> todos = loadedState.todos;
                                 if (todos.isEmpty) {
                                   return const NoTodosPlaceholder();
                                 }

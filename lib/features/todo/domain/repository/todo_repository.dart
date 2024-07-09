@@ -1,8 +1,8 @@
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 
 abstract class TodoRepository {
-  Future<List<TodoEntity>> fetchTodos();
-  Future<void> addTodo(TodoEntity todo);
-  Future<void> updateTodo(TodoEntity todo);
-  Future<void> deleteTodo(TodoEntity todo);
+  Future<List<Todo>> fetchTodos();
+  Future<void> addTodo(Todo todo);
+  Future<void> updateTodo(Todo todo);
+  Future<void> deleteTodo(Todo todo);
 }

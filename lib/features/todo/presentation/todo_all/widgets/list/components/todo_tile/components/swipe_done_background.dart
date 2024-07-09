@@ -1,7 +1,7 @@
 part of '../todo_tile.dart';
 
 class DismissDoneBackground extends StatelessWidget {
-  final TodoEntity todo;
+  final Todo todo;
   final bool reached;
   final double progress;
 

@@ -1,7 +1,7 @@
 part of '../todo_tile.dart';
 
 class TodoLeading extends StatelessWidget {
-  final TodoEntity todo;
+  final Todo todo;
   const TodoLeading({
     super.key,
     required this.todo,

@@ -7,9 +7,9 @@ class TodoInitial extends TodoState {}
 class TodoLoadInProgress extends TodoState {}
 
 class TodoLoadSuccess extends TodoState {
-  final List<TodoEntity> todos;
+  final List<Todo> todos;
 
-  TodoLoadSuccess(List<TodoEntity> todos)
+  TodoLoadSuccess(List<Todo> todos)
       : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
 }
 

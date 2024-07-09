@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
 
 import '../../repository/todo_repository.dart';
@@ -83,17 +83,17 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _updateStateWithNewTodo(
-    TodoEntity todo,
+    Todo todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Added todo ${todo.id}');
     final currentState = state as TodoLoadSuccess;
-    final updatedTodos = List<TodoEntity>.from(currentState.todos)..add(todo);
+    final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
     emit(TodoLoadSuccess(updatedTodos));
   }
 
   void _updateStateWithUpdatedTodo(
-    TodoEntity todo,
+    Todo todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Updated todo ${todo.id}');
@@ -105,7 +105,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _updateStateWithDeletedTodo(
-    TodoEntity todo,
+    Todo todo,
     Emitter<TodoState> emit,
   ) {
     Log.i('Deleted todo ${todo.id}');

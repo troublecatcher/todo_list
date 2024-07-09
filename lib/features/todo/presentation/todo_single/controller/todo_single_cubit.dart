@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
 
-class TodoSingleCubit extends Cubit<TodoEntity> {
-  TodoSingleCubit({TodoEntity? todo})
+class TodoSingleCubit extends Cubit<Todo> {
+  TodoSingleCubit({Todo? todo})
       : super(
           todo ??
-              TodoEntity(
+              Todo(
                 id: '', // will be updated upon saving
                 text: '',
                 importance: Importance.basic,

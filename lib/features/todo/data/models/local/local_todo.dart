@@ -2,10 +2,10 @@ import 'package:isar/isar.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 
-part 'local_todo_dto.g.dart';
+part 'local_todo.g.dart';
 
 @Collection()
-class LocalTodoDto {
+class LocalTodo {
   @Index()
   String? id;
 
@@ -29,7 +29,7 @@ class LocalTodoDto {
   @JsonKey(name: 'last_updated_by')
   String? lastUpdatedBy;
 
-  LocalTodoDto({
+  LocalTodo({
     this.id,
     this.text,
     this.importance,

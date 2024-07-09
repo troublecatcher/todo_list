@@ -4,7 +4,7 @@ class FetchTodosUseCase {
   final TodoRepository _todoRepository;
   FetchTodosUseCase(this._todoRepository);
 
-  Future<List<TodoEntity>> call() async {
+  Future<List<Todo>> call() async {
     return await _todoRepository.fetchTodos();
   }
 }
@@ -13,7 +13,7 @@ class AddTodoUseCase {
   final TodoRepository _todoRepository;
   AddTodoUseCase(this._todoRepository);
 
-  Future<void> call(TodoEntity todo) async {
+  Future<void> call(Todo todo) async {
     await _todoRepository.addTodo(todo);
   }
 }
@@ -22,7 +22,7 @@ class UpdateTodoUseCase {
   final TodoRepository _todoRepository;
   UpdateTodoUseCase(this._todoRepository);
 
-  Future<void> call(TodoEntity todo) async {
+  Future<void> call(Todo todo) async {
     await _todoRepository.updateTodo(todo);
   }
 }
@@ -31,7 +31,7 @@ class DeleteTodoUseCase {
   final TodoRepository _todoRepository;
   DeleteTodoUseCase(this._todoRepository);
 
-  Future<void> call(TodoEntity todo) async {
+  Future<void> call(Todo todo) async {
     await _todoRepository.deleteTodo(todo);
   }
 }

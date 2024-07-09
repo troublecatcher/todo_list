@@ -5,7 +5,7 @@ sealed class TodoOperationState {}
 final class TodoOperationIdleState extends TodoOperationState {}
 
 final class TodoOperationProcessingState extends TodoOperationState {
-  final TodoEntity todo;
+  final Todo todo;
 
   TodoOperationProcessingState({required this.todo});
 }

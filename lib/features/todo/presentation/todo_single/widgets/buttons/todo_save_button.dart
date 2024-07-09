@@ -3,16 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/services/device_info/device_info_service.dart';
+import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:uuid/uuid.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/entities/todo_entity.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
 
 class TodoSaveButton extends StatelessWidget {
-  final TodoEntity? currentTodo;
+  final Todo? currentTodo;
   const TodoSaveButton({
     super.key,
     required this.currentTodo,
@@ -20,13 +20,13 @@ class TodoSaveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TodoSingleCubit, TodoEntity>(
+    return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return CustomButtonBase(
           margin: const EdgeInsets.only(top: 8, right: 8),
           onPressed: todoHasText(todo)
               ? () {
-                  TodoEntity newTodo = todo.copyWith(
+                  Todo newTodo = todo.copyWith(
                     id: currentTodo?.id ?? const Uuid().v4(),
                     createdAt: currentTodo?.createdAt ?? DateTime.now(),
                     changedAt: DateTime.now(),
@@ -49,5 +49,5 @@ class TodoSaveButton extends StatelessWidget {
     );
   }
 
-  bool todoHasText(TodoEntity todo) => todo.text.isNotEmpty;
+  bool todoHasText(Todo todo) => todo.text.isNotEmpty;
 }
