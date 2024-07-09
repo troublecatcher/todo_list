@@ -8,9 +8,9 @@ import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 
-part '../mappers/entity_mapper.dart';
-part '../mappers/local_mappers.dart';
-part '../mappers/remote_mappers.dart';
+part 'mappers/entity_mapper.dart';
+part 'mappers/local_mappers.dart';
+part 'mappers/remote_mappers.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final RemoteTodoSource _remote;
@@ -27,14 +27,14 @@ class TodoRepositoryImpl implements TodoRepository {
   @override
   Future<List<Todo>> fetchTodos() async {
     try {
-      final int localRevision = _revision.value;
+      final localRevision = _revision.value;
       Log.i('Fetching todos remote');
-      final (List<RemoteTodo> remoteTodos, int remoteRevision) =
-          await _remote.getTodos();
+      final (remoteTodos, remoteRevision) = await _remote.getTodos();
       if (remoteRevision < localRevision) {
-        final List<LocalTodo> localTodos = await _local.getTodos();
+        final localTodos = await _tryGetLocalTodos();
         await _remote.putFresh(localTodos.toRemoteTodos());
-        await _revision.set(remoteRevision);
+        await _revision.set(localRevision + 1);
+        // +1 to match just updated remote revision
         Log.w('Local revision won, overwritten remote');
         return localTodos.toEntities();
       } else {
@@ -45,14 +45,18 @@ class TodoRepositoryImpl implements TodoRepository {
       }
     } catch (e, s) {
       Log.e('Error fetching todos from remote: $e, $s');
+      return (await _tryGetLocalTodos()).toEntities();
+    }
+  }
+
+  Future<List<LocalTodo>> _tryGetLocalTodos() async {
+    try {
       Log.i('Fetching todos local');
-      try {
-        final List<LocalTodo> localTodos = await _local.getTodos();
-        return localTodos.toEntities();
-      } catch (e, s) {
-        Log.e('Error fetching todos from local: $e, $s');
-        rethrow;
-      }
+      final List<LocalTodo> localTodos = await _local.getTodos();
+      return localTodos;
+    } catch (e, s) {
+      Log.e('Error fetching todos from local: $e, $s');
+      rethrow;
     }
   }
 

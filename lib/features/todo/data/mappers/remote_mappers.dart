@@ -1,4 +1,4 @@
-part of '../repositories/todo_repository_impl.dart';
+part of '../todo_repository_impl.dart';
 
 extension RemoteMapper on RemoteTodo {
   Todo toEntity() {

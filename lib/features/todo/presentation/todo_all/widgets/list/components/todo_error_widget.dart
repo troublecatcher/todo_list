@@ -11,10 +11,21 @@ class TodoErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverFillRemaining(
       hasScrollBody: false,
-      child: Center(
-        child: Text(
-          S.of(context).errorMessage(message),
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.error,
+            size: 100,
+            color: context.colorScheme.primary,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            S.of(context).errorMessage(message),
+            style: context.textTheme.titleMedium,
+          ),
+          const SizedBox(height: 100),
+        ],
       ),
     );
   }
