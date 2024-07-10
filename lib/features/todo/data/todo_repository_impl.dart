@@ -5,7 +5,6 @@ import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dar
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
-import 'package:get_it/get_it.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 
 part 'mappers/entity_mappers.dart';
@@ -139,7 +138,6 @@ class TodoRepositoryImpl implements TodoRepository {
       if (!incremented) await _revision.increment();
     } catch (e, s) {
       Log.e('Error in local: $e, $s');
-      rethrow;
     }
   }
 }

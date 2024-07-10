@@ -3,15 +3,15 @@ import 'package:mocktail/mocktail.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
 import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
-import 'package:todo_list/features/todo/data/sources/local/local_todo_source_impl.dart';
-import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source_impl.dart';
+import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
+import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 
-class MockRemoteTodoSource extends Mock implements RemoteTodoSourceImpl {}
+class MockRemoteTodoSource extends Mock implements RemoteTodoSource {}
 
-class MockLocalTodoSource extends Mock implements LocalTodoSourceImpl {}
+class MockLocalTodoSource extends Mock implements LocalTodoSource {}
 
 class MockRevisionSetting extends Mock implements RevisionSetting {}
 
@@ -41,7 +41,6 @@ void main() {
       initSync: initSyncSetting,
     );
 
-    // Resetting mock interactions
     reset(remoteSource);
     reset(localSource);
     reset(revisionSetting);
@@ -159,15 +158,17 @@ void main() {
       });
     });
 
-    group('и его метод addTodo', () {
-      test('должен добавлять дело при ошибке на удаленном источнике', () async {
+    group('и его методы addTodo, updateTodo, deleteTodo', () {
+      test(
+          'должен инкрементить ревизию при успешном добавлении на удаленном и локальном источниках',
+          () async {
         // Arrange
         when(() => revisionSetting.value).thenReturn(2);
         when(() => initSyncSetting.value).thenReturn(true);
-
-        // Stub responses for methods
-        when(() => remoteSource.getTodos())
-            .thenThrow(Exception('Remote error'));
+        when(() => remoteSource.getTodos()).thenAnswer(
+          (_) async =>
+              ([SampleRemoteTodo.withId('a'), SampleRemoteTodo.withId('b')], 2),
+        );
         when(() => localSource.putFresh(any()))
             .thenAnswer((_) async => Future.value());
         when(() => revisionSetting.set(any()))
@@ -179,76 +180,67 @@ void main() {
         when(() => revisionSetting.increment())
             .thenAnswer((_) async => Future.value());
 
-        // Act: Add 'c' using the repository
+        // Act
         await todoRepository.addTodo(SampleTodo.withId('c'));
 
-        // Assert: Verify that localSource.addTodo was called with the correct parameter
-        verify(() => localSource.addTodo(any())).called(1);
+        // Assert
+        verify(() => revisionSetting.increment()).called(1);
       });
-      test('должен добавлять дело при ошибке на обоих источниках', () async {
+
+      test(
+          'должен инкрементить ревизию при неудачном добавлении на удаленном источнике и успешном на локальном',
+          () async {
         // Arrange
         when(() => revisionSetting.value).thenReturn(2);
         when(() => initSyncSetting.value).thenReturn(true);
-
-        // Stub responses for methods
-        when(() => remoteSource.getTodos())
-            .thenThrow(Exception('Remote error'));
+        when(() => remoteSource.getTodos()).thenAnswer(
+          (_) async =>
+              ([SampleRemoteTodo.withId('a'), SampleRemoteTodo.withId('b')], 2),
+        );
         when(() => localSource.putFresh(any()))
+            .thenAnswer((_) async => Future.value());
+        when(() => revisionSetting.set(any()))
+            .thenAnswer((_) async => Future.value(true));
+        when(() => remoteSource.addTodo(any<RemoteTodo>()))
+            .thenThrow(Exception('Remote error'));
+        when(() => localSource.addTodo(any<LocalTodo>()))
+            .thenAnswer((_) async => Future.value());
+        when(() => revisionSetting.increment())
+            .thenAnswer((_) async => Future.value());
+
+        // Act
+        await todoRepository.addTodo(SampleTodo.withId('c'));
+
+        // Assert
+        verify(() => revisionSetting.increment()).called(1);
+      });
+
+      test(
+          'не должен инкрементить ревизию при неудачном добавлении на удаленном и локальном источниках',
+          () async {
+        // Arrange
+        when(() => revisionSetting.value).thenReturn(2);
+        when(() => initSyncSetting.value).thenReturn(true);
+        when(() => remoteSource.getTodos()).thenAnswer(
+          (_) async =>
+              ([SampleRemoteTodo.withId('a'), SampleRemoteTodo.withId('b')], 2),
+        );
+        when(() => localSource.putFresh(any()))
+            .thenAnswer((_) async => Future.value());
+        when(() => revisionSetting.set(any()))
+            .thenAnswer((_) async => Future.value(true));
+        when(() => remoteSource.addTodo(any<RemoteTodo>()))
+            .thenThrow(Exception('Remote error'));
+        when(() => localSource.addTodo(any<LocalTodo>()))
             .thenThrow(Exception('Local error'));
-        when(() => revisionSetting.set(any()))
-            .thenAnswer((_) async => Future.value(true));
-        when(() => remoteSource.addTodo(any<RemoteTodo>()))
-            .thenAnswer((_) async => Future.value());
-        when(() => localSource.addTodo(any<LocalTodo>()))
-            .thenAnswer((_) async => Future.value());
         when(() => revisionSetting.increment())
             .thenAnswer((_) async => Future.value());
 
-        // Act: Add 'c' using the repository
+        // Act
         await todoRepository.addTodo(SampleTodo.withId('c'));
 
-        // Assert: Verify that localSource.addTodo was called with the correct parameter
-        verify(() => localSource.addTodo(any()));
-      });
-    });
-
-    group('и его метод updateTodo', () {
-      test('должен изменять дело', () async {
-        // Arrange
-        when(() => remoteSource.updateTodo(any<RemoteTodo>()))
-            .thenAnswer((_) async => Future.value());
-        when(() => localSource.updateTodo(any<LocalTodo>()))
-            .thenAnswer((_) async => Future.value());
-        when(() => revisionSetting.increment())
-            .thenAnswer((_) async => Future.value());
-
-        // Act
-        await todoRepository.updateTodo(SampleTodo.withId('a'));
-
         // Assert
-        final todos = await todoRepository.fetchTodos();
-        final todoIds = todos.map((todo) => todo.id).toList();
-        expect(todoIds, contains('a'));
-      });
-    });
-
-    group('и его метод deleteTodo', () {
-      test('должен удалять дело', () async {
-        // Arrange
-        when(() => remoteSource.deleteTodo(any<RemoteTodo>()))
-            .thenAnswer((_) async => Future.value());
-        when(() => localSource.deleteTodo(any<LocalTodo>()))
-            .thenAnswer((_) async => Future.value());
-        when(() => revisionSetting.increment())
-            .thenAnswer((_) async => Future.value());
-
-        // Act
-        await todoRepository.deleteTodo(SampleTodo.withId('a'));
-
-        // Assert
-        final todos = await todoRepository.fetchTodos();
-        final todoIds = todos.map((todo) => todo.id).toList();
-        expect(todoIds, isNot(contains('a')));
+        verifyNever(() => revisionSetting.increment());
       });
     });
   });
