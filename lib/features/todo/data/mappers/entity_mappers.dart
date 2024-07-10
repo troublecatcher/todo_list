@@ -29,3 +29,13 @@ extension EntityMapper on Todo {
     );
   }
 }
+
+extension EntityListMapper on List<Todo> {
+  List<RemoteTodo> toRemoteTodos() {
+    return map((local) => local.toRemote()).toList();
+  }
+
+  List<LocalTodo> toLocalTodos() {
+    return map((local) => local.toLocal()).toList();
+  }
+}
