@@ -29,6 +29,8 @@ Future<void> initDependecies() async {
       return TodoRepositoryImpl(
         remote: remote,
         local: local,
+        revision: GetIt.I<SettingsService>().revision,
+        initSync: GetIt.I<SettingsService>().initSync,
       );
     },
   );

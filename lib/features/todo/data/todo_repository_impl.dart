@@ -21,29 +21,39 @@ class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl({
     required RemoteTodoSource remote,
     required LocalTodoSource local,
+    required RevisionSetting revision,
+    required InitSyncSetting initSync,
   })  : _remote = remote,
         _local = local,
-        _revision = GetIt.I<SettingsService>().revision,
-        _initSync = GetIt.I<SettingsService>().initSync;
+        _revision = revision,
+        _initSync = initSync;
+  // _revision = GetIt.I<SettingsService>().revision,
+  // _initSync = GetIt.I<SettingsService>().initSync;
 
   @override
   Future<List<Todo>> fetchTodos() async {
     final localRevision = _revision.value;
     final (remoteTodos, remoteRevision) = await _tryGetRemoteTodos();
-    if (_initSync.value) {
+    if (_initSync.value == true) {
       return await _handleRevisions(remoteRevision, localRevision, remoteTodos);
     } else {
-      await _initSync.set(true);
-      final localTodos = await _tryGetLocalTodos();
-      if (localTodos.isNotEmpty) {
-        final mergedTodos = remoteTodos.toEntities()
-          ..addAll(localTodos.toEntities());
-        await _remote.putFresh(mergedTodos.toRemoteTodos());
-        await _local.putFresh(mergedTodos.toLocalTodos());
-        return mergedTodos;
-      } else {
-        return remoteTodos.toEntities();
-      }
+      return await _mergeNeverSyncedTodosWithRemote(remoteTodos);
+    }
+  }
+
+  Future<List<Todo>> _mergeNeverSyncedTodosWithRemote(
+    List<RemoteTodo> remoteTodos,
+  ) async {
+    await _initSync.set(true);
+    final localTodos = await _tryGetLocalTodos();
+    if (localTodos.isNotEmpty) {
+      final mergedTodos = remoteTodos.toEntities()
+        ..addAll(localTodos.toEntities());
+      await _remote.putFresh(mergedTodos.toRemoteTodos());
+      await _local.putFresh(mergedTodos.toLocalTodos());
+      return mergedTodos;
+    } else {
+      return remoteTodos.toEntities();
     }
   }
 
