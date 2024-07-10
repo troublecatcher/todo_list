@@ -14,9 +14,11 @@ Future<void> initDependecies() async {
   GetIt.I.registerSingletonAsync<DeviceInfoService>(
     () => DeviceInfoService().init(),
   );
+  await GetIt.I.isReady<DeviceInfoService>();
   GetIt.I.registerSingletonAsync<SettingsService>(
     () => SettingsService().init(),
   );
+  await GetIt.I.isReady<SettingsService>();
   GetIt.I.registerSingletonAsync<TodoRepository>(
     () async {
       final dio = Dio(BaseOptions(baseUrl: 'https://hive.mrdekk.ru/todo/'));
@@ -34,6 +36,5 @@ Future<void> initDependecies() async {
       );
     },
   );
-
-  await GetIt.I.allReady();
+  await GetIt.I.isReady<TodoRepository>();
 }

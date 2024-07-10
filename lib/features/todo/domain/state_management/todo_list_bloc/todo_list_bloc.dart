@@ -1,10 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
 
 import '../../repository/todo_repository.dart';
-part '../../usecases/usecases.dart';
 part 'todo_list_event.dart';
 part 'todo_list_state.dart';
 
@@ -30,7 +30,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     emit(TodoLoadInProgress());
     try {
-      final todos = await FetchTodosUseCase(_todoRepository).call();
+      final todos = await _todoRepository.fetchTodos();
       emit(TodoLoadSuccess(todos));
     } catch (e) {
       emit(TodoFailure(e.toString()));
@@ -43,7 +43,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     _todoOperation.startOperation(event.todo);
     try {
-      await AddTodoUseCase(_todoRepository).call(event.todo);
+      await _todoRepository.addTodo(event.todo);
       _updateStateWithNewTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error creating todo ${event.todo.id}: $e');
@@ -58,7 +58,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     _todoOperation.startOperation(event.todo);
     try {
-      await UpdateTodoUseCase(_todoRepository).call(event.todo);
+      await _todoRepository.updateTodo(event.todo);
       _updateStateWithUpdatedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error updating todo ${event.todo.id}: $e');
@@ -73,7 +73,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   ) async {
     _todoOperation.startOperation(event.todo);
     try {
-      await DeleteTodoUseCase(_todoRepository).call(event.todo);
+      await _todoRepository.deleteTodo(event.todo);
       _updateStateWithDeletedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error deleting todo ${event.todo.id}: $e');

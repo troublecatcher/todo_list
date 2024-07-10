@@ -8,11 +8,9 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
   late StreamSubscription<List<ConnectivityResult>> _subscription;
   ConnectivityResult previousState = ConnectivityResult.none;
 
-  ConnectivityCubit() : super(ConnectivityInitial()) {
-    _init();
-  }
+  ConnectivityCubit() : super(ConnectivityInitial());
 
-  void _init() {
+  void init() {
     _subscription = Connectivity().onConnectivityChanged.listen(
       (results) async {
         if (results.contains(ConnectivityResult.none)) {

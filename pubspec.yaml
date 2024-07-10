@@ -11,6 +11,7 @@ dependencies:
   connectivity_plus: ^6.0.3
   device_info_plus: ^10.1.0
   dio: ^5.4.3+1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
@@ -34,11 +35,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   flutter_lints: ^3.0.0
   build_runner: ^2.4.9
   isar_generator: ^3.1.0+1
   json_serializable: ^6.8.0
   mocktail: ^1.0.4
+  bloc_test: ^9.1.7
 
 flutter:
   uses-material-design: true

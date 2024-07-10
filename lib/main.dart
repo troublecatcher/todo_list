@@ -20,7 +20,7 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ConnectivityCubit()),
+        BlocProvider(create: (context) => ConnectivityCubit()..init()),
         BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => DeleteConfirmationCubit()),

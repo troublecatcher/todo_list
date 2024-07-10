@@ -65,6 +65,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                   ),
                   Expanded(
                     child: TextField(
+                      key: const Key('fastTodoTextField'),
                       controller: fastTodoNameController,
                       style: context.textTheme.bodyMedium,
                       decoration: InputDecoration(

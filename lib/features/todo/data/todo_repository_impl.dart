@@ -48,14 +48,22 @@ class TodoRepositoryImpl implements TodoRepository {
     }
   }
 
-  Future<List<LocalTodo>> _tryGetLocalTodos() async {
-    try {
-      Log.i('Fetching todos local');
-      final List<LocalTodo> localTodos = await _local.getTodos();
-      return localTodos;
-    } catch (e, s) {
-      Log.e('Error fetching todos from local: $e, $s');
-      rethrow;
+  Future<List<Todo>> _handleRevisions(
+    int remoteRevision,
+    int localRevision,
+    List<RemoteTodo> remoteTodos,
+  ) async {
+    if (remoteRevision < localRevision) {
+      final localTodos = await _tryGetLocalTodos();
+      await _remote.putFresh(localTodos.toRemoteTodos());
+      await _revision.set(localRevision + 1);
+      Log.w('Local revision won, overwritten remote');
+      return localTodos.toEntities();
+    } else {
+      await _local.putFresh(remoteTodos.toLocalTodos());
+      await _revision.set(remoteRevision);
+      Log.w('Remote revision won, overwritten local');
+      return remoteTodos.toEntities();
     }
   }
 
@@ -75,22 +83,14 @@ class TodoRepositoryImpl implements TodoRepository {
     }
   }
 
-  Future<List<Todo>> _handleRevisions(
-    int remoteRevision,
-    int localRevision,
-    List<RemoteTodo> remoteTodos,
-  ) async {
-    if (remoteRevision < localRevision) {
-      final localTodos = await _tryGetLocalTodos();
-      await _remote.putFresh(localTodos.toRemoteTodos());
-      await _revision.set(localRevision + 1);
-      Log.w('Local revision won, overwritten remote');
-      return localTodos.toEntities();
-    } else {
-      await _local.putFresh(remoteTodos.toLocalTodos());
-      await _revision.set(remoteRevision);
-      Log.w('Remote revision won, overwritten local');
-      return remoteTodos.toEntities();
+  Future<List<LocalTodo>> _tryGetLocalTodos() async {
+    try {
+      Log.i('Fetching todos local');
+      final List<LocalTodo> localTodos = await _local.getTodos();
+      return localTodos;
+    } catch (e, s) {
+      Log.e('Error fetching todos from local: $e, $s');
+      rethrow;
     }
   }
 
@@ -122,6 +122,7 @@ class TodoRepositoryImpl implements TodoRepository {
     required Future<void> Function() remoteAction,
     required Future<void> Function() localAction,
   }) async {
+    print(_revision.value);
     bool incremented = false;
     try {
       await remoteAction();

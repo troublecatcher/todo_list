@@ -23,6 +23,7 @@ class TodoSaveButton extends StatelessWidget {
     return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return CustomButtonBase(
+          key: const Key('saveButton'),
           margin: const EdgeInsets.only(top: 8, right: 8),
           onPressed: todoHasText(todo)
               ? () {

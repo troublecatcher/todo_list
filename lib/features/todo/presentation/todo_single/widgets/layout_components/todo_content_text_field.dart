@@ -32,6 +32,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
     return CustomCard(
       padding: const EdgeInsets.all(16),
       child: TextField(
+        key: const Key('todoTextField'),
         controller: textController,
         style: context.textTheme.bodyMedium,
         decoration: InputDecoration(
