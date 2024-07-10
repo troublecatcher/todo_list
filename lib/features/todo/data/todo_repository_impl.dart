@@ -26,17 +26,36 @@ class TodoRepositoryImpl implements TodoRepository {
         _local = local,
         _revision = revision,
         _initSync = initSync;
-  // _revision = GetIt.I<SettingsService>().revision,
-  // _initSync = GetIt.I<SettingsService>().initSync;
 
   @override
   Future<List<Todo>> fetchTodos() async {
     final localRevision = _revision.value;
-    final (remoteTodos, remoteRevision) = await _tryGetRemoteTodos();
-    if (_initSync.value == true) {
-      return await _handleRevisions(remoteRevision, localRevision, remoteTodos);
-    } else {
-      return await _mergeNeverSyncedTodosWithRemote(remoteTodos);
+    try {
+      Log.i('Fetching todos remote');
+      final (remoteTodos, remoteRevision) = await _remote.getTodos();
+      if (_initSync.value == true) {
+        return await _handleRevisions(
+          remoteRevision,
+          localRevision,
+          remoteTodos,
+        );
+      } else {
+        return await _mergeNeverSyncedTodosWithRemote(remoteTodos);
+      }
+    } catch (e, s) {
+      Log.e('Error fetching todos from remote: $e, $s');
+      return (await _tryGetLocalTodos()).toEntities();
+    }
+  }
+
+  Future<List<LocalTodo>> _tryGetLocalTodos() async {
+    try {
+      Log.i('Fetching todos local');
+      final List<LocalTodo> localTodos = await _local.getTodos();
+      return localTodos;
+    } catch (e, s) {
+      Log.e('Error fetching todos from local: $e, $s');
+      rethrow;
     }
   }
 
@@ -72,28 +91,6 @@ class TodoRepositoryImpl implements TodoRepository {
       await _revision.set(remoteRevision);
       Log.w('Remote revision won, overwritten local');
       return remoteTodos.toEntities();
-    }
-  }
-
-  Future<(List<RemoteTodo>, int)> _tryGetRemoteTodos() async {
-    try {
-      Log.i('Fetching todos remote');
-      final (remoteTodos, revision) = await _remote.getTodos();
-      return (remoteTodos, revision);
-    } catch (e, s) {
-      Log.e('Error fetching todos from remote: $e, $s');
-      rethrow;
-    }
-  }
-
-  Future<List<LocalTodo>> _tryGetLocalTodos() async {
-    try {
-      Log.i('Fetching todos local');
-      final List<LocalTodo> localTodos = await _local.getTodos();
-      return localTodos;
-    } catch (e, s) {
-      Log.e('Error fetching todos from local: $e, $s');
-      rethrow;
     }
   }
 
