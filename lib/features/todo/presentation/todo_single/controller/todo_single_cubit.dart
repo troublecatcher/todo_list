@@ -1,23 +1,26 @@
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
+import 'package:uuid/uuid.dart';
 
 class TodoSingleCubit extends Cubit<Todo> {
   TodoSingleCubit({Todo? todo})
       : super(
           todo ??
               Todo(
-                id: '', // will be updated upon saving
+                id: '',
                 text: '',
                 importance: Importance.basic,
                 deadline: null,
                 done: false,
                 color: null,
-                createdAt: DateTime.now(), // will be updated upon saving
-                changedAt: DateTime.now(), // will be updated upon saving
-                lastUpdatedBy: '', // will be updated upon saving
+                createdAt: DateTime.now(),
+                changedAt: DateTime.now(),
+                lastUpdatedBy: '',
               ),
         );
 
@@ -55,5 +58,17 @@ class TodoSingleCubit extends Cubit<Todo> {
       ),
     );
     Log.i('Updated todo color: $color');
+  }
+
+  Todo assignMetadata(Todo? currentTodo) {
+    Todo newTodo = state.copyWith(
+      id: currentTodo?.id ?? const Uuid().v4(),
+      createdAt: currentTodo?.createdAt ?? DateTime.now(),
+      changedAt: DateTime.now(),
+      lastUpdatedBy: GetIt.I<DeviceInfoService>().info,
+    );
+    Log.i('Saved todo: ${newTodo.id}');
+    emit(newTodo);
+    return newTodo;
   }
 }

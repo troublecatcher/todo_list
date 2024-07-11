@@ -122,7 +122,6 @@ class TodoRepositoryImpl implements TodoRepository {
     required Future<void> Function() remoteAction,
     required Future<void> Function() localAction,
   }) async {
-    print(_revision.value);
     bool incremented = false;
     try {
       await remoteAction();

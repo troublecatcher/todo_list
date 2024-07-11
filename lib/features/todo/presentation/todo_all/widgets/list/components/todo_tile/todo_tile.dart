@@ -47,73 +47,70 @@ class _TodoTileState extends State<TodoTile> {
           absorbing: isBeingProcessed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Hero(
-              tag: widget.todo.id,
-              child: CustomCard(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Dismissible(
-                    key: ValueKey(widget.todo.id),
-                    dismissThresholds: const {
-                      DismissDirection.startToEnd: 0.3,
-                      DismissDirection.endToStart: 0.3,
+            child: CustomCard(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Dismissible(
+                  key: ValueKey(widget.todo.id),
+                  dismissThresholds: const {
+                    DismissDirection.startToEnd: 0.3,
+                    DismissDirection.endToStart: 0.3,
+                  },
+                  onUpdate: (details) => _handleDragUpdate(details),
+                  confirmDismiss: (direction) =>
+                      _handleDismiss(direction, context),
+                  background: ValueListenableBuilder<bool>(
+                    valueListenable: _reachedNotifier,
+                    builder: (context, reached, child) {
+                      return ValueListenableBuilder<double>(
+                        valueListenable: _progressNotifier,
+                        builder: (context, progress, child) {
+                          return DismissDoneBackground(
+                            todo: widget.todo,
+                            reached: reached,
+                            progress: progress,
+                          );
+                        },
+                      );
                     },
-                    onUpdate: (details) => _handleDragUpdate(details),
-                    confirmDismiss: (direction) =>
-                        _handleDismiss(direction, context),
-                    background: ValueListenableBuilder<bool>(
-                      valueListenable: _reachedNotifier,
-                      builder: (context, reached, child) {
-                        return ValueListenableBuilder<double>(
-                          valueListenable: _progressNotifier,
-                          builder: (context, progress, child) {
-                            return DismissDoneBackground(
-                              todo: widget.todo,
-                              reached: reached,
-                              progress: progress,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    secondaryBackground: ValueListenableBuilder<bool>(
-                      valueListenable: _reachedNotifier,
-                      builder: (context, reached, child) {
-                        return ValueListenableBuilder<double>(
-                          valueListenable: _progressNotifier,
-                          builder: (context, progress, child) {
-                            return DismissDeleteBackground(
-                              reached: reached,
-                              progress: progress,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    child: AnimatedSize(
-                      duration: Durations.long4,
-                      curve: Curves.elasticOut,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          IntrinsicHeight(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TodoLeading(todo: widget.todo),
-                                TodoContent(widget: widget),
-                                TodoTrailing(todo: widget.todo),
-                              ],
-                            ),
+                  ),
+                  secondaryBackground: ValueListenableBuilder<bool>(
+                    valueListenable: _reachedNotifier,
+                    builder: (context, reached, child) {
+                      return ValueListenableBuilder<double>(
+                        valueListenable: _progressNotifier,
+                        builder: (context, progress, child) {
+                          return DismissDeleteBackground(
+                            reached: reached,
+                            progress: progress,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  child: AnimatedSize(
+                    duration: Durations.long4,
+                    curve: Curves.elasticOut,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TodoLeading(todo: widget.todo),
+                              TodoContent(widget: widget),
+                              TodoTrailing(todo: widget.todo),
+                            ],
                           ),
-                          switch (isBeingProcessed) {
-                            true => const LinearProgressIndicator(
-                                backgroundColor: Colors.transparent,
-                              ),
-                            false => const SizedBox(height: 4),
-                          },
-                        ],
-                      ),
+                        ),
+                        switch (isBeingProcessed) {
+                          true => const LinearProgressIndicator(
+                              backgroundColor: Colors.transparent,
+                            ),
+                          false => const SizedBox(height: 4),
+                        },
+                      ],
                     ),
                   ),
                 ),
