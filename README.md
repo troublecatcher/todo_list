@@ -1,5 +1,5 @@
 # Just Todo It v3.0.2
-Last updated 6 Jul, 2024
+Last updated 11 Jul, 2024
 
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/960073d1-e883-4f0c-8eb6-4efbf37e434e" width="12%" height="12%"/>
 
