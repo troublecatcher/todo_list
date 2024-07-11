@@ -1,9 +1,10 @@
 # Just Todo It v3.0.2
+
 Last updated 11 Jul, 2024
 
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/960073d1-e883-4f0c-8eb6-4efbf37e434e" width="12%" height="12%"/>
 
-[Скачать .apk](https://drive.google.com/file/d/1fC0Hqsgzs9IuS6SV6gF9EoB5e5v6cp_4/view?usp=sharing)
+[Скачать .apk](https://drive.google.com/file/d/1ACFuFoptodD-zjXWBC9zxTLZOqtUQ274/view?usp=sharing)
 
 Приложение для отслеживания выполненных дел.
 Что может быть проще?
@@ -67,18 +68,20 @@ Last updated 11 Jul, 2024
 
 Реализован переход непосредственно на страницу создания нового туду при помощи прямых ссылок. Работает и при убитом приложении.
 Протестировать:
+
 ```
 make deeplink_android
 ```
+
 ```
 make deeplink_ios
 ```
 
 ### Ключи
 
-Если вы в дебаге, перед запуском вам нужно будет создать ```assets/.env``` файл и указать там свой ключ в формате:
+Если вы в дебаге, перед запуском вам нужно будет создать `assets/.env` файл и указать там свой ключ в формате:
 
-```"auth=[Bearer/OAuth] [ваш соответствующий ключ]"```
+`"auth=[Bearer/OAuth] [ваш соответствующий ключ]"`
 
 Если вы запустили apk, для корректной работы вам будет необходимо сделать одно из следующих действий:
 
