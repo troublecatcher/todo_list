@@ -59,6 +59,7 @@ class _TodoTileState extends State<TodoTile> {
                   onUpdate: (details) => _handleDragUpdate(details),
                   confirmDismiss: (direction) =>
                       _handleDismiss(direction, context),
+                  onDismissed: (direction) => setState(() {}),
                   background: ValueListenableBuilder<bool>(
                     valueListenable: _reachedNotifier,
                     builder: (context, reached, child) {

@@ -40,7 +40,10 @@ class TodoRepositoryImpl implements TodoRepository {
           remoteTodos,
         );
       } else {
-        return await _mergeNeverSyncedTodosWithRemote(remoteTodos);
+        return await _mergeNeverSyncedTodosWithRemote(
+          remoteRevision,
+          remoteTodos,
+        );
       }
     } catch (e, s) {
       Log.e('Error fetching todos from remote: $e, $s');
@@ -68,9 +71,11 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   Future<List<Todo>> _mergeNeverSyncedTodosWithRemote(
+    int remoteRevision,
     List<RemoteTodo> remoteTodos,
   ) async {
     await _initSync.set(true);
+    // await _revision.set(remoteRevision);
     final localTodos = await _tryGetLocalTodos();
     if (localTodos.isNotEmpty) {
       final mergedTodos = remoteTodos.toEntities()

@@ -13,11 +13,11 @@ class DialogManager {
     BuildContext context,
     Todo todo,
   ) async {
-    Log.i('prompted to delete todo ${todo.id})');
     final bool confirmDialogs = GetIt.I<SettingsService>().confirmDialogs.value;
     if (!confirmDialogs) {
       return true;
     }
+    Log.i('prompted to delete todo ${todo.id})');
     return await showDialog(
           context: context,
           builder: (context) => PopScope(
