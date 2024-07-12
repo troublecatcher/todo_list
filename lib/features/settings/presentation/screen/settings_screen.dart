@@ -32,110 +32,117 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            leading: const CustomBackButton(),
-            title: Text(
-              S.of(context).settings,
-              style: context.textTheme.titleMedium,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(S.of(context).language),
-                      BlocBuilder<LocaleCubit, String>(
-                        builder: (context, state) {
-                          return DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              borderRadius: LayoutConstants.borderRadius,
-                              value: state,
-                              items: List.generate(
-                                  S.delegate.supportedLocales.length, (index) {
-                                final String lang = S.delegate
-                                    .supportedLocales[index].languageCode;
-                                return DropdownMenuItem(
-                                  value: lang,
-                                  child: Text(lang),
-                                );
-                              }),
-                              onChanged: (value) =>
-                                  context.read<LocaleCubit>().set(value!),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(S.of(context).theme),
-                      BlocBuilder<ThemeCubit, ThemeMode>(
-                        builder: (context, state) {
-                          return DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              borderRadius: LayoutConstants.borderRadius,
-                              value: state,
-                              items: List.generate(
-                                ThemeMode.values.length,
-                                (index) {
-                                  final ThemeMode pref =
-                                      ThemeMode.values[index];
+      appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 5,
+        leading: const CustomBackButton(),
+        title: Text(
+          S.of(context).settings,
+          style: context.textTheme.titleMedium,
+        ),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(S.of(context).language),
+                        BlocBuilder<LocaleCubit, String>(
+                          builder: (context, state) {
+                            return DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                borderRadius: LayoutConstants.borderRadius,
+                                value: state,
+                                items: List.generate(
+                                    S.delegate.supportedLocales.length,
+                                    (index) {
+                                  final String lang = S.delegate
+                                      .supportedLocales[index].languageCode;
                                   return DropdownMenuItem(
-                                    value: pref,
-                                    child: Text(pref.name),
+                                    value: lang,
+                                    child: Text(lang),
                                   );
-                                },
+                                }),
+                                onChanged: (value) =>
+                                    context.read<LocaleCubit>().set(value!),
                               ),
-                              onChanged: (value) =>
-                                  context.read<ThemeCubit>().set(value!),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  BlocBuilder<DeleteConfirmationCubit, bool>(
-                    builder: (context, confirm) {
-                      return SwitchListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(S.of(context).confirmTodoDeletion),
-                        value: confirm,
-                        onChanged: (value) =>
-                            context.read<DeleteConfirmationCubit>().set(value),
-                      );
-                    },
-                  ),
-                  Text(
-                    S.of(context).apiKey,
-                    style: context.textTheme.titleMedium,
-                  ),
-                  const ApiKeyChangeTile(),
-                  BlocBuilder<AuthCubit, AuthState>(
-                    builder: (context, state) {
-                      return CustomButtonBase(
-                        onPressed: state.source != AuthSource.env
-                            ? () async => await context
-                                .read<AuthCubit>()
-                                .set(AuthSource.env, '')
-                            : null,
-                        child: Text(S.of(context).useEnvFile),
-                      );
-                    },
-                  ),
-                ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(S.of(context).theme),
+                        BlocBuilder<ThemeCubit, ThemeMode>(
+                          builder: (context, state) {
+                            return DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                borderRadius: LayoutConstants.borderRadius,
+                                value: state,
+                                items: List.generate(
+                                  ThemeMode.values.length,
+                                  (index) {
+                                    final ThemeMode pref =
+                                        ThemeMode.values[index];
+                                    return DropdownMenuItem(
+                                      value: pref,
+                                      child: Text(pref.name),
+                                    );
+                                  },
+                                ),
+                                onChanged: (value) =>
+                                    context.read<ThemeCubit>().set(value!),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    BlocBuilder<DeleteConfirmationCubit, bool>(
+                      builder: (context, confirm) {
+                        return SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(S.of(context).confirmTodoDeletion),
+                          value: confirm,
+                          onChanged: (value) => context
+                              .read<DeleteConfirmationCubit>()
+                              .set(value),
+                        );
+                      },
+                    ),
+                    Text(
+                      S.of(context).apiKey,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    const ApiKeyChangeTile(),
+                    BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        return CustomButtonBase(
+                          onPressed: state.source != AuthSource.env
+                              ? () async => await context
+                                  .read<AuthCubit>()
+                                  .set(AuthSource.env, '')
+                              : null,
+                          child: Text(S.of(context).useEnvFile),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

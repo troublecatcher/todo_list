@@ -18,39 +18,41 @@ class TodoSingleScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => TodoSingleCubit(todo: todo),
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              elevation: 0,
-              scrolledUnderElevation: 5,
-              leading: const CustomBackButton(),
-              actions: [TodoSaveButton(currentTodo: todo)],
-              pinned: true,
-            ),
-            const SliverPadding(
-              padding: EdgeInsets.only(top: 8, right: 16, left: 16),
-              sliver: SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    TodoContentTextField(),
-                    TodoImportanceSelectionTile(),
-                    Divider(height: 0),
-                    TodoDeadlineSelectionTile(),
-                  ],
+        appBar: AppBar(
+          elevation: 0,
+          scrolledUnderElevation: 5,
+          leading: const CustomBackButton(),
+          actions: [TodoSaveButton(currentTodo: todo)],
+        ),
+        body: SafeArea(
+          bottom: false,
+          child: CustomScrollView(
+            slivers: [
+              const SliverPadding(
+                padding: EdgeInsets.only(top: 8, right: 16, left: 16),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      TodoContentTextField(),
+                      TodoImportanceSelectionTile(),
+                      Divider(height: 0),
+                      TodoDeadlineSelectionTile(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SliverToBoxAdapter(child: Divider()),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 8, right: 16, left: 16),
-              sliver: SliverToBoxAdapter(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TodoDeleteButton(todo: todo),
+              const SliverToBoxAdapter(child: Divider()),
+              SliverPadding(
+                padding: const EdgeInsets.only(bottom: 32, right: 16, left: 16),
+                sliver: SliverToBoxAdapter(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TodoDeleteButton(todo: todo),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

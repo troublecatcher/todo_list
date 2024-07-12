@@ -44,61 +44,65 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
               ]
             : [],
       ),
-      child: Stack(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: lerpDouble(60, 16, collapsePercent)!,
-              bottom: lerpDouble(0, 16, collapsePercent)!,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BlocBuilder<TodoListBloc, TodoState>(
-                  builder: (context, state) {
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 100),
-                      transitionBuilder: (child, animation) => FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
-                      child: Text(
-                        switch (state is TodoLoadInProgress) {
-                          true => S.of(context).loading,
-                          false => S.of(context).homeHeaderTitle,
-                        },
-                        style: TextStyle(
-                          fontSize: lerpDouble(32, 20, collapsePercent),
-                          fontWeight: FontWeight.w500,
+      child: SafeArea(
+        top: false,
+        bottom: false,
+        child: Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                left: lerpDouble(60, 16, collapsePercent)!,
+                bottom: lerpDouble(0, 16, collapsePercent)!,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  BlocBuilder<TodoListBloc, TodoState>(
+                    builder: (context, state) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 100),
+                        transitionBuilder: (child, animation) => FadeTransition(
+                          opacity: animation,
+                          child: child,
                         ),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 4 - 4 * collapsePercent),
-                AnimatedContainer(
-                  duration: Duration.zero,
-                  height: subtitleHeight,
-                  child: Opacity(
-                    opacity: 1 - collapsePercent,
-                    child: const DoneTodoCountWidget(),
+                        child: Text(
+                          switch (state is TodoLoadInProgress) {
+                            true => S.of(context).loading,
+                            false => S.of(context).homeHeaderTitle,
+                          },
+                          style: TextStyle(
+                            fontSize: lerpDouble(32, 20, collapsePercent),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ),
-              ],
+                  SizedBox(height: 4 - 4 * collapsePercent),
+                  AnimatedContainer(
+                    duration: Duration.zero,
+                    height: subtitleHeight,
+                    child: Opacity(
+                      opacity: 1 - collapsePercent,
+                      child: const DoneTodoCountWidget(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                VisibilityToggleButton(collapsePercent: collapsePercent),
-                SettingsButton(collapsePercent: collapsePercent),
-              ],
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  VisibilityToggleButton(collapsePercent: collapsePercent),
+                  SettingsButton(collapsePercent: collapsePercent),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -26,6 +26,8 @@ class TodoAllScreenState extends State<TodoAllScreen> {
       child: Scaffold(
         body: SafeArea(
           bottom: false,
+          right: false,
+          left: false,
           child: Container(
             color: context.scaffoldBackgroundColor,
             child: Column(
@@ -45,25 +47,29 @@ class TodoAllScreenState extends State<TodoAllScreen> {
                             collapsedHeight: 56,
                           ),
                         ),
-                        BlocBuilder<TodoListBloc, TodoState>(
-                          builder: (context, state) {
-                            switch (state) {
-                              case TodoLoadInProgress _:
-                                return const TodoShimmerList();
-                              case TodoFailure _:
-                                return TodoErrorWidget(message: state.message);
-                              case TodoInitial _:
-                                return const SliverToBoxAdapter(
-                                  child: SizedBox.shrink(),
-                                );
-                              case TodoLoadSuccess loadedState:
-                                final List<Todo> todos = loadedState.todos;
-                                if (todos.isEmpty) {
-                                  return const NoTodosPlaceholder();
-                                }
-                                return TodoList(todos: todos);
-                            }
-                          },
+                        SliverSafeArea(
+                          sliver: BlocBuilder<TodoListBloc, TodoState>(
+                            builder: (context, state) {
+                              switch (state) {
+                                case TodoLoadInProgress _:
+                                  return const TodoShimmerList();
+                                case TodoFailure _:
+                                  return TodoErrorWidget(
+                                    message: state.message,
+                                  );
+                                case TodoInitial _:
+                                  return const SliverToBoxAdapter(
+                                    child: SizedBox.shrink(),
+                                  );
+                                case TodoLoadSuccess loadedState:
+                                  final List<Todo> todos = loadedState.todos;
+                                  if (todos.isEmpty) {
+                                    return const NoTodosPlaceholder();
+                                  }
+                                  return TodoList(todos: todos);
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),
