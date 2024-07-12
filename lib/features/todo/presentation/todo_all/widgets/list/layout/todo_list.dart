@@ -24,7 +24,7 @@ part '../components/fast_todo_creation_tile.dart';
 part '../components/no_todos_placeholder.dart';
 part '../components/todo_error_widget.dart';
 
-class TodoList extends StatefulWidget {
+class TodoList extends StatelessWidget {
   const TodoList({
     super.key,
     required this.todos,
@@ -33,25 +33,12 @@ class TodoList extends StatefulWidget {
   final List<Todo> todos;
 
   @override
-  State<TodoList> createState() => _TodoListState();
-}
-
-class _TodoListState extends State<TodoList> {
-  @override
-  void didUpdateWidget(covariant TodoList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // print(widget.todos.length);
-    // print(oldWidget.todos.length);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<VisibilityCubit, VisibilityMode>(
       builder: (context, mode) {
-        List<Todo> maybeFilteredTodos = widget.todos;
+        List<Todo> maybeFilteredTodos = todos;
         if (mode == VisibilityMode.undone) {
-          maybeFilteredTodos =
-              widget.todos.where((todo) => !todo.done).toList();
+          maybeFilteredTodos = todos.where((todo) => !todo.done).toList();
         }
         return SliverPadding(
           padding: const EdgeInsets.only(top: 16, bottom: 120),

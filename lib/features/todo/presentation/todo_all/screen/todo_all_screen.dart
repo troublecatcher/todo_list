@@ -19,8 +19,10 @@ class TodoAllScreen extends StatefulWidget {
 class TodoAllScreenState extends State<TodoAllScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => VisibilityCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => VisibilityCubit()),
+      ],
       child: Scaffold(
         body: SafeArea(
           bottom: false,
