@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
 
 import '../../repository/todo_repository.dart';

@@ -8,9 +8,9 @@ import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/t
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 
 class VisibilityToggleButton extends StatelessWidget {
-  const VisibilityToggleButton({super.key, required this.collapsePercent});
-
   final double collapsePercent;
+
+  const VisibilityToggleButton({super.key, required this.collapsePercent});
 
   @override
   Widget build(BuildContext context) {

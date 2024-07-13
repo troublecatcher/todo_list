@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/mobile/mobile_layout.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_layout.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/connectivity_indicator.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_shimmer_list.dart';
 
 class TodoAllScreen extends StatefulWidget {
   const TodoAllScreen({super.key});
@@ -26,58 +22,23 @@ class TodoAllScreenState extends State<TodoAllScreen> {
           bottom: false,
           right: false,
           left: false,
-          child: Container(
-            color: context.scaffoldBackgroundColor,
-            child: Column(
-              children: [
-                const ConnectivityIndicator(),
-                Expanded(
-                  child: RefreshIndicator(
-                    edgeOffset: 124,
-                    onRefresh: () async =>
-                        context.read<TodoListBloc>().add(TodosFetchStarted()),
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: CustomHeaderDelegate(
-                            expandedHeight: 116,
-                            collapsedHeight: 56,
-                          ),
-                        ),
-                        SliverSafeArea(
-                          sliver: BlocBuilder<TodoListBloc, TodoState>(
-                            builder: (context, state) {
-                              switch (state) {
-                                case TodoLoadInProgress _:
-                                  return const TodoShimmerList();
-                                case TodoFailure _:
-                                  return TodoErrorWidget(
-                                    message: state.message,
-                                  );
-                                case TodoInitial _:
-                                  return const SliverToBoxAdapter(
-                                    child: SizedBox.shrink(),
-                                  );
-                                case TodoLoadSuccess loadedState:
-                                  final List<Todo> todos = loadedState.todos;
-                                  if (todos.isEmpty) {
-                                    return const NoTodosPlaceholder();
-                                  }
-                                  return TodoList(todos: todos);
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+          child: Column(
+            children: [
+              const ConnectivityIndicator(),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 600) {
+                      return const TabletLayout();
+                    } else {
+                      return const MobileLayout();
+                    }
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        floatingActionButton: const CreateTodoButton(),
       ),
     );
   }

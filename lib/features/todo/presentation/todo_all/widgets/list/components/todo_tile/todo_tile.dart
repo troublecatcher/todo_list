@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +18,7 @@ import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/t
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 import 'package:todo_list/core/ui/dialog_manager/dialog_manager.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
 
 part 'components/swipe_delete_background.dart';
 part 'components/swipe_done_background.dart';
@@ -21,13 +26,17 @@ part 'components/todo_content.dart';
 part 'components/todo_leading.dart';
 part 'components/todo_trailing.dart';
 
+enum LayoutType { mobile, tablet }
+
 class TodoTile extends StatefulWidget {
+  final Todo todo;
+  final LayoutType type;
+
   const TodoTile({
     super.key,
     required this.todo,
+    required this.type,
   });
-
-  final Todo todo;
 
   @override
   State<TodoTile> createState() => _TodoTileState();
@@ -49,70 +58,84 @@ class _TodoTileState extends State<TodoTile> {
             padding: const EdgeInsets.symmetric(horizontal: 16).add(
               const EdgeInsets.only(bottom: 8),
             ),
-            child: CustomCard(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Dismissible(
-                  key: ValueKey(widget.todo.id),
-                  dismissThresholds: const {
-                    DismissDirection.startToEnd: 0.3,
-                    DismissDirection.endToStart: 0.3,
-                  },
-                  onUpdate: (details) => _handleDragUpdate(details),
-                  confirmDismiss: (direction) =>
-                      _handleDismiss(direction, context),
-                  background: ValueListenableBuilder<bool>(
-                    valueListenable: _reachedNotifier,
-                    builder: (context, reached, child) {
-                      return ValueListenableBuilder<double>(
-                        valueListenable: _progressNotifier,
-                        builder: (context, progress, child) {
-                          return DismissDoneBackground(
-                            todo: widget.todo,
-                            reached: reached,
-                            progress: progress,
-                          );
-                        },
-                      );
+            child: CustomButtonBase(
+              shrinkFactor: 0.95,
+              padding: EdgeInsets.zero,
+              onPressed: switch (widget.type) {
+                LayoutType.mobile => () =>
+                    context.push('/todo', extra: widget.todo),
+                LayoutType.tablet => () => context
+                    .read<TabletViewCubit>()
+                    .set(TabletViewTodoSelectedState(todo: widget.todo)),
+              },
+              child: CustomCard(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Dismissible(
+                    key: ValueKey(widget.todo.id),
+                    dismissThresholds: const {
+                      DismissDirection.startToEnd: 0.3,
+                      DismissDirection.endToStart: 0.3,
                     },
-                  ),
-                  secondaryBackground: ValueListenableBuilder<bool>(
-                    valueListenable: _reachedNotifier,
-                    builder: (context, reached, child) {
-                      return ValueListenableBuilder<double>(
-                        valueListenable: _progressNotifier,
-                        builder: (context, progress, child) {
-                          return DismissDeleteBackground(
-                            reached: reached,
-                            progress: progress,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  child: AnimatedSize(
-                    duration: Durations.long4,
-                    curve: Curves.elasticOut,
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        IntrinsicHeight(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TodoLeading(todo: widget.todo),
-                              TodoContent(widget: widget),
-                              TodoTrailing(todo: widget.todo),
-                            ],
-                          ),
-                        ),
-                        switch (isBeingProcessed) {
-                          true => const LinearProgressIndicator(
-                              backgroundColor: Colors.transparent,
+                    onUpdate: (details) => _handleDragUpdate(details),
+                    confirmDismiss: (direction) =>
+                        _handleDismiss(direction, context),
+                    background: ValueListenableBuilder<bool>(
+                      valueListenable: _reachedNotifier,
+                      builder: (context, reached, child) {
+                        return ValueListenableBuilder<double>(
+                          valueListenable: _progressNotifier,
+                          builder: (context, progress, child) {
+                            return DismissDoneBackground(
+                              todo: widget.todo,
+                              reached: reached,
+                              progress: progress,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    secondaryBackground: ValueListenableBuilder<bool>(
+                      valueListenable: _reachedNotifier,
+                      builder: (context, reached, child) {
+                        return ValueListenableBuilder<double>(
+                          valueListenable: _progressNotifier,
+                          builder: (context, progress, child) {
+                            return DismissDeleteBackground(
+                              reached: reached,
+                              progress: progress,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    child: AnimatedSize(
+                      duration: Durations.long4,
+                      curve: Curves.elasticOut,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TodoLeading(todo: widget.todo),
+                                TodoContent(widget: widget),
+                                TodoTrailing(
+                                  todo: widget.todo,
+                                  type: widget.type,
+                                ),
+                              ],
                             ),
-                          false => const SizedBox(height: 4),
-                        },
-                      ],
+                          ),
+                          switch (isBeingProcessed) {
+                            true => const LinearProgressIndicator(
+                                backgroundColor: Colors.transparent,
+                              ),
+                            false => const SizedBox(height: 4),
+                          },
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -152,7 +175,16 @@ class _TodoTileState extends State<TodoTile> {
     } else if (direction == DismissDirection.endToStart) {
       final result =
           await DialogManager.showDeleteConfirmationDialog(context, todo);
-      if (result != null && result) bloc.add(TodoDeleted(widget.todo));
+      if (result != null && result) {
+        bloc.add(TodoDeleted(widget.todo));
+        switch (widget.type) {
+          case LayoutType.tablet:
+            context.read<TabletViewCubit>().set(TabletViewInitialState());
+            break;
+          case LayoutType.mobile:
+            break;
+        }
+      }
       return result ?? false;
     }
     return false;

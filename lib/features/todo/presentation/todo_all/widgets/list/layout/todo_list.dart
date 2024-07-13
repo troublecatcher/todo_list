@@ -16,6 +16,7 @@ import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
 import 'package:uuid/uuid.dart';
@@ -26,12 +27,14 @@ part '../components/no_todos_placeholder.dart';
 part '../components/todo_error_widget.dart';
 
 class TodoList extends StatefulWidget {
+  final List<Todo> todos;
+  final LayoutType type;
+
   const TodoList({
     super.key,
     required this.todos,
+    required this.type,
   });
-
-  final List<Todo> todos;
 
   @override
   State<TodoList> createState() => _TodoListState();
@@ -72,20 +75,19 @@ class _TodoListState extends State<TodoList> {
                     final Todo todo = _displayedTodos[index];
                     return _StaggeredAnimationWrapper(
                       index: index,
-                      child: ScaleTransition(
-                        scale: Tween(
-                          begin: 1.5,
-                          end: 1.0,
-                        ).animate(
-                          CurvedAnimation(
-                            parent: animation,
-                            curve: Curves.easeOut,
-                          ),
+                      child: SizeTransition(
+                        axisAlignment: 1,
+                        sizeFactor: CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeOut,
+                          reverseCurve: Curves.easeIn,
                         ),
-                        child: SizeTransition(
-                          axisAlignment: 1,
-                          sizeFactor: animation,
-                          child: TodoTile(todo: todo),
+                        child: FadeTransition(
+                          opacity: animation,
+                          child: TodoTile(
+                            todo: todo,
+                            type: widget.type,
+                          ),
                         ),
                       ),
                     );
@@ -108,8 +110,14 @@ class _TodoListState extends State<TodoList> {
             i,
             (context, animation) => SizeTransition(
               sizeFactor: animation,
-              axisAlignment: -1,
-              child: TodoTile(todo: removedTodo),
+              axisAlignment: 1,
+              child: FadeTransition(
+                opacity: animation,
+                child: TodoTile(
+                  todo: removedTodo,
+                  type: widget.type,
+                ),
+              ),
             ),
           );
         }
@@ -169,7 +177,10 @@ class _TodoListState extends State<TodoList> {
             (context, animation) => SizeTransition(
               sizeFactor: animation,
               axisAlignment: -1,
-              child: TodoTile(todo: removedTodo),
+              child: TodoTile(
+                todo: removedTodo,
+                type: widget.type,
+              ),
             ),
           );
         }
@@ -193,7 +204,10 @@ class _TodoListState extends State<TodoList> {
             child: SizeTransition(
               axisAlignment: 1,
               sizeFactor: animation,
-              child: TodoTile(todo: removedTodo),
+              child: TodoTile(
+                todo: removedTodo,
+                type: widget.type,
+              ),
             ),
           ),
         );
