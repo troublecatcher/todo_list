@@ -31,18 +31,6 @@ class TodoTrailing extends StatelessWidget {
               ),
             ),
           ),
-          AnimatedContainer(
-            duration: Durations.medium1,
-            width: 5,
-            color: switch (todo.done) {
-              true => null,
-              false => switch (todo.importance) {
-                  Importance.basic => null,
-                  Importance.low => context.customColors.orange,
-                  Importance.important => context.customColors.red,
-                },
-            },
-          ),
         ],
       ),
     );

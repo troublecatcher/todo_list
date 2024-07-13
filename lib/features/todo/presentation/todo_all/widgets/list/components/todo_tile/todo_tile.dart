@@ -1,8 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +10,6 @@ import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
-import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
@@ -111,29 +108,37 @@ class _TodoTileState extends State<TodoTile> {
                     ),
                     child: AnimatedSize(
                       duration: Durations.long4,
-                      curve: Curves.elasticOut,
+                      curve: Curves.easeInOutCirc,
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          IntrinsicHeight(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TodoLeading(todo: widget.todo),
-                                TodoContent(widget: widget),
-                                TodoTrailing(
-                                  todo: widget.todo,
-                                  type: widget.type,
-                                ),
-                              ],
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TodoLeading(todo: widget.todo),
+                              TodoContent(widget: widget),
+                              TodoTrailing(
+                                todo: widget.todo,
+                                type: widget.type,
+                              ),
+                            ],
+                          ),
+                          IntrinsicWidth(
+                            child: AnimatedContainer(
+                              duration: Durations.medium1,
+                              height: 5,
+                              color: switch (widget.todo.done) {
+                                true => null,
+                                false => switch (widget.todo.importance) {
+                                    Importance.basic => null,
+                                    Importance.low =>
+                                      context.customColors.orange,
+                                    Importance.important =>
+                                      context.customColors.red,
+                                  },
+                              },
                             ),
                           ),
-                          switch (isBeingProcessed) {
-                            true => const LinearProgressIndicator(
-                                backgroundColor: Colors.transparent,
-                              ),
-                            false => const SizedBox(height: 4),
-                          },
                         ],
                       ),
                     ),

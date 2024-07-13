@@ -19,6 +19,7 @@ import 'package:todo_list/features/todo/domain/state_management/todo_operation/t
 import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/animations.dart';
 import 'package:uuid/uuid.dart';
 
 part '../components/create_todo_button.dart';
@@ -41,6 +42,7 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
+  final Duration _animationDuration = Durations.medium2;
   final _key = GlobalKey<SliverAnimatedListState>();
   late List<Todo> _todos;
   List<Todo> _displayedTodos = [];
@@ -75,19 +77,11 @@ class _TodoListState extends State<TodoList> {
                     final Todo todo = _displayedTodos[index];
                     return _StaggeredAnimationWrapper(
                       index: index,
-                      child: SizeTransition(
-                        axisAlignment: 1,
-                        sizeFactor: CurvedAnimation(
-                          parent: animation,
-                          curve: Curves.easeOut,
-                          reverseCurve: Curves.easeIn,
-                        ),
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: TodoTile(
-                            todo: todo,
-                            type: widget.type,
-                          ),
+                      child: InsertAnimation(
+                        animation: animation,
+                        child: TodoTile(
+                          todo: todo,
+                          type: widget.type,
                         ),
                       ),
                     );
@@ -108,17 +102,14 @@ class _TodoListState extends State<TodoList> {
           final removedTodo = _displayedTodos.removeAt(i);
           _key.currentState?.removeItem(
             i,
-            (context, animation) => SizeTransition(
-              sizeFactor: animation,
-              axisAlignment: 1,
-              child: FadeTransition(
-                opacity: animation,
-                child: TodoTile(
-                  todo: removedTodo,
-                  type: widget.type,
-                ),
+            (context, animation) => HideAnimation(
+              animation: animation,
+              child: TodoTile(
+                todo: removedTodo,
+                type: widget.type,
               ),
             ),
+            duration: _animationDuration,
           );
         }
       }
@@ -126,7 +117,7 @@ class _TodoListState extends State<TodoList> {
       for (int i = 0; i < _todos.length; i++) {
         if (!_displayedTodos.contains(_todos[i])) {
           _displayedTodos.insert(i, _todos[i]);
-          _key.currentState?.insertItem(i);
+          _key.currentState?.insertItem(i, duration: _animationDuration);
         }
       }
     }
@@ -152,7 +143,10 @@ class _TodoListState extends State<TodoList> {
     _todos.add(todo);
     if (_shouldDisplay(todo)) {
       _displayedTodos.add(todo);
-      _key.currentState?.insertItem(_displayedTodos.length - 1);
+      _key.currentState?.insertItem(
+        _displayedTodos.length - 1,
+        duration: _animationDuration,
+      );
     }
   }
 
@@ -164,7 +158,10 @@ class _TodoListState extends State<TodoList> {
       if (_shouldDisplay(todo)) {
         if (displayedIndex == -1) {
           _displayedTodos.add(todo);
-          _key.currentState?.insertItem(_displayedTodos.length - 1);
+          _key.currentState?.insertItem(
+            _displayedTodos.length - 1,
+            duration: _animationDuration,
+          );
         } else {
           _displayedTodos[displayedIndex] = todo;
           setState(() {});
@@ -174,14 +171,11 @@ class _TodoListState extends State<TodoList> {
           final removedTodo = _displayedTodos.removeAt(displayedIndex);
           _key.currentState?.removeItem(
             displayedIndex,
-            (context, animation) => SizeTransition(
-              sizeFactor: animation,
-              axisAlignment: -1,
-              child: TodoTile(
-                todo: removedTodo,
-                type: widget.type,
-              ),
+            (context, animation) => TodoTile(
+              todo: removedTodo,
+              type: widget.type,
             ),
+            duration: _animationDuration,
           );
         }
       }
@@ -196,20 +190,14 @@ class _TodoListState extends State<TodoList> {
       if (displayedIndex != -1) {
         _key.currentState?.removeItem(
           displayedIndex,
-          (context, animation) => SlideTransition(
-            position: Tween(
-              begin: const Offset(-1, 0),
-              end: const Offset(0, 0),
-            ).animate(animation),
-            child: SizeTransition(
-              axisAlignment: 1,
-              sizeFactor: animation,
-              child: TodoTile(
-                todo: removedTodo,
-                type: widget.type,
-              ),
+          (context, animation) => RemoveAnimation(
+            animation: animation,
+            child: TodoTile(
+              todo: removedTodo,
+              type: widget.type,
             ),
           ),
+          duration: _animationDuration,
         );
         _displayedTodos.removeAt(displayedIndex);
       }
