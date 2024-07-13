@@ -46,7 +46,9 @@ class _TodoTileState extends State<TodoTile> {
         return AbsorbPointer(
           absorbing: isBeingProcessed,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16).add(
+              const EdgeInsets.only(bottom: 8),
+            ),
             child: CustomCard(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),

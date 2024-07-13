@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logger/logger.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
 
 import '../../repository/todo_repository.dart';
 part 'todo_list_event.dart';
@@ -41,7 +43,10 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     TodoAdded event,
     Emitter<TodoState> emit,
   ) async {
-    _todoOperation.startOperation(event.todo);
+    _todoOperation.startOperation(
+      event.todo,
+      TodoOperationType.create,
+    );
     try {
       await _todoRepository.addTodo(event.todo);
       _updateStateWithNewTodo(event.todo, emit);
@@ -56,7 +61,10 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     TodoUpdated event,
     Emitter<TodoState> emit,
   ) async {
-    _todoOperation.startOperation(event.todo);
+    _todoOperation.startOperation(
+      event.todo,
+      TodoOperationType.update,
+    );
     try {
       await _todoRepository.updateTodo(event.todo);
       _updateStateWithUpdatedTodo(event.todo, emit);
@@ -71,7 +79,10 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     TodoDeleted event,
     Emitter<TodoState> emit,
   ) async {
-    _todoOperation.startOperation(event.todo);
+    _todoOperation.startOperation(
+      event.todo,
+      TodoOperationType.delete,
+    );
     try {
       await _todoRepository.deleteTodo(event.todo);
       _updateStateWithDeletedTodo(event.todo, emit);

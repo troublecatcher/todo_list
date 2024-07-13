@@ -6,6 +6,7 @@ final class TodoOperationIdleState extends TodoOperationState {}
 
 final class TodoOperationProcessingState extends TodoOperationState {
   final Todo todo;
+  final TodoOperationType type;
 
-  TodoOperationProcessingState({required this.todo});
+  TodoOperationProcessingState({required this.todo, required this.type});
 }
