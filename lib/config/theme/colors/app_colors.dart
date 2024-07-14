@@ -1,4 +1,4 @@
-part of 'app_theme.dart';
+part of '../app_theme/app_theme.dart';
 
 abstract class AppColors {
   final Color supportSeparator;

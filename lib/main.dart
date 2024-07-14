@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
+import 'package:todo_list/core/services/remote_config_service.dart';
 import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
 import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
@@ -31,6 +33,10 @@ Future<void> main() async {
             todoRepository: GetIt.I<TodoRepository>(),
             todoOperation: context.read<TodoOperationCubit>(),
           )..add(TodosFetchStarted()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RemoteColorsCubit(GetIt.I<RemoteConfigService>()),
         ),
       ],
       child: const TodoApp(),

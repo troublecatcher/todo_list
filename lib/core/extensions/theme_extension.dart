@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../config/theme/app_theme.dart';
+import '../../config/theme/app_theme/app_theme.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get _theme => Theme.of(this);

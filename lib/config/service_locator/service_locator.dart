@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
+import 'package:todo_list/core/services/firebase_service.dart';
+import 'package:todo_list/core/services/remote_config_service.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
 import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
@@ -25,7 +27,11 @@ Future<void> initDependecies() async {
       final RemoteTodoSourceImpl remote = RemoteTodoSourceImpl(dio);
 
       final dir = await getApplicationDocumentsDirectory();
-      final isar = await Isar.open([LocalTodoSchema], directory: dir.path);
+      final isar = await Isar.open(
+        [LocalTodoSchema],
+        directory: dir.path,
+        inspector: false,
+      );
 
       final LocalTodoSourceImpl local = LocalTodoSourceImpl(isar);
       return TodoRepositoryImpl(
@@ -37,4 +43,14 @@ Future<void> initDependecies() async {
     },
   );
   await GetIt.I.isReady<TodoRepository>();
+
+  GetIt.I.registerSingletonAsync<FirebaseService>(
+    () => FirebaseService().init(),
+  );
+  await GetIt.I.isReady<FirebaseService>();
+
+  GetIt.I.registerSingletonAsync<RemoteConfigService>(
+    () => RemoteConfigService().init(),
+  );
+  await GetIt.I.isReady<RemoteConfigService>();
 }

@@ -2,6 +2,7 @@ part of '../todo_tile.dart';
 
 class TodoLeading extends StatelessWidget {
   final Todo todo;
+
   const TodoLeading({
     super.key,
     required this.todo,
@@ -12,35 +13,36 @@ class TodoLeading extends StatelessWidget {
     return CustomButtonBase(
       padding: EdgeInsets.zero,
       onPressed: () {},
-      child: Checkbox(
-        splashRadius: 0,
-        activeColor: context.customColors.green,
-        fillColor: switch (todo.importance) {
-          Importance.important => switch (todo.done) {
-              true => null,
-              false => WidgetStatePropertyAll(
-                  context.customColors.red.withOpacity(.2),
-                ),
-            },
-          Importance.low => switch (todo.done) {
-              true => null,
-              false => WidgetStatePropertyAll(
-                  context.customColors.orange.withOpacity(.2),
-                ),
-            },
-          Importance.basic => null,
+      child: BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
+        builder: (context, colorsState) {
+          Color? fillColor;
+          Color? sideColor;
+          double sideWidth = 2;
+
+          if (colorsState is RemoteColorsLoaded) {
+            fillColor = _getFillColor(todo, colorsState, context);
+            sideColor = _getSideColor(todo, colorsState, context);
+          } else {
+            fillColor = _getDefaultFillColor(todo, context);
+            sideColor = _getDefaultSideColor(todo, context);
+          }
+
+          return Checkbox(
+            splashRadius: 0,
+            activeColor: context.customColors.green,
+            fillColor: fillColor != null
+                ? WidgetStateProperty.resolveWith<Color?>((states) => fillColor)
+                : null,
+            side: BorderSide(
+              color: sideColor ?? Colors.transparent,
+              width: sideWidth,
+            ),
+            value: todo.done,
+            onChanged: (_) => _changeTodoCompletenessStatus(
+              context.read<TodoListBloc>(),
+            ),
+          );
         },
-        side: switch (todo.importance) {
-          Importance.important =>
-            BorderSide(color: context.customColors.red, width: 2),
-          Importance.low =>
-            BorderSide(color: context.customColors.orange, width: 2),
-          Importance.basic => BorderSide(color: context.dividerColor, width: 2),
-        },
-        value: todo.done,
-        onChanged: (_) => _changeTodoCompletenessStatus(
-          context.read<TodoListBloc>(),
-        ),
       ),
     );
   }
@@ -57,5 +59,77 @@ class TodoLeading extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color? _getFillColor(
+    Todo todo,
+    RemoteColorsLoaded colors,
+    BuildContext context,
+  ) {
+    switch (todo.importance) {
+      case Importance.important:
+        return todo.done
+            ? null
+            : colors.importanceColorImportant?.withOpacity(0.2) ??
+                context.customColors.red.withOpacity(0.2);
+      case Importance.low:
+        return todo.done
+            ? null
+            : colors.importanceColorLow?.withOpacity(0.2) ??
+                context.customColors.orange.withOpacity(0.2);
+      case Importance.basic:
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  Color? _getSideColor(
+    Todo todo,
+    RemoteColorsLoaded colors,
+    BuildContext context,
+  ) {
+    switch (todo.importance) {
+      case Importance.important:
+        return colors.importanceColorImportant ?? context.customColors.red;
+      case Importance.low:
+        return colors.importanceColorLow ?? context.customColors.orange;
+      case Importance.basic:
+        return context.dividerColor;
+      default:
+        return null;
+    }
+  }
+
+  Color? _getDefaultFillColor(
+    Todo todo,
+    BuildContext context,
+  ) {
+    switch (todo.importance) {
+      case Importance.important:
+        return todo.done ? null : context.customColors.red.withOpacity(0.2);
+      case Importance.low:
+        return todo.done ? null : context.customColors.orange.withOpacity(0.2);
+      case Importance.basic:
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  Color? _getDefaultSideColor(
+    Todo todo,
+    BuildContext context,
+  ) {
+    switch (todo.importance) {
+      case Importance.important:
+        return context.customColors.red;
+      case Importance.low:
+        return context.customColors.orange;
+      case Importance.basic:
+        return context.dividerColor;
+      default:
+        return null;
+    }
   }
 }

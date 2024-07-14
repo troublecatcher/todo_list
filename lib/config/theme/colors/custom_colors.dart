@@ -1,4 +1,4 @@
-part of 'app_theme.dart';
+part of '../app_theme/app_theme.dart';
 
 class CustomColors extends ThemeExtension<CustomColors> {
   final Color red;

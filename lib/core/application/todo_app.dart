@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
 import 'package:todo_list/config/router/router.dart';
-import 'package:todo_list/config/theme/app_theme.dart';
+import 'package:todo_list/config/theme/app_theme/app_theme.dart';
 import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 

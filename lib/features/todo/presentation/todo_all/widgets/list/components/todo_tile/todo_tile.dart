@@ -5,9 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
+import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
+import 'package:todo_list/core/services/remote_config_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
@@ -123,21 +126,32 @@ class _TodoTileState extends State<TodoTile> {
                               ),
                             ],
                           ),
-                          IntrinsicWidth(
-                            child: AnimatedContainer(
-                              duration: Durations.medium1,
-                              height: 5,
-                              color: switch (widget.todo.done) {
-                                true => null,
-                                false => switch (widget.todo.importance) {
-                                    Importance.basic => null,
-                                    Importance.low =>
-                                      context.customColors.orange,
-                                    Importance.important =>
-                                      context.customColors.red,
-                                  },
-                              },
-                            ),
+                          BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
+                            builder: (context, colors) {
+                              if (colors is RemoteColorsLoaded) {
+                                return AnimatedContainer(
+                                  duration: Durations.medium1,
+                                  height: 5,
+                                  color: widget.todo.done
+                                      ? null
+                                      : _getColorForImportance(
+                                          widget.todo.importance,
+                                          colors,
+                                        ),
+                                );
+                              } else {
+                                return AnimatedContainer(
+                                  duration: Durations.medium1,
+                                  height: 5,
+                                  color: widget.todo.done
+                                      ? null
+                                      : _getDefaultColorForImportance(
+                                          widget.todo.importance,
+                                          context,
+                                        ),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -193,5 +207,37 @@ class _TodoTileState extends State<TodoTile> {
       return result ?? false;
     }
     return false;
+  }
+
+  Color? _getColorForImportance(
+    Importance importance,
+    RemoteColorsLoaded colors,
+  ) {
+    switch (importance) {
+      case Importance.basic:
+        return colors.importanceColorBasic;
+      case Importance.low:
+        return colors.importanceColorLow ?? context.customColors.orange;
+      case Importance.important:
+        return colors.importanceColorImportant ?? context.customColors.red;
+      default:
+        return Colors.transparent;
+    }
+  }
+
+  Color? _getDefaultColorForImportance(
+    Importance importance,
+    BuildContext context,
+  ) {
+    switch (importance) {
+      case Importance.basic:
+        return null;
+      case Importance.low:
+        return context.customColors.orange;
+      case Importance.important:
+        return context.customColors.red;
+      default:
+        return Colors.transparent;
+    }
   }
 }

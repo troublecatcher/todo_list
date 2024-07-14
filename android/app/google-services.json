@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "212348335933",
+    "project_id": "todolist-59c0c",
+    "storage_bucket": "todolist-59c0c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:212348335933:android:b81ead0ede4c6aa16ab754",
+        "android_client_info": {
+          "package_name": "com.gnuao.jti"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaJZaqqrt3vQ0JXR-PUKwv8eIWhPCtYoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
