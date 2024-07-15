@@ -6,8 +6,6 @@ import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
 
 class DuckWidget extends StatefulWidget {
   const DuckWidget({

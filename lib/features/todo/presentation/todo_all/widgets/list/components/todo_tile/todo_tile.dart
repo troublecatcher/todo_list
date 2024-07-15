@@ -10,7 +10,6 @@ import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/helpers/formatting_helper.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/services/remote_config_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
