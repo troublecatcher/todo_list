@@ -99,3 +99,7 @@ make deeplink_ios
 - При потере сигнала сети, утка выбивается из сил и сидит отдыхает, пока не найдете вайфай
 
 Все это великолепие можно отключить в настроках, энджой!
+
+<img src="https://github.com/user-attachments/assets/ccfc8747-f218-4cf0-a5eb-dd0b1cc90559" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/cc8ad1a0-f655-4180-89bb-7ffa960a1318" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/6a5cc474-92f5-42a4-99d2-b44d2db49a49" width="25%" height="25%"/>
