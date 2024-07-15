@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/core/ui/layout/floating_button_and_duck.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/main_list.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/mobile/mobile_layout.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
@@ -124,7 +126,8 @@ class _TabletLayoutState extends State<TabletLayout> {
             ),
           ],
         ),
-        floatingActionButton:  const CreateTodoButton(type: LayoutType.tablet),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
+        floatingActionButton: const DuckWidget(),
       ),
     );
   }
