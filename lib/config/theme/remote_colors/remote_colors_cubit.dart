@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:todo_list/config/theme/app_theme/app_theme.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
 import 'package:todo_list/core/services/remote_config_service.dart';
 
