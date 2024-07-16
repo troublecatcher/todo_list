@@ -11,7 +11,7 @@ jobs:
       - name: Set up Flutter
         uses: flutter-actions/flutter@v2
         with:
-          flutter-version: "stable"
+          flutter-version: "3.22"
       - name: Create empty .env file
         run: |
           mkdir -p assets
