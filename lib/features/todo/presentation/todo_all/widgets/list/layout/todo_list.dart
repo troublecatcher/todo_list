@@ -6,7 +6,6 @@ import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:todo_list/core/extensions/navigation_extension.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/ui/layout/app_shimmer.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
 import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
