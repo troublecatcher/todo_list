@@ -12,7 +12,7 @@ jobs:
         with:
           flutter-version: "3.22"
       - name: Create .env file
-        run: echo "API_KEY=${{ secrets.API_KEY }}" > assets/.env
+        run: echo "auth=${{ secrets.API_KEY }}" > assets/.env
       - name: Install dependencies
         run: flutter pub get
       - name: Run flutter format
