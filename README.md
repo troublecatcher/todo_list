@@ -17,7 +17,10 @@ Last updated 11 Jul, 2024
 - [Смена языка](#смена-языка)
 - [Диплинки](#диплинки)
 - [Ключи](#ключи)
-- [Уточка](#уточка)
+- [Firebase](#firebase)
+- [CI](#ci)
+- [Landscape & Tablet](#landscape--tablet)
+- [Уточка =)](#уточка)
 
 ### Работа с делами
 
@@ -88,6 +91,30 @@ make deeplink_ios
 
 Последнее применимо также и к дебаг сборке.
 
+### Firebase
+
+Приложение работает с Firebase, которая ведет учет статистики посещения страниц, действий над делами, собирает информацию об ошибках, а также из которой имеется возможность поменять цвет отображения приоритета дела (вместо стандартного никакого, желтого и красного для никакой, малой и важной важности соотвественно можно поставить любые свои). Чтобы опробовать, пишите в личку тг @remonedo.
+
+### CI
+
+Приложение интегрировано с GitHub Actions и умеет автоматически проходить этапы форматирования, анализа линтера, тесты, сборку и деплой после каждого коммита и PR. Собранный apk отправляется в Firebase App Distribution.
+
+### Landscape & Tablet
+
+Приложение поддрживает альбомную ориентацию и большие экраны:
+
+<img src="https://github.com/user-attachments/assets/cd63ff32-7b73-4b4e-86f8-7ff44f072525" width="25%"/>
+<img src="https://github.com/user-attachments/assets/a1ff20af-89b5-4705-8782-5e6a6183d818" width="25%"/>
+<img src="https://github.com/user-attachments/assets/30676046-5cc0-4ee0-9431-9a703d12945a" width="25%"/>
+
+<img src="https://github.com/user-attachments/assets/3a37b3a8-72cf-4b51-92d7-1738edf52867" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/4eadde94-c148-4cc1-82b8-b696756ff27c" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/f977098e-fb61-4f17-a7e8-f090cf56b33a" width="25%" height="25%"/>
+
+<img src="https://github.com/user-attachments/assets/a8f8f7c5-a0d7-4f9e-a865-8734d2a46573" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/17c62f3d-ebdd-4fc8-bb77-1b8ef0a6085d" width="25%" height="25%"/>
+<img src="https://github.com/user-attachments/assets/46471c5f-425c-4d2a-82dd-a9cccb196a40" width="25%" height="25%"/>
+
 ### Уточка
 
 Вашему вниманию представляется младшая сестра Дино. Уточка будет уютно левитировать на главном экране, как бы помогая вам преодолеть этот океан дел и дедлайнов.
@@ -103,20 +130,3 @@ make deeplink_ios
 <img src="https://github.com/user-attachments/assets/ccfc8747-f218-4cf0-a5eb-dd0b1cc90559" width="25%" height="25%"/>
 <img src="https://github.com/user-attachments/assets/cc8ad1a0-f655-4180-89bb-7ffa960a1318" width="25%" height="25%"/>
 <img src="https://github.com/user-attachments/assets/6a5cc474-92f5-42a4-99d2-b44d2db49a49" width="25%" height="25%"/>
-
-### Поддержка альбомной ориентации и больших экранов
-
-Всё перед вами:
-
-<img src="https://github.com/user-attachments/assets/cd63ff32-7b73-4b4e-86f8-7ff44f072525" width="25%"/>
-<img src="https://github.com/user-attachments/assets/a1ff20af-89b5-4705-8782-5e6a6183d818" width="25%"/>
-<img src="https://github.com/user-attachments/assets/30676046-5cc0-4ee0-9431-9a703d12945a" width="25%"/>
-
-<img src="https://github.com/user-attachments/assets/3a37b3a8-72cf-4b51-92d7-1738edf52867" width="25%" height="25%"/>
-<img src="https://github.com/user-attachments/assets/4eadde94-c148-4cc1-82b8-b696756ff27c" width="25%" height="25%"/>
-<img src="https://github.com/user-attachments/assets/f977098e-fb61-4f17-a7e8-f090cf56b33a" width="25%" height="25%"/>
-
-<img src="https://github.com/user-attachments/assets/a8f8f7c5-a0d7-4f9e-a865-8734d2a46573" width="25%" height="25%"/>
-<img src="https://github.com/user-attachments/assets/17c62f3d-ebdd-4fc8-bb77-1b8ef0a6085d" width="25%" height="25%"/>
-<img src="https://github.com/user-attachments/assets/46471c5f-425c-4d2a-82dd-a9cccb196a40" width="25%" height="25%"/>
-
