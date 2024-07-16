@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:todo_list/config/flavor/flavor.dart';
 import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
 import 'package:todo_list/config/router/router.dart';
 import 'package:todo_list/config/theme/app_theme/app_theme.dart';
@@ -21,7 +23,7 @@ class TodoApp extends StatelessWidget {
               theme: AppTheme.getLightTheme(),
               darkTheme: AppTheme.getDarkTheme(),
               themeMode: themeMode,
-              debugShowCheckedModeBanner: false,
+              debugShowCheckedModeBanner: appFlavor == Flavor.dev.name,
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,

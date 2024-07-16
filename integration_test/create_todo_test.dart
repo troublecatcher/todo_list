@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:todo_list/main.dart' as app;
+import 'package:todo_list/main_dev.dart' as app;
 
 void main() {
   testWidgets(
