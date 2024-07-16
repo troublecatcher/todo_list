@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/ui/layout/floating_button_and_duck.dart';
+import 'package:todo_list/core/ui/layout/duck_widget.dart';
+import 'package:todo_list/features/settings/domain/state_management/duck/duck_cubit.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/main_list.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
@@ -34,7 +35,15 @@ class MobileLayout extends StatelessWidget {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      floatingActionButton: const DuckWidget(),
+      floatingActionButton: BlocBuilder<DuckCubit, bool>(
+        builder: (context, state) {
+          if (state == true) {
+            return const DuckWidget();
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
     );
   }
 }

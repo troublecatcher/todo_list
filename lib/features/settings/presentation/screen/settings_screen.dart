@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/delete_confirmation/delete_confirmation_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/duck/duck_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
@@ -116,6 +117,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           onChanged: (value) => context
                               .read<DeleteConfirmationCubit>()
                               .set(value),
+                        );
+                      },
+                    ),
+                    BlocBuilder<DuckCubit, bool>(
+                      builder: (context, confirm) {
+                        return SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(S.of(context).duck),
+                          value: confirm,
+                          onChanged: (value) =>
+                              context.read<DuckCubit>().set(value),
                         );
                       },
                     ),

@@ -26,5 +26,7 @@
   "offlineMode": "Автономный режим",
   "backOnline": "Подключение восстановлено",
   "useEnvFile": "Использовать файл .env",
-  "apiKey": "API ключ"
+  "apiKey": "API ключ",
+  "duck": "Утка",
+  "noTodoSelected": "Дело не выбрано"
 }

@@ -26,5 +26,7 @@
   "offlineMode": "Offline mode",
   "backOnline": "Back online",
   "useEnvFile": "Use .env file",
-  "apiKey": "API key"
+  "apiKey": "API key",
+  "duck": "Duck",
+  "noTodoSelected": "No todo selected"
 }

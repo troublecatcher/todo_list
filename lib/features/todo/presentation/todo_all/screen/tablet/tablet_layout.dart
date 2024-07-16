@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
-import 'package:todo_list/core/ui/layout/floating_button_and_duck.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/ui/layout/duck_widget.dart';
+import 'package:todo_list/features/settings/domain/state_management/duck/duck_cubit.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/main_list.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
@@ -104,8 +106,20 @@ class _TabletLayoutState extends State<TabletLayout> {
                 builder: (context, state) {
                   switch (state) {
                     case TabletViewInitialState _:
-                      return const Center(
-                        child: Text('No todo selected'),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.note_rounded,
+                            size: 100,
+                            color: context.colorScheme.primary,
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            S.of(context).noTodoSelected,
+                            style: context.textTheme.displayLarge,
+                          ),
+                        ],
                       );
                     case TabletViewTodoSelectedState s:
                       return TodoInfoLayout(
@@ -125,7 +139,15 @@ class _TabletLayoutState extends State<TabletLayout> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-        floatingActionButton: const DuckWidget(),
+        floatingActionButton: BlocBuilder<DuckCubit, bool>(
+          builder: (context, state) {
+            if (state == true) {
+              return const DuckWidget();
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        ),
       ),
     );
   }

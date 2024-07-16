@@ -329,6 +329,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Утка`
+  String get duck {
+    return Intl.message(
+      'Утка',
+      name: 'duck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дело не выбрано`
+  String get noTodoSelected {
+    return Intl.message(
+      'Дело не выбрано',
+      name: 'noTodoSelected',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

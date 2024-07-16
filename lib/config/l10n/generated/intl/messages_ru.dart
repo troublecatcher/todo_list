@@ -34,12 +34,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Подтверждать удаление дел"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
         "doneTodoCount": m0,
+        "duck": MessageLookupByLibrary.simpleMessage("Утка"),
         "errorMessage": m1,
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("Мои дела"),
         "language": MessageLookupByLibrary.simpleMessage("Язык"),
         "loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
         "luckyYou":
             MessageLookupByLibrary.simpleMessage("Счастливый Вы человек!"),
+        "noTodoSelected":
+            MessageLookupByLibrary.simpleMessage("Дело не выбрано"),
         "noTodos": MessageLookupByLibrary.simpleMessage("Дел нет"),
         "offlineMode": MessageLookupByLibrary.simpleMessage("Автономный режим"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
