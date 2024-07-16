@@ -24,7 +24,9 @@ Last updated 11 Jul, 2024
 
 ### Работа с делами
 
-Работа ведется на сервере, производится кеширование. При разрыве связи можно продолжать работу – все внесенные изменения будут отправлены на сервер при следующем заходе в сеть. Возможные операции:
+Работа ведется на сервере, производится кеширование. При разрыве связи можно продолжать работу – все внесенные изменения будут отправлены на сервер при следующем заходе в сеть. Поддержан кейс, когда пользователь зашел в приложение с другого устройства и, находясь только в режиме оффлайн (какой-то маловероятный кейс для реального мира, как он тогда скачал прилу и получил токен??), "понаделал дел", а затем пожелал выйти в сеть.
+
+Возможные операции:
 
 - Создание
 - Редактирование
@@ -51,9 +53,12 @@ Last updated 11 Jul, 2024
 - Функция Pull-to-refresh – потянув список дел вниз, производится обновление списка
 - Возможность отключить диалоговые окна с предупреждениями об удалении дел через экран настроек
 
-<img src="https://github.com/troublecatcher/todo_list/assets/91335963/62657231-a0c4-4246-af58-556644fd4472" width="25%" height="25%"/>
-<img src="https://github.com/troublecatcher/todo_list/assets/91335963/c347bd5c-c258-447e-b7e1-7d0b961c67da" width="25%" height="25%"/>
-<img src="https://github.com/troublecatcher/todo_list/assets/91335963/e9fe4402-0742-472d-9b57-08524499066f" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/30176ff0-2e32-4e74-a855-45fba9b87c95" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/9e765016-d47b-4a58-8f7a-5c84e1ef58b3" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/ec479640-cdf4-4d29-b186-a1b52ff1ec1c" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/72d291b4-eeaa-4d85-8063-81da45c27ba8" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/2e6badad-517c-49b7-8f91-138b45af46e9" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/1458693c-8df7-49ae-b14b-86ced363194d" width="25%" height="25%"/>
    
 ### Темная тема
 Предоставляется выбор темы приложения – светлая, темная или системная. Переключение возможно через экран настроек (кнопка с шестеренкой на главном экране).
