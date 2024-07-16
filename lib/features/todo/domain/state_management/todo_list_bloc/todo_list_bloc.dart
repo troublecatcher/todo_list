@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/config/logging/analytics.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';

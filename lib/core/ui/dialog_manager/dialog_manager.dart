@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/extensions/navigation_extension.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
