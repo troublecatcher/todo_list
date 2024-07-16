@@ -22,8 +22,8 @@ jobs:
         run: flutter analyze --fatal-infos --fatal-warnings
       - name: Run tests
         run: flutter test
-      # - name: Build APK
-      #   run: flutter build apk --flavor prod -t lib/main_prod.dart
+      - name: Build APK
+        run: flutter build apk --flavor prod -t lib/main_prod.dart
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -36,6 +36,6 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          firebase appdistribution:distribute output/app-prod-release.apk \
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
             --app todolist-59c0c \
             --groups testers
