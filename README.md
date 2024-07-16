@@ -56,8 +56,8 @@ Last updated 11 Jul, 2024
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/30176ff0-2e32-4e74-a855-45fba9b87c95" width="25%" height="25%"/>
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/9e765016-d47b-4a58-8f7a-5c84e1ef58b3" width="25%" height="25%"/>
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/ec479640-cdf4-4d29-b186-a1b52ff1ec1c" width="25%" height="25%"/>
-<img src="https://github.com/troublecatcher/todo_list/assets/91335963/72d291b4-eeaa-4d85-8063-81da45c27ba8" width="25%" height="25%"/>
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/2e6badad-517c-49b7-8f91-138b45af46e9" width="25%" height="25%"/>
+<img src="https://github.com/troublecatcher/todo_list/assets/91335963/72d291b4-eeaa-4d85-8063-81da45c27ba8" width="25%" height="25%"/>
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/1458693c-8df7-49ae-b14b-86ced363194d" width="25%" height="25%"/>
    
 ### Темная тема
