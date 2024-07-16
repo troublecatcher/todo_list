@@ -26,8 +26,30 @@ jobs:
         run: flutter test
       - name: Build APK
         run: flutter build apk --release
-      - name: Build AppBundle
-        run: flutter build appbundle --release
+      - name: Determine environment and build APK
+        run: |
+          if [ "$BUILD_APK" == "prod" ]; then
+            flutter build apk --release -t lib/main_prod.dart
+          elif [ "$BUILD_APK" == "dev" ]; then
+            flutter build apk --release -t lib/main_dev.dart
+          else
+            echo "Error: Unknown build environment"
+            exit 1
+          fi
+        env:
+        BUILD_APK: "prod"
+      - name: Determine environment and build APK
+        run: |
+          if [ "$BUILD_ABD" == "prod" ]; then
+            flutter build appbundle --release -t lib/main_prod.dart
+          elif [ "$BUILD_ABD" == "dev" ]; then
+            flutter build appbundle --release -t lib/main_dev.dart
+          else
+            echo "Error: Unknown build environment"
+            exit 1
+          fi
+        env:
+        BUILD_ABD: "prod"
     # - name: Deploy to Firebase App Distribution
     #   env:
     #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
