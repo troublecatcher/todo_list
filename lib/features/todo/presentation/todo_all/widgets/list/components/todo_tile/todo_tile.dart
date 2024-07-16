@@ -191,14 +191,14 @@ class _TodoTileState extends State<TodoTile> {
       );
       return false;
     } else if (direction == DismissDirection.endToStart) {
-      final cubit = context.read<TabletViewCubit>();
       final result =
           await DialogManager.showDeleteConfirmationDialog(context, todo);
       if (result != null && result) {
         bloc.add(TodoDeleted(widget.todo));
         switch (widget.type) {
           case LayoutType.tablet:
-            cubit.set(TabletViewInitialState());
+            // ignore: use_build_context_synchronously
+            context.read<TabletViewCubit>().set(TabletViewInitialState());
             break;
           case LayoutType.mobile:
             break;
