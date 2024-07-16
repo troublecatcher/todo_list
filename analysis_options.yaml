@@ -2,8 +2,8 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   exclude:
     - "**/*.g.dart"
+    - "**/*.freezed.dart"
     - "lib/config/l10n/**"
-
   language:
     strict-inference: true
     strict-raw-types: true
@@ -12,6 +12,7 @@ analyzer:
   errors:
     missing_required_param: error
     missing_return: error
+    invalid_annotation_target: ignore
 
 linter:
   rules:

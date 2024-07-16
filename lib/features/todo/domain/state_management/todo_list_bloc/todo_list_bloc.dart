@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/logging/logger.dart';
-import 'package:todo_list/config/logging/analytics.dart';
+import 'package:todo_list/core/services/analytics.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';

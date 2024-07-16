@@ -30,7 +30,7 @@ class LocalTodoSourceImpl implements LocalTodoSource {
   @override
   Future<void> deleteTodo(LocalTodo todo) async {
     await _isar.writeTxn(
-      () async => await _isar.localTodos.delete(todo.isarId),
+      () async => await _isar.localTodos.delete(todo.id),
     );
   }
 }

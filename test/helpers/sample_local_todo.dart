@@ -4,7 +4,7 @@ import 'package:todo_list/features/todo/domain/entities/importance.dart';
 extension SampleLocalTodo on LocalTodo {
   static LocalTodo withId(String id) {
     return LocalTodo(
-      id: id,
+      uuid: id,
       text: 'Задача $id',
       importance: Importance.basic,
       done: false,

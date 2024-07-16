@@ -3,7 +3,7 @@ part of '../todo_repository_impl.dart';
 extension LocalMapper on LocalTodo {
   Todo toEntity() {
     return Todo(
-      id: id!,
+      id: uuid!,
       text: text!,
       importance: importance!,
       deadline: deadline,
@@ -17,7 +17,7 @@ extension LocalMapper on LocalTodo {
 
   RemoteTodo toRemote() {
     return RemoteTodo(
-      id: id!,
+      id: uuid!,
       text: text!,
       importance: importance!,
       deadline: deadline?.millisecondsSinceEpoch,

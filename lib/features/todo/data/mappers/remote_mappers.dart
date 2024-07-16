@@ -19,7 +19,7 @@ extension RemoteMapper on RemoteTodo {
 
   LocalTodo toLocal() {
     return LocalTodo(
-      id: id,
+      uuid: id,
       text: text,
       importance: importance,
       deadline: deadline != null
