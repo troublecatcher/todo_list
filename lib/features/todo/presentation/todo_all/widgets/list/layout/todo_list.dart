@@ -171,9 +171,12 @@ class _TodoListState extends State<TodoList> {
           final removedTodo = _displayedTodos.removeAt(displayedIndex);
           _key.currentState?.removeItem(
             displayedIndex,
-            (context, animation) => TodoTile(
-              todo: removedTodo,
-              type: widget.type,
+            (context, animation) => UpdateAnimation(
+              animation: animation,
+              child: TodoTile(
+                todo: removedTodo,
+                type: widget.type,
+              ),
             ),
             duration: _animationDuration,
           );

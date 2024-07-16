@@ -40,21 +40,20 @@ class TodoInfoLayout extends StatelessWidget {
           ),
           const SliverToBoxAdapter(child: Divider()),
           SliverToBoxAdapter(
-            child: TodoSaveButton(
-              currentTodo: todo,
-              type: type,
-            ),
-          ),
-          const SliverToBoxAdapter(child: Divider()),
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 32, right: 16, left: 16),
-            sliver: SliverToBoxAdapter(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TodoDeleteButton(
-                  todo: todo,
-                  type: type,
-                ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TodoDeleteButton(
+                    todo: todo,
+                    type: type,
+                  ),
+                  TodoSaveButton(
+                    currentTodo: todo,
+                    type: type,
+                  ),
+                ],
               ),
             ),
           ),

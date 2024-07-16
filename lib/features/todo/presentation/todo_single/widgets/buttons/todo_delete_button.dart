@@ -25,57 +25,55 @@ class TodoDeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, currentTodo) {
-        return FittedBox(
-          child: CustomButtonBase(
-            onPressed: switch (todo) {
-              null => null,
-              Todo _ => () {
-                  DialogManager.showDeleteConfirmationDialog(
-                    context,
-                    currentTodo,
-                  ).then(
-                    (result) {
-                      if (result != null && result) {
-                        context
-                            .read<TodoListBloc>()
-                            .add(TodoDeleted(currentTodo));
-                        switch (type) {
-                          case LayoutType.mobile:
-                            context.nav.pop();
-                            break;
-                          case LayoutType.tablet:
-                            context
-                                .read<TabletViewCubit>()
-                                .set(TabletViewInitialState());
-                            break;
-                        }
+        return CustomButtonBase(
+          padding: EdgeInsets.zero,
+          onPressed: switch (todo) {
+            null => null,
+            Todo _ => () {
+                DialogManager.showDeleteConfirmationDialog(
+                  context,
+                  currentTodo,
+                ).then(
+                  (result) {
+                    if (result != null && result) {
+                      context
+                          .read<TodoListBloc>()
+                          .add(TodoDeleted(currentTodo));
+                      switch (type) {
+                        case LayoutType.mobile:
+                          context.nav.pop();
+                          break;
+                        case LayoutType.tablet:
+                          context
+                              .read<TabletViewCubit>()
+                              .set(TabletViewInitialState());
+                          break;
                       }
-                    },
-                  );
-                }
-            },
-            child: Builder(
-              builder: (context) {
-                final color = switch (todo) {
-                  null => context.disabledColor,
-                  Todo _ => context.customColors.red,
-                };
-                return Row(
-                  children: [
-                    Icon(
-                      Icons.delete,
-                      color: color,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      S.of(context).todoDeleteButtonTitle,
-                      style:
-                          context.textTheme.bodyMedium!.copyWith(color: color),
-                    ),
-                  ],
+                    }
+                  },
                 );
-              },
-            ),
+              }
+          },
+          child: Builder(
+            builder: (context) {
+              final color = switch (todo) {
+                null => context.disabledColor,
+                Todo _ => context.customColors.red,
+              };
+              return Row(
+                children: [
+                  Icon(
+                    Icons.delete,
+                    color: color,
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    S.of(context).todoDeleteButtonTitle,
+                    style: context.textTheme.bodyMedium!.copyWith(color: color),
+                  ),
+                ],
+              );
+            },
           ),
         );
       },

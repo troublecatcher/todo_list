@@ -25,6 +25,31 @@ class InsertAnimation extends StatelessWidget {
   }
 }
 
+class UpdateAnimation extends StatelessWidget {
+  final Animation<double> animation;
+  final Widget child;
+  const UpdateAnimation({
+    super.key,
+    required this.animation,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: animation,
+      child: SizeTransition(
+        sizeFactor: CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeInOutCirc,
+        ),
+        axisAlignment: -1,
+        child: child,
+      ),
+    );
+  }
+}
+
 class RemoveAnimation extends StatelessWidget {
   final Animation<double> animation;
   final Widget child;

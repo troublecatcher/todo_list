@@ -12,26 +12,17 @@ class TodoTrailing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSwitcher(
-      duration: Durations.medium1,
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Transform.rotate(
-            angle: pi,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: context.dividerColor,
-              ),
-            ),
-          ),
-        ],
+    return Transform.rotate(
+      angle: pi,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 16,
+          bottom: 16,
+        ),
+        child: Icon(
+          Icons.arrow_back_ios,
+          color: context.dividerColor,
+        ),
       ),
     );
   }

@@ -32,7 +32,7 @@ Future<void> main() async {
         BlocProvider(create: (_) => LocaleCubit()..init()),
         BlocProvider(create: (_) => ThemeCubit()..init()),
         BlocProvider(create: (_) => DeleteConfirmationCubit()..init()),
-        BlocProvider(create: (_) => DuckCubit()),
+        BlocProvider(create: (_) => DuckCubit()..init()),
         BlocProvider(create: (_) => AuthCubit()..init()),
         BlocProvider(create: (_) => TodoOperationCubit()),
         BlocProvider(

@@ -26,12 +26,19 @@ class TodoSaveButton extends StatelessWidget {
       builder: (context, todo) {
         return CustomButtonBase(
           key: const Key('saveButton'),
-          margin: const EdgeInsets.only(top: 8, right: 8),
           onPressed:
               todoHasText(todo) ? () => _handleTodoSaving(context) : null,
-          child: Text(
-            S.of(context).todoSaveButtonTitle,
-            style: context.textTheme.titleMedium,
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: context.colorScheme.primary,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Text(
+              S.of(context).todoSaveButtonTitle,
+              style: context.textTheme.titleMedium!
+                  .copyWith(color: context.colorScheme.onPrimary),
+            ),
           ),
         );
       },

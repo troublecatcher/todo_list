@@ -20,19 +20,19 @@ class TodoContent extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(
-                    widget.todo.text,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.bodyMedium!.copyWith(
-                      color: switch (widget.todo.done) {
-                        true => context.colorScheme.tertiary,
-                        false => null,
-                      },
-                      decoration: switch (widget.todo.done) {
-                        true => TextDecoration.lineThrough,
-                        false => TextDecoration.none,
-                      },
+                  child: AnimatedLineThrough(
+                    duration: Durations.long2,
+                    isCrossed: widget.todo.done,
+                    strokeWidth: 2,
+                    curve: Curves.easeOutCirc,
+                    color: context.colorScheme.tertiary,
+                    child: Text(
+                      widget.todo.text,
+                      style: context.textTheme.bodyMedium!.copyWith(
+                        color: widget.todo.done
+                            ? context.colorScheme.tertiary
+                            : null,
+                      ),
                     ),
                   ),
                 ),

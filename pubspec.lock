@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
+  animated_line_through:
+    dependency: "direct main"
+    description:
+      name: animated_line_through
+      sha256: "1d0a03db95fc6127a836a5a46809fbf972841f28617849d381bd86154cb581b8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   args:
     dependency: transitive
     description:

@@ -62,15 +62,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 borderRadius: LayoutConstants.borderRadius,
                                 value: state,
                                 items: List.generate(
-                                    S.delegate.supportedLocales.length,
-                                    (index) {
-                                  final String lang = S.delegate
-                                      .supportedLocales[index].languageCode;
-                                  return DropdownMenuItem(
-                                    value: lang,
-                                    child: Text(lang),
-                                  );
-                                }),
+                                  S.delegate.supportedLocales.length,
+                                  (index) {
+                                    final String lang = S.delegate
+                                        .supportedLocales[index].languageCode;
+                                    return DropdownMenuItem(
+                                      value: lang,
+                                      child: Text(lang),
+                                    );
+                                  },
+                                ),
                                 onChanged: (value) =>
                                     context.read<LocaleCubit>().set(value!),
                               ),

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animated_line_through/animated_line_through.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -24,6 +25,7 @@ part 'components/swipe_done_background.dart';
 part 'components/todo_content.dart';
 part 'components/todo_leading.dart';
 part 'components/todo_trailing.dart';
+part 'components/sync_widget.dart';
 
 enum LayoutType { mobile, tablet }
 
@@ -119,6 +121,27 @@ class _TodoTileState extends State<TodoTile> {
                             children: [
                               TodoLeading(todo: widget.todo),
                               TodoContent(widget: widget),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                                child: AnimatedSwitcher(
+                                  duration: Durations.extralong1,
+                                  transitionBuilder: (child, animation) =>
+                                      FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  ),
+                                  child: isBeingProcessed
+                                      ? const AnimatedSize(
+                                          duration: Durations.medium1,
+                                          child: SyncWidget(),
+                                        )
+                                      : const SizedBox(
+                                          width: 25,
+                                          height: 25,
+                                        ),
+                                ),
+                              ),
                               TodoTrailing(
                                 todo: widget.todo,
                                 type: widget.type,
