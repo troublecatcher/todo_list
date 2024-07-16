@@ -15,10 +15,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Run flutter format and analyze
-        run: |
-        dart format --set-exit-if-changed . 
-        flutter analyze --fatal-infos --fatal-warnings || true
-        flutter analyze --fatal-infos --fatal-warnings | grep -v "asset_does_not_exist"
+        run: dart format --set-exit-if-changed . && flutter analyze --fatal-infos --fatal-warnings || true && flutter analyze --fatal-infos --fatal-warnings | grep -v "asset_does_not_exist"
       - name: Run tests
         run: flutter test
       - name: Build APK
