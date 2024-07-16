@@ -23,9 +23,9 @@ jobs:
       - name: Run tests
         run: flutter test
       - name: Build APK
-        run: flutter build apk --release -t lib/main_prod.dart
+        run: flutter build apk --flavor prod -t lib/main_prod.dart
       - name: Build AppBundle
-        run: flutter build appbundle --release -t lib/main_prod.dart
+        run: flutter build appbundle --flavor prod -t lib/main_prod.dart
     # - name: Deploy to Firebase App Distribution
     #   env:
     #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
