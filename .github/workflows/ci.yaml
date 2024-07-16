@@ -3,22 +3,35 @@ name: Flutter CI
 on: [push, pull_request]
 
 jobs:
-  format:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: flutter-actions/flutter@v2
         with:
-          flutter-version: "3.22"
+          flutter-version: "stable"
+      - name: Create empty .env file
+        run: |
+          mkdir -p assets
+          echo "" > assets/.env
       - name: Install dependencies
         run: flutter pub get
-      - name: Run flutter format and analyze
-        run: dart format --set-exit-if-changed . && flutter analyze --fatal-infos --fatal-warnings || true && flutter analyze --fatal-infos --fatal-warnings | grep -v "asset_does_not_exist"
+      - name: Run flutter format
+        run: dart format --set-exit-if-changed .
+      - name: Run flutter analyze
+        run: flutter analyze --fatal-infos --fatal-warnings
       - name: Run tests
         run: flutter test
       - name: Build APK
         run: flutter build apk --release
       - name: Build AppBundle
         run: flutter build appbundle --release
+    # - name: Deploy to Firebase App Distribution
+    #   env:
+    #     FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    #   run: |
+    #     firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
+    #       --app <your-firebase-app-id> \
+    #       --groups testers
