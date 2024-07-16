@@ -6,7 +6,7 @@ class NavigationLogger extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     final String? name = route.settings.name;
-    Analytics.logPageVisit(name ?? '');
+    Analytics().logPageVisit(name ?? '');
     Log.i('$NavigationLogger.didPush $name');
     super.didPush(route, previousRoute);
   }
@@ -14,7 +14,7 @@ class NavigationLogger extends NavigatorObserver {
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     final String? name = route.settings.name;
-    Analytics.logPageLeave(name ?? '');
+    Analytics().logPageLeave(name ?? '');
     Log.i('$NavigationLogger.didPop $name');
     super.didPop(route, previousRoute);
   }

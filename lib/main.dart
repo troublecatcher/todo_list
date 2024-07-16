@@ -6,11 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:todo_list/config/router/navigation_service.dart';
 import 'package:todo_list/config/router/router.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
+import 'package:todo_list/core/services/analytics.dart';
 import 'package:todo_list/core/services/remote_config_service.dart';
 import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
-import 'package:todo_list/config/connectivity/connectivity_cubit.dart';
+import 'package:todo_list/core/services/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
-import 'package:todo_list/config/service_locator/service_locator.dart';
+import 'package:todo_list/core/services/service_locator.dart';
 import 'package:todo_list/features/settings/domain/state_management/delete_confirmation/delete_confirmation_cubit.dart';
 import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
@@ -36,6 +37,7 @@ Future<void> main() async {
           create: (context) => TodoListBloc(
             todoRepository: GetIt.I<TodoRepository>(),
             todoOperation: context.read<TodoOperationCubit>(),
+            analytics: Analytics(),
           )..add(TodosFetchStarted()),
         ),
         BlocProvider(

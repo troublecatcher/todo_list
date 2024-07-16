@@ -43,7 +43,7 @@ class TodoContent extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    FormattingHelper.formatDate(widget.todo.deadline!),
+                    widget.todo.deadline!.formattedDate,
                     style: context.textTheme.labelMedium!.copyWith(
                       color: context.colorScheme.tertiary,
                     ),

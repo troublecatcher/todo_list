@@ -13,12 +13,15 @@ part 'todo_list_state.dart';
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _todoRepository;
   final TodoOperation _todoOperation;
+  final Analytics _analytics;
 
   TodoListBloc({
     required TodoRepository todoRepository,
     required TodoOperation todoOperation,
+    required Analytics analytics,
   })  : _todoRepository = todoRepository,
         _todoOperation = todoOperation,
+        _analytics = analytics,
         super(TodoInitial()) {
     on<TodosFetchStarted>((event, emit) => _fetchTodos(event, emit));
     on<TodoAdded>((event, emit) => _addTodo(event, emit));
@@ -98,7 +101,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Added todo ${todo.id}');
-    Analytics.logCreateTodo(todo);
+    _analytics.logCreateTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
     emit(TodoLoadSuccess(updatedTodos));
@@ -109,7 +112,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Updated todo ${todo.id}');
-    Analytics.logUpdateTodo(todo);
+    _analytics.logUpdateTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos = currentState.todos.map((t) {
       return t.id == todo.id ? todo : t;
@@ -122,7 +125,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Deleted todo ${todo.id}');
-    Analytics.logDeleteTodo(todo);
+    _analytics.logDeleteTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos =
         currentState.todos.where((t) => t.id != todo.id).toList();
