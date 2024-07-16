@@ -8,6 +8,7 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final _auth = GetIt.I<SettingsService>().auth;
+
   AuthCubit() : super(AuthState(source: AuthSource.env, key: '')) {
     init();
   }
