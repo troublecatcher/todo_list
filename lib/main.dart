@@ -19,6 +19,7 @@ import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/core/application/todo_app.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: 'assets/.env');
@@ -46,6 +47,7 @@ Future<void> main() async {
             GetIt.I<RemoteConfigService>(),
           )..init(),
         ),
+        BlocProvider(create: (context) => TabletViewCubit()),
         Provider(create: (_) => NavigationService(appRouter)),
       ],
       child: const TodoApp(),
