@@ -25,13 +25,6 @@ jobs:
       - name: Build APK
         run: flutter build apk --flavor prod -t lib/main_prod.dart
       - name: Deploy to Firebase App Distribution
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-prod-release.apk \
-            --app todolist-59c0c \
-            --groups testers
-
         uses: wzieba/Firebase-Distribution-Github-Action@v1.4.0
         with:
           appId: ${{secrets.FIREBASE_APP_ID}}
