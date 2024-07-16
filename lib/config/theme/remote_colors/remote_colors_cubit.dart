@@ -8,13 +8,14 @@ class RemoteColorsCubit extends Cubit<RemoteColorsState> {
   final RemoteConfigService remoteConfigService;
   late StreamSubscription<RemoteConfigUpdate> _remoteConfigSubscription;
 
-  RemoteColorsCubit(this.remoteConfigService) : super(RemoteColorsInitial()) {
+  RemoteColorsCubit(this.remoteConfigService) : super(RemoteColorsInitial());
+
+  void init() {
     _remoteConfigSubscription =
         remoteConfigService.onConfigUpdated.listen((_) async {
       await remoteConfigService.activate();
       _updateColors();
     });
-
     _updateColors();
   }
 

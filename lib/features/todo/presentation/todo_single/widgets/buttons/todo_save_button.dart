@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
@@ -48,7 +49,7 @@ class TodoSaveButton extends StatelessWidget {
     }
     switch (type) {
       case LayoutType.mobile:
-        context.pop();
+        context.nav.pop();
         break;
       case LayoutType.tablet:
         context.read<TabletViewCubit>().set(TabletViewInitialState());

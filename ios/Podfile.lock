@@ -4,6 +4,11 @@ PODS:
     - ReachabilitySwift
   - device_info_plus (0.0.1):
     - Flutter
+  - Firebase/Analytics (10.28.0):
+    - Firebase/Core
+  - Firebase/Core (10.28.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 10.28.0)
   - Firebase/CoreOnly (10.28.0):
     - FirebaseCore (= 10.28.0)
   - Firebase/Crashlytics (10.28.0):
@@ -12,6 +17,10 @@ PODS:
   - Firebase/RemoteConfig (10.28.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.28.0)
+  - firebase_analytics (11.2.0):
+    - Firebase/Analytics (= 10.28.0)
+    - firebase_core
+    - Flutter
   - firebase_core (3.2.0):
     - Firebase/CoreOnly (= 10.28.0)
     - Flutter
@@ -25,6 +34,24 @@ PODS:
     - Flutter
   - FirebaseABTesting (10.28.0):
     - FirebaseCore (~> 10.0)
+  - FirebaseAnalytics (10.28.0):
+    - FirebaseAnalytics/AdIdSupport (= 10.28.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
+  - FirebaseAnalytics/AdIdSupport (10.28.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement (= 10.28.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
   - FirebaseCore (10.28.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
@@ -67,19 +94,55 @@ PODS:
     - PromisesSwift (~> 2.1)
   - FirebaseSharedSwift (10.28.0)
   - Flutter (1.0.0)
+  - GoogleAppMeasurement (10.28.0):
+    - GoogleAppMeasurement/AdIdSupport (= 10.28.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (10.28.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.28.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (10.28.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
+    - GoogleUtilities/MethodSwizzler (~> 7.11)
+    - GoogleUtilities/Network (~> 7.11)
+    - "GoogleUtilities/NSData+zlib (~> 7.11)"
+    - nanopb (< 2.30911.0, >= 2.30908.0)
   - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/AppDelegateSwizzler (7.13.3):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+    - GoogleUtilities/Privacy
   - GoogleUtilities/Environment (7.13.3):
     - GoogleUtilities/Privacy
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.13.3):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (7.13.3):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (7.13.3):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
+    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.13.3)":
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (7.13.3)
+  - GoogleUtilities/Reachability (7.13.3):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
   - GoogleUtilities/UserDefaults (7.13.3):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
@@ -108,6 +171,7 @@ PODS:
 DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
@@ -122,6 +186,7 @@ SPEC REPOS:
   trunk:
     - Firebase
     - FirebaseABTesting
+    - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreExtension
     - FirebaseCoreInternal
@@ -131,6 +196,7 @@ SPEC REPOS:
     - FirebaseRemoteConfigInterop
     - FirebaseSessions
     - FirebaseSharedSwift
+    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
     - nanopb
@@ -143,6 +209,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  firebase_analytics:
+    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
@@ -166,10 +234,12 @@ SPEC CHECKSUMS:
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   Firebase: 5121c624121af81cbc81df3bda414b3c28c4f3c3
+  firebase_analytics: e51d02e2da883fd058f2a4f151f6a80acdfe67aa
   firebase_core: a9d0180d5285527884d07a41eb4a9ec9ed12cdb6
   firebase_crashlytics: 12b2b1ecfc50f6c551c68e491ae156b2b7d41273
   firebase_remote_config: 5f92bfc62c3ef2c657bf3d703ffa4be29082280f
   FirebaseABTesting: 589bc28c0ab3e5554336895a34aa262e24276665
+  FirebaseAnalytics: 1e06fe7d246af7230b08d1d9cdca54a4624dd461
   FirebaseCore: 857dc1c6dd1255675047404d8466f7dfaac5d779
   FirebaseCoreExtension: f63147b723e2a700fe0f34ec6fb7f358d6fe83e0
   FirebaseCoreInternal: 58d07f1362fddeb0feb6a857d1d1d1c5e558e698
@@ -180,6 +250,7 @@ SPEC CHECKSUMS:
   FirebaseSessions: 20da8500ad66bb12622743e170459bf62a0768e8
   FirebaseSharedSwift: 48de4aec81a6b79bb30404e5e6db43ea74848fed
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  GoogleAppMeasurement: 55a4a3c8000c1280d68bf4c084adbfef20c49db1
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4

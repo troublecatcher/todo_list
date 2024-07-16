@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/logger/logger.dart';
+import 'package:get_it/get_it.dart';
+import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/logging/analytics.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
@@ -97,6 +99,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Added todo ${todo.id}');
+    Analytics.logCreateTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos = List<Todo>.from(currentState.todos)..add(todo);
     emit(TodoLoadSuccess(updatedTodos));
@@ -107,6 +110,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Updated todo ${todo.id}');
+    Analytics.logUpdateTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos = currentState.todos.map((t) {
       return t.id == todo.id ? todo : t;
@@ -119,6 +123,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
     Emitter<TodoState> emit,
   ) {
     Log.i('Deleted todo ${todo.id}');
+    Analytics.logDeleteTodo(todo);
     final currentState = state as TodoLoadSuccess;
     final updatedTodos =
         currentState.todos.where((t) => t.id != todo.id).toList();

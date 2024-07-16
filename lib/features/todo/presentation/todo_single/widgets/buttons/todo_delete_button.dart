@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
@@ -41,7 +42,7 @@ class TodoDeleteButton extends StatelessWidget {
                             .add(TodoDeleted(currentTodo));
                         switch (type) {
                           case LayoutType.mobile:
-                            context.pop();
+                            context.nav.pop();
                             break;
                           case LayoutType.tablet:
                             context

@@ -22,7 +22,7 @@ jobs:
       - name: Run tests
         run: flutter test
       - name: Build APK
-        run: flutter build apk --flavor prod -t lib/main_prod.dart
+        run: flutter build apk --flavor prod
       - name: Deploy to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.4.0
         with:

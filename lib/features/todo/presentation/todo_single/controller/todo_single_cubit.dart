@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/core/services/device_info_service.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';

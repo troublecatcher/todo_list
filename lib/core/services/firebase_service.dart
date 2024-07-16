@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/config/logging/logger.dart';
 import 'package:todo_list/firebase_options.dart';
 
 class FirebaseService {

@@ -47,4 +47,18 @@ class Todo {
       lastUpdatedBy: lastUpdatedBy ?? this.lastUpdatedBy,
     );
   }
+
+  Map<String, Object> toMap() {
+    return {
+      'id': id,
+      'text': text,
+      'importance': importance.name,
+      'deadline': deadline?.toIso8601String() ?? 'null',
+      'done': done ? 'true' : 'false',
+      'color': color ?? 'null',
+      'createdAt': createdAt.toIso8601String(),
+      'changedAt': changedAt.toIso8601String(),
+      'lastUpdatedBy': lastUpdatedBy,
+    };
+  }
 }

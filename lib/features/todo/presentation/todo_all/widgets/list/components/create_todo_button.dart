@@ -11,7 +11,7 @@ class CreateTodoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomButtonBase(
       onPressed: () => switch (type) {
-        LayoutType.mobile => context.push('/todo'),
+        LayoutType.mobile => context.nav.goToTodoSingle(),
         LayoutType.tablet =>
           context.read<TabletViewCubit>().set(TabletViewNewTodoState()),
       },
