@@ -26,7 +26,6 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        Provider(create: (_) => NavigationService(appRouter)),
         BlocProvider(create: (_) => ConnectivityCubit()..init()),
         BlocProvider(create: (_) => LocaleCubit()..init()),
         BlocProvider(create: (_) => ThemeCubit()..init()),
@@ -45,6 +44,7 @@ Future<void> main() async {
             GetIt.I<RemoteConfigService>(),
           )..init(),
         ),
+        Provider(create: (_) => NavigationService(appRouter)),
       ],
       child: const TodoApp(),
     ),

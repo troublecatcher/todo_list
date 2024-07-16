@@ -52,9 +52,7 @@ class _DuckWidgetState extends State<DuckWidget> {
                     padding: EdgeInsets.zero,
                     onPressed: () async {
                       _toggleHappy(true);
-                      await Future<void>.delayed(
-                        const Duration(seconds: 2),
-                      );
+                      await Future<void>.delayed(const Duration(seconds: 2));
                       _toggleHappy(false);
                     },
                     child: RiveAnimation.asset(

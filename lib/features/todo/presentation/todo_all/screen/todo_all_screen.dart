@@ -7,14 +7,9 @@ import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/vis
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
 
-class TodoAllScreen extends StatefulWidget {
+class TodoAllScreen extends StatelessWidget {
   const TodoAllScreen({super.key});
 
-  @override
-  State<TodoAllScreen> createState() => TodoAllScreenState();
-}
-
-class TodoAllScreenState extends State<TodoAllScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

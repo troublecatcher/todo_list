@@ -75,15 +75,23 @@ class TodoRepositoryImpl implements TodoRepository {
     List<RemoteTodo> remoteTodos,
   ) async {
     await _initSync.set(true);
-    // await _revision.set(remoteRevision);
     final localTodos = await _tryGetLocalTodos();
     if (localTodos.isNotEmpty) {
+      Log.i('Device never synced and there is data, merging...');
       final mergedTodos = remoteTodos.toEntities()
         ..addAll(localTodos.toEntities());
       await _remote.putFresh(mergedTodos.toRemoteTodos());
       await _local.putFresh(mergedTodos.toLocalTodos());
+      await _revision.set(remoteRevision + 1);
+      Log.i(
+        'Both sources updated with merged list, revision is ${remoteRevision + 1} everywhere',
+      );
       return mergedTodos;
     } else {
+      Log.i(
+        'Device never synced and there is no data, returning remote. Revision is $remoteRevision everywhere',
+      );
+      await _revision.set(remoteRevision);
       return remoteTodos.toEntities();
     }
   }
