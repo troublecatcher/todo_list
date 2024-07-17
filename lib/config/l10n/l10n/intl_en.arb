@@ -29,5 +29,5 @@
   "apiKey": "API key",
   "duck": "Duck",
   "noTodoSelected": "No todo selected",
-  "theTokenIsInvalid": "The token is invalid"
+  "theTokenIsInvalid": "authorization – the API key is invalid"
 }

@@ -21,10 +21,12 @@ class NoTodosPlaceholder extends StatelessWidget {
           Text(
             S.of(context).noTodos,
             style: context.textTheme.displayLarge,
+            textAlign: TextAlign.center,
           ),
           Text(
             S.of(context).luckyYou,
             style: context.textTheme.titleMedium,
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 100),
         ],

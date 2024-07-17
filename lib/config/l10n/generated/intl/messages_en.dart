@@ -45,8 +45,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineMode": MessageLookupByLibrary.simpleMessage("Offline mode"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "theTokenIsInvalid":
-            MessageLookupByLibrary.simpleMessage("The token is invalid"),
+        "theTokenIsInvalid": MessageLookupByLibrary.simpleMessage(
+            "authorization – the API key is invalid"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Deadline"),
         "todoDeleteButtonTitle": MessageLookupByLibrary.simpleMessage("Delete"),

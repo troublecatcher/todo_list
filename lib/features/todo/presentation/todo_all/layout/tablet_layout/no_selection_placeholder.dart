@@ -21,6 +21,7 @@ class NoSelectionPlaceholder extends StatelessWidget {
         Text(
           S.of(context).noTodoSelected,
           style: context.textTheme.displayLarge,
+          textAlign: TextAlign.center,
         ),
       ],
     );

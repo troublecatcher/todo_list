@@ -47,8 +47,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "offlineMode": MessageLookupByLibrary.simpleMessage("Автономный режим"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
-        "theTokenIsInvalid":
-            MessageLookupByLibrary.simpleMessage("Токен недействителен"),
+        "theTokenIsInvalid": MessageLookupByLibrary.simpleMessage(
+            "авторизация – API ключ недействителен"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Дедлайн"),
         "todoDeleteButtonTitle":

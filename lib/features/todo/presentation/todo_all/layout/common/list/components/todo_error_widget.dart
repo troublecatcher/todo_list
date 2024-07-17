@@ -23,6 +23,7 @@ class TodoErrorWidget extends StatelessWidget {
           Text(
             S.of(context).errorMessage(message),
             style: context.textTheme.titleMedium,
+            textAlign: TextAlign.center,
           ),
           const SizedBox(height: 100),
         ],

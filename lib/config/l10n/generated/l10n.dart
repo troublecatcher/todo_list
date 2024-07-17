@@ -350,10 +350,10 @@ class S {
     );
   }
 
-  /// `Токен недействителен`
+  /// `авторизация – API ключ недействителен`
   String get theTokenIsInvalid {
     return Intl.message(
-      'Токен недействителен',
+      'авторизация – API ключ недействителен',
       name: 'theTokenIsInvalid',
       desc: '',
       args: [],
