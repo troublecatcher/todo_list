@@ -349,6 +349,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Токен недействителен`
+  String get theTokenIsInvalid {
+    return Intl.message(
+      'Токен недействителен',
+      name: 'theTokenIsInvalid',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

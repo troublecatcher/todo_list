@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/features/todo/data/models/remote/unauthorized_exception.dart';
 
 import '../../../../../config/log/logger.dart';
 import '../../../../../core/services/analytics.dart';
@@ -39,7 +40,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       final todos = await _todoRepository.fetchTodos();
       emit(TodoLoadSuccess(todos));
     } catch (e) {
-      emit(TodoFailure(e.toString()));
+      _handleError(e, emit);
     }
   }
 
@@ -56,7 +57,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       _updateStateWithNewTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error creating todo ${event.todo.id}: $e');
-      emit(TodoFailure(e.toString()));
+      _handleError(e, emit);
     }
     _todoOperation.endOperation();
   }
@@ -74,7 +75,7 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       _updateStateWithUpdatedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error updating todo ${event.todo.id}: $e');
-      emit(TodoFailure(e.toString()));
+      _handleError(e, emit);
     }
     _todoOperation.endOperation();
   }
@@ -92,9 +93,20 @@ class TodoListBloc extends Bloc<TodoEvent, TodoState> {
       _updateStateWithDeletedTodo(event.todo, emit);
     } catch (e) {
       Log.e('Error deleting todo ${event.todo.id}: $e');
-      emit(TodoFailure(e.toString()));
+      _handleError(e, emit);
     }
     _todoOperation.endOperation();
+  }
+
+  void _handleError(
+    dynamic error,
+    Emitter<TodoState> emit,
+  ) {
+    if (error is UnauthorizedException) {
+      emit(TodoUnauthorized());
+    } else {
+      emit(TodoFailure(error.toString()));
+    }
   }
 
   void _updateStateWithNewTodo(

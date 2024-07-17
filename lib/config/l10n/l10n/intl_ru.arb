@@ -28,5 +28,6 @@
   "useEnvFile": "Использовать файл .env",
   "apiKey": "API ключ",
   "duck": "Утка",
-  "noTodoSelected": "Дело не выбрано"
+  "noTodoSelected": "Дело не выбрано",
+  "theTokenIsInvalid": "Токен недействителен"
 }

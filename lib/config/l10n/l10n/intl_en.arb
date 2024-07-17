@@ -28,5 +28,6 @@
   "useEnvFile": "Use .env file",
   "apiKey": "API key",
   "duck": "Duck",
-  "noTodoSelected": "No todo selected"
+  "noTodoSelected": "No todo selected",
+  "theTokenIsInvalid": "The token is invalid"
 }

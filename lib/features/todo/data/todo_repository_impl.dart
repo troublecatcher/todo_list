@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:todo_list/config/log/logger.dart';
 import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/features/todo/data/models/remote/unauthorized_exception.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
@@ -47,6 +49,7 @@ class TodoRepositoryImpl implements TodoRepository {
         );
       }
     } catch (e, s) {
+      if (_isUnauthorizedError(e)) throw UnauthorizedException();
       Log.e('Error fetching todos from remote: $e, $s');
       return (await _tryGetLocalTodos()).toEntities();
     }
@@ -141,6 +144,7 @@ class TodoRepositoryImpl implements TodoRepository {
       await _revision.increment();
       incremented = true;
     } catch (e, s) {
+      if (_isUnauthorizedError(e)) throw UnauthorizedException();
       Log.e('Error in remote: $e, $s');
     }
     try {
@@ -149,5 +153,12 @@ class TodoRepositoryImpl implements TodoRepository {
     } catch (e, s) {
       Log.e('Error in local: $e, $s');
     }
+  }
+
+  bool _isUnauthorizedError(dynamic e) {
+    if (e is DioException && e.response?.statusCode == 401) {
+      return true;
+    }
+    return false;
   }
 }

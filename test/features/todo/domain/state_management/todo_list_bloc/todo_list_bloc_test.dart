@@ -128,7 +128,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to add todo',
           ),
@@ -171,7 +171,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to update todo',
           ),
@@ -212,7 +212,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to delete todo',
           ),
