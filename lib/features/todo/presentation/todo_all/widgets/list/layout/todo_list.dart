@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../../config/l10n/generated/l10n.dart';
@@ -15,13 +17,8 @@ part '../components/todo_error_widget.dart';
 
 class TodoList extends StatefulWidget {
   final List<Todo> todos;
-  final LayoutType type;
 
-  const TodoList({
-    super.key,
-    required this.todos,
-    required this.type,
-  });
+  const TodoList({super.key, required this.todos});
 
   @override
   State<TodoList> createState() => _TodoListState();
@@ -65,10 +62,7 @@ class _TodoListState extends State<TodoList> {
                       index: index,
                       child: InsertAnimation(
                         animation: animation,
-                        child: TodoTile(
-                          todo: todo,
-                          type: widget.type,
-                        ),
+                        child: TodoTile(todo: todo),
                       ),
                     );
                   }
@@ -90,10 +84,7 @@ class _TodoListState extends State<TodoList> {
             i,
             (context, animation) => HideAnimation(
               animation: animation,
-              child: TodoTile(
-                todo: removedTodo,
-                type: widget.type,
-              ),
+              child: TodoTile(todo: removedTodo),
             ),
             duration: _animationDuration,
           );
@@ -159,10 +150,7 @@ class _TodoListState extends State<TodoList> {
             displayedIndex,
             (context, animation) => UpdateAnimation(
               animation: animation,
-              child: TodoTile(
-                todo: removedTodo,
-                type: widget.type,
-              ),
+              child: TodoTile(todo: removedTodo),
             ),
             duration: _animationDuration,
           );
@@ -181,10 +169,7 @@ class _TodoListState extends State<TodoList> {
           displayedIndex,
           (context, animation) => RemoveAnimation(
             animation: animation,
-            child: TodoTile(
-              todo: removedTodo,
-              type: widget.type,
-            ),
+            child: TodoTile(todo: removedTodo),
           ),
           duration: _animationDuration,
         );

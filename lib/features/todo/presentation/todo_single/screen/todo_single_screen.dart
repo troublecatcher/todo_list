@@ -17,10 +17,7 @@ class TodoSingleScreen extends StatelessWidget {
       ),
       body: SafeArea(
         bottom: false,
-        child: TodoInfoLayout(
-          todo: todo,
-          type: LayoutType.mobile,
-        ),
+        child: TodoInfoLayout(todo: todo),
       ),
     );
   }

@@ -33,6 +33,8 @@ class TodoContent extends StatelessWidget {
                             ? context.colorScheme.tertiary
                             : null,
                       ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),

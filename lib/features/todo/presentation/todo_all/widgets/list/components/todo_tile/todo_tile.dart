@@ -3,6 +3,8 @@ import 'package:animated_line_through/animated_line_through.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
 
 import '../../../../../../../../config/config.dart';
 import '../../../../../../../../core/core.dart';
@@ -15,17 +17,10 @@ part 'components/todo_leading.dart';
 part 'components/todo_trailing.dart';
 part 'components/sync_widget.dart';
 
-enum LayoutType { mobile, tablet }
-
 class TodoTile extends StatefulWidget {
   final Todo todo;
-  final LayoutType type;
 
-  const TodoTile({
-    super.key,
-    required this.todo,
-    required this.type,
-  });
+  const TodoTile({super.key, required this.todo});
 
   @override
   State<TodoTile> createState() => _TodoTileState();
@@ -37,6 +32,7 @@ class _TodoTileState extends State<TodoTile> {
 
   @override
   Widget build(BuildContext context) {
+    final layoutType = LayoutTypeProvider.of(context);
     return BlocBuilder<TodoOperationCubit, TodoOperationState>(
       builder: (context, state) {
         final bool isBeingProcessed = state is TodoOperationProcessingState &&
@@ -50,7 +46,7 @@ class _TodoTileState extends State<TodoTile> {
             child: CustomButtonBase(
               shrinkFactor: 0.95,
               padding: EdgeInsets.zero,
-              onPressed: switch (widget.type) {
+              onPressed: switch (layoutType) {
                 LayoutType.mobile => () =>
                     context.nav.goTodoSingle(todo: widget.todo),
                 LayoutType.tablet => () => context
@@ -68,7 +64,7 @@ class _TodoTileState extends State<TodoTile> {
                     },
                     onUpdate: (details) => _handleDragUpdate(details),
                     confirmDismiss: (direction) =>
-                        _handleDismiss(direction, context),
+                        _handleDismiss(direction, context, layoutType),
                     background: ValueListenableBuilder<bool>(
                       valueListenable: _reachedNotifier,
                       builder: (context, reached, child) {
@@ -130,10 +126,7 @@ class _TodoTileState extends State<TodoTile> {
                                         ),
                                 ),
                               ),
-                              TodoTrailing(
-                                todo: widget.todo,
-                                type: widget.type,
-                              ),
+                              TodoTrailing(todo: widget.todo),
                             ],
                           ),
                           BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
@@ -184,6 +177,7 @@ class _TodoTileState extends State<TodoTile> {
   Future<bool> _handleDismiss(
     DismissDirection direction,
     BuildContext context,
+    LayoutType type,
   ) async {
     final bloc = context.read<TodoListBloc>();
     final todo = widget.todo;
@@ -206,7 +200,7 @@ class _TodoTileState extends State<TodoTile> {
           await DialogManager.showDeleteConfirmationDialog(context, todo);
       if (result != null && result) {
         bloc.add(TodoDeleted(widget.todo));
-        switch (widget.type) {
+        switch (type) {
           case LayoutType.tablet:
             // ignore: use_build_context_synchronously
             context.read<TabletViewCubit>().set(TabletViewInitialState());

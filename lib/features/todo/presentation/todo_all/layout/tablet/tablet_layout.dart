@@ -81,9 +81,7 @@ class _TabletLayoutState extends State<TabletLayout> {
                     ctx.read<TodoListBloc>().add(TodosFetchStarted());
                   },
                   child: const CustomScrollView(
-                    slivers: [
-                      MainList(type: LayoutType.tablet),
-                    ],
+                    slivers: [TodoListBase()],
                   ),
                 );
               },
@@ -114,12 +112,10 @@ class _TabletLayoutState extends State<TabletLayout> {
                     return TodoInfoLayout(
                       key: Key(state.todo.id),
                       todo: s.todo,
-                      type: LayoutType.tablet,
                     );
                   case TabletViewNewTodoState _:
                     return const TodoInfoLayout(
                       todo: null,
-                      type: LayoutType.tablet,
                     );
                 }
               },

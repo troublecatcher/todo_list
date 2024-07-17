@@ -5,13 +5,8 @@ import '../../../../features.dart';
 
 class TodoInfoLayout extends StatelessWidget {
   final Todo? todo;
-  final LayoutType type;
 
-  const TodoInfoLayout({
-    super.key,
-    required this.todo,
-    required this.type,
-  });
+  const TodoInfoLayout({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +34,8 @@ class TodoInfoLayout extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TodoDeleteButton(
-                    todo: todo,
-                    type: type,
-                  ),
-                  TodoSaveButton(
-                    currentTodo: todo,
-                    type: type,
-                  ),
+                  TodoDeleteButton(todo: todo),
+                  TodoSaveButton(currentTodo: todo),
                 ],
               ),
             ),

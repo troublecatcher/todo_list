@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
 
 import '../../../../../../config/l10n/generated/l10n.dart';
 import '../../../../../../core/core.dart';
@@ -7,22 +9,19 @@ import '../../../../../features.dart';
 
 class TodoSaveButton extends StatelessWidget {
   final Todo? currentTodo;
-  final LayoutType type;
 
-  const TodoSaveButton({
-    super.key,
-    required this.currentTodo,
-    required this.type,
-  });
+  const TodoSaveButton({super.key, required this.currentTodo});
 
   @override
   Widget build(BuildContext context) {
+    final layoutType = LayoutTypeProvider.of(context);
     return BlocBuilder<TodoSingleCubit, Todo>(
       builder: (context, todo) {
         return CustomButtonBase(
           key: const Key('saveButton'),
-          onPressed:
-              todoHasText(todo) ? () => _handleTodoSaving(context) : null,
+          onPressed: todoHasText(todo)
+              ? () => _handleTodoSaving(context, layoutType)
+              : null,
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -40,7 +39,7 @@ class TodoSaveButton extends StatelessWidget {
     );
   }
 
-  void _handleTodoSaving(BuildContext context) {
+  void _handleTodoSaving(BuildContext context, LayoutType type) {
     Todo newTodo = context.read<TodoSingleCubit>().assignMetadata(currentTodo);
     final TodoListBloc bloc = context.read<TodoListBloc>();
     if (currentTodo == null) {

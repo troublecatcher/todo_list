@@ -1,16 +1,13 @@
 part of '../layout/todo_list.dart';
 
 class CreateTodoButton extends StatelessWidget {
-  final LayoutType type;
-  const CreateTodoButton({
-    super.key,
-    required this.type,
-  });
+  const CreateTodoButton({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final layoutType = LayoutTypeProvider.of(context);
     return CustomButtonBase(
-      onPressed: () => switch (type) {
+      onPressed: () => switch (layoutType) {
         LayoutType.mobile => context.nav.goTodoSingle(),
         LayoutType.tablet =>
           context.read<TabletViewCubit>().set(TabletViewNewTodoState()),

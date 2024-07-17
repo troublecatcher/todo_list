@@ -2,13 +2,8 @@ part of '../todo_tile.dart';
 
 class TodoTrailing extends StatelessWidget {
   final Todo todo;
-  final LayoutType type;
 
-  const TodoTrailing({
-    super.key,
-    required this.todo,
-    required this.type,
-  });
+  const TodoTrailing({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {

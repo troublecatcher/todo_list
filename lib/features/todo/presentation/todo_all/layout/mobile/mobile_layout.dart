@@ -13,7 +13,7 @@ class MobileLayout extends StatelessWidget {
       body: Stack(
         children: [
           RefreshIndicator(
-            edgeOffset: 124,
+            edgeOffset: 116 + 8,
             onRefresh: () async =>
                 context.read<TodoListBloc>().add(TodosFetchStarted()),
             child: CustomScrollView(
@@ -25,7 +25,7 @@ class MobileLayout extends StatelessWidget {
                     collapsedHeight: 56,
                   ),
                 ),
-                const MainList(type: LayoutType.mobile),
+                const TodoListBase(),
               ],
             ),
           ),

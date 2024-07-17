@@ -3,13 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../todo.dart';
 
-class MainList extends StatelessWidget {
-  final LayoutType type;
-
-  const MainList({
-    super.key,
-    required this.type,
-  });
+class TodoListBase extends StatelessWidget {
+  const TodoListBase({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +27,7 @@ class MainList extends StatelessWidget {
               if (todos.isEmpty) {
                 return const NoTodosPlaceholder();
               }
-              return TodoList(
-                todos: todos,
-                type: type,
-              );
+              return TodoList(todos: todos);
           }
         },
       ),

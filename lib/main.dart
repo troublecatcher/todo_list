@@ -34,7 +34,6 @@ Future<void> main() async {
             GetIt.I<RemoteConfigService>(),
           )..init(),
         ),
-        BlocProvider(create: (context) => TabletViewCubit()),
         Provider(create: (_) => NavigationManager(router)),
       ],
       child: const TodoApp(),
