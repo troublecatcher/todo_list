@@ -5,13 +5,13 @@ sealed class RemoteColorsState {}
 final class RemoteColorsInitial extends RemoteColorsState {}
 
 final class RemoteColorsLoaded extends RemoteColorsState {
-  final Color? importanceColorBasic;
-  final Color? importanceColorLow;
-  final Color? importanceColorImportant;
+  final Color? basicColor;
+  final Color? lowColor;
+  final Color? importantColor;
 
   RemoteColorsLoaded({
-    required this.importanceColorBasic,
-    required this.importanceColorLow,
-    required this.importanceColorImportant,
+    required this.basicColor,
+    required this.lowColor,
+    required this.importantColor,
   });
 }

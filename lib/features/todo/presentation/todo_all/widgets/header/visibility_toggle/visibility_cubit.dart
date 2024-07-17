@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/log/logger.dart';
 
 part 'visibility_mode.dart';
 

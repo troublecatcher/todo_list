@@ -12,7 +12,7 @@ class CustomBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomIconButton(
       icon: Icons.close,
-      onPressed: () => context.nav.pop(),
+      onPressed: () => context.nav.goBack(),
       color: context.colorScheme.onSurface,
     );
   }

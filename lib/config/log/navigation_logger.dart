@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/log/logger.dart';
 import 'package:todo_list/core/services/analytics.dart';
 
 class NavigationLogger extends NavigatorObserver {

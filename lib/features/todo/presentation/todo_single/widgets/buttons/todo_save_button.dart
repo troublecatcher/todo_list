@@ -55,7 +55,7 @@ class TodoSaveButton extends StatelessWidget {
     }
     switch (type) {
       case LayoutType.mobile:
-        context.nav.pop();
+        context.nav.goBack();
         break;
       case LayoutType.tablet:
         context.read<TabletViewCubit>().set(TabletViewInitialState());

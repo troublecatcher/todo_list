@@ -17,7 +17,7 @@ class SettingsButton extends StatelessWidget {
       builder: (context, state) {
         return CustomIconButton(
           icon: Icons.settings,
-          onPressed: () => context.nav.goToSettings(),
+          onPressed: () => context.nav.goSettings(),
           color: context.colorScheme.primary,
           margin: EdgeInsets.only(
             right: lerpDouble(24, 0, collapsePercent)!,

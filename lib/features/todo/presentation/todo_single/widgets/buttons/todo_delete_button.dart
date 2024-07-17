@@ -41,7 +41,7 @@ class TodoDeleteButton extends StatelessWidget {
                           .add(TodoDeleted(currentTodo));
                       switch (type) {
                         case LayoutType.mobile:
-                          context.nav.pop();
+                          context.nav.goBack();
                           break;
                         case LayoutType.tablet:
                           context

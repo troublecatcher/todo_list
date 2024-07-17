@@ -4,7 +4,7 @@ import 'package:animated_line_through/animated_line_through.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/log/logger.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
 import 'package:todo_list/core/extensions/datetime_extension.dart';
@@ -64,7 +64,7 @@ class _TodoTileState extends State<TodoTile> {
               padding: EdgeInsets.zero,
               onPressed: switch (widget.type) {
                 LayoutType.mobile => () =>
-                    context.nav.goToTodoSingle(todo: widget.todo),
+                    context.nav.goTodoSingle(todo: widget.todo),
                 LayoutType.tablet => () => context
                     .read<TabletViewCubit>()
                     .set(TabletViewTodoSelectedState(todo: widget.todo)),
@@ -238,11 +238,11 @@ class _TodoTileState extends State<TodoTile> {
   ) {
     switch (importance) {
       case Importance.basic:
-        return colors.importanceColorBasic;
+        return colors.basicColor;
       case Importance.low:
-        return colors.importanceColorLow ?? context.customColors.orange;
+        return colors.lowColor ?? context.customColors.orange;
       case Importance.important:
-        return colors.importanceColorImportant ?? context.customColors.red;
+        return colors.importantColor ?? context.customColors.red;
       default:
         return Colors.transparent;
     }

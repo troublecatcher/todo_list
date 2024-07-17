@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/log/logger.dart';
 
 class RemoteConfigService {
   final _remoteConfig = FirebaseRemoteConfig.instance;
@@ -28,14 +28,6 @@ class RemoteConfigService {
 
   Stream<RemoteConfigUpdate> get onConfigUpdated =>
       _remoteConfig.onConfigUpdated;
-
-  static Color? parseColor(String? colorString) {
-    if (colorString == null || colorString.isEmpty) return null;
-    final buffer = StringBuffer();
-    if (colorString.length == 6 || colorString.length == 7) buffer.write('ff');
-    buffer.write(colorString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
 }
 
 enum ConfigKey {

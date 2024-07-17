@@ -1,4 +1,4 @@
-import 'package:todo_list/config/logging/logger.dart';
+import 'package:todo_list/config/log/logger.dart';
 import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
 import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';

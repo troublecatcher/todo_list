@@ -70,12 +70,12 @@ class TodoLeading extends StatelessWidget {
       case Importance.important:
         return todo.done
             ? null
-            : colors.importanceColorImportant?.withOpacity(0.2) ??
+            : colors.importantColor?.withOpacity(0.2) ??
                 context.customColors.red.withOpacity(0.2);
       case Importance.low:
         return todo.done
             ? null
-            : colors.importanceColorLow?.withOpacity(0.2) ??
+            : colors.lowColor?.withOpacity(0.2) ??
                 context.customColors.orange.withOpacity(0.2);
       case Importance.basic:
         return null;
@@ -91,9 +91,9 @@ class TodoLeading extends StatelessWidget {
   ) {
     switch (todo.importance) {
       case Importance.important:
-        return colors.importanceColorImportant ?? context.customColors.red;
+        return colors.importantColor ?? context.customColors.red;
       case Importance.low:
-        return colors.importanceColorLow ?? context.customColors.orange;
+        return colors.lowColor ?? context.customColors.orange;
       case Importance.basic:
         return context.dividerColor;
       default:

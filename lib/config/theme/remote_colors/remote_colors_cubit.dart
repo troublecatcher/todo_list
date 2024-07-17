@@ -2,39 +2,39 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
+import 'package:todo_list/core/extensions/color_extension.dart';
 import 'package:todo_list/core/services/remote_config_service.dart';
 
 class RemoteColorsCubit extends Cubit<RemoteColorsState> {
-  final RemoteConfigService remoteConfigService;
+  final RemoteConfigService _remoteConfigService;
   late StreamSubscription<RemoteConfigUpdate> _remoteConfigSubscription;
 
-  RemoteColorsCubit(this.remoteConfigService) : super(RemoteColorsInitial());
+  RemoteColorsCubit(this._remoteConfigService) : super(RemoteColorsInitial());
 
   void init() {
     _remoteConfigSubscription =
-        remoteConfigService.onConfigUpdated.listen((_) async {
-      await remoteConfigService.activate();
+        _remoteConfigService.onConfigUpdated.listen((_) async {
+      await _remoteConfigService.activate();
       _updateColors();
     });
     _updateColors();
   }
 
   void _updateColors() {
-    final importanceColorBasic = RemoteConfigService.parseColor(
-      remoteConfigService.getString(ConfigKey.importanceColorBasic),
+    final basicColor = ColorExtension.parse(
+      _remoteConfigService.getString(ConfigKey.importanceColorBasic),
     );
-    final importanceColorLow = RemoteConfigService.parseColor(
-      remoteConfigService.getString(ConfigKey.importanceColorLow),
+    final lowColor = ColorExtension.parse(
+      _remoteConfigService.getString(ConfigKey.importanceColorLow),
     );
-    final importanceColorImportant = RemoteConfigService.parseColor(
-      remoteConfigService.getString(ConfigKey.importanceColorImportant),
+    final importantColor = ColorExtension.parse(
+      _remoteConfigService.getString(ConfigKey.importanceColorImportant),
     );
-
     emit(
       RemoteColorsLoaded(
-        importanceColorBasic: importanceColorBasic,
-        importanceColorLow: importanceColorLow,
-        importanceColorImportant: importanceColorImportant,
+        basicColor: basicColor,
+        lowColor: lowColor,
+        importantColor: importantColor,
       ),
     );
   }

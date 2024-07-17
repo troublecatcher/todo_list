@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_list/config/router/navigation_service.dart';
-import 'package:todo_list/config/router/router.dart';
+import 'package:todo_list/config/router/navigation.dart';
 import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
 import 'package:todo_list/core/services/analytics.dart';
 import 'package:todo_list/core/services/remote_config_service.dart';
@@ -48,7 +47,7 @@ Future<void> main() async {
           )..init(),
         ),
         BlocProvider(create: (context) => TabletViewCubit()),
-        Provider(create: (_) => NavigationService(appRouter)),
+        Provider(create: (_) => NavigationManager(router)),
       ],
       child: const TodoApp(),
     ),
