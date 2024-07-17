@@ -6,8 +6,8 @@ import '../log/navigation_logger.dart';
 
 abstract class NavigationKeys {
   static String get home => 'home';
-  static String get todo => 'home';
-  static String get settings => 'home';
+  static String get todo => 'todo';
+  static String get settings => 'settings';
 }
 
 final GoRouter router = GoRouter(
