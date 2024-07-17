@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/screen/mobile/mobile_layout.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_layout.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/connectivity_indicator.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
+
+import '../../../../features.dart';
 
 class TodoAllScreen extends StatelessWidget {
   const TodoAllScreen({super.key});

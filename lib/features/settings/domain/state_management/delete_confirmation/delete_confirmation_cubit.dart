@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/services/settings_service.dart';
+
+import '../../../../../core/services/services.dart';
 
 class DeleteConfirmationCubit extends Cubit<bool> {
   final _confirmDialogs = GetIt.I<SettingsService>().confirmDialogs;

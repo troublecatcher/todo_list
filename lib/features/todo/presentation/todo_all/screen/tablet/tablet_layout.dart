@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/ui/layout/duck_widget.dart';
-import 'package:todo_list/features/settings/domain/state_management/duck/duck_cubit.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/screen/main_list.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/screen/tablet/tablet_view_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_info_layout.dart';
+
+import '../../../../../../config/l10n/generated/l10n.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../features.dart';
 
 class TabletLayout extends StatefulWidget {
   const TabletLayout({super.key});

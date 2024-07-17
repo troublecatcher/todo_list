@@ -2,15 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/services/firebase_service.dart';
-import 'package:todo_list/core/services/remote_config_service.dart';
-import 'package:todo_list/core/services/settings_service.dart';
-import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
-import 'package:todo_list/features/todo/data/sources/local/local_todo_source_impl.dart';
-import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source_impl.dart';
-import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
+
+import '../../features/todo/data/data.dart';
+import '../../features/todo/domain/domain.dart';
+import 'services.dart';
 
 Future<void> initDependecies() async {
   GetIt.I.registerSingletonAsync<DeviceInfoService>(

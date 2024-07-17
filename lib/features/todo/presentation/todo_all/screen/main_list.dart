@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_shimmer_list.dart';
+
+import '../../../todo.dart';
 
 class MainList extends StatelessWidget {
   final LayoutType type;

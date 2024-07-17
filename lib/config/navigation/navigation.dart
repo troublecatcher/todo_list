@@ -1,9 +1,8 @@
 import 'package:go_router/go_router.dart';
-import 'package:todo_list/config/log/navigation_logger.dart';
-import 'package:todo_list/features/settings/presentation/screen/settings_screen.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/screen/todo_all_screen.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_single_screen.dart';
+
+import '../../features/settings/settings.dart';
+import '../../features/todo/todo.dart';
+import '../log/navigation_logger.dart';
 
 abstract class NavigationKeys {
   static String get home => 'home';

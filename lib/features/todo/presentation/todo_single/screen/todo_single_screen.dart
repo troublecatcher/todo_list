@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/ui/widget/custom_back_button.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_info_layout.dart';
+
+import '../../../../../core/core.dart';
+import '../../../../features.dart';
 
 class TodoSingleScreen extends StatelessWidget {
   final Todo? todo;

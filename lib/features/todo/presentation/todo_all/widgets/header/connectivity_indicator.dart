@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/services/connectivity/connectivity_cubit.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
+
+import '../../../../../../config/l10n/generated/l10n.dart';
+import '../../../../../../core/services/connectivity/connectivity.dart';
+import '../../../../domain/state_management/state_management.dart';
 
 class ConnectivityIndicator extends StatelessWidget {
   const ConnectivityIndicator({

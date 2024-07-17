@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
-import 'package:todo_list/features/todo/domain/entities/importance.dart';
+
+import '../../../domain/entities/importance.dart';
 
 part 'local_todo.freezed.dart';
 part 'local_todo.g.dart';

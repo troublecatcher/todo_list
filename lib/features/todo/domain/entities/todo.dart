@@ -1,5 +1,5 @@
-import 'package:todo_list/features/todo/domain/entities/importance.dart';
-import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
+import 'importance.dart';
+import 'wrapped.dart';
 
 class Todo {
   final String id;

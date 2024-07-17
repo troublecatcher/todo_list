@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/config/log/logger.dart';
-import 'package:todo_list/core/services/analytics.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
 
+import '../../../../../config/log/logger.dart';
+import '../../../../../core/services/analytics.dart';
+import '../../entities/todo.dart';
 import '../../repository/todo_repository.dart';
+import '../todo_operation/todo_operation_interface.dart';
+import '../todo_operation/todo_operation_type.dart';
+
 part 'todo_list_event.dart';
 part 'todo_list_state.dart';
 
 class TodoListBloc extends Bloc<TodoEvent, TodoState> {
   final TodoRepository _todoRepository;
-  final TodoOperation _todoOperation;
+  final TodoOperationInterface _todoOperation;
   final Analytics _analytics;
 
   TodoListBloc({
     required TodoRepository todoRepository,
-    required TodoOperation todoOperation,
+    required TodoOperationInterface todoOperation,
     required Analytics analytics,
   })  : _todoRepository = todoRepository,
         _todoOperation = todoOperation,

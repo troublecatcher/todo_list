@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/extensions/extensions.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget child;

@@ -1,11 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/config/log/logger.dart';
-import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/features/todo/domain/entities/importance.dart';
-import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/domain/entities/wrapped.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../../config/config.dart';
+import '../../../../../core/core.dart';
+import '../../../../features.dart';
 
 class TodoSingleCubit extends Cubit<Todo> {
   TodoSingleCubit({Todo? todo})

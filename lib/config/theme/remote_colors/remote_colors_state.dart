@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'remote_colors_cubit.dart';
 
 sealed class RemoteColorsState {}
 

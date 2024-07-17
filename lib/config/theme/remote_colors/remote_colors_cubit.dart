@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:todo_list/config/theme/remote_colors/remote_colors_state.dart';
-import 'package:todo_list/core/extensions/color_extension.dart';
-import 'package:todo_list/core/services/remote_config_service.dart';
+import 'package:flutter/material.dart';
+
+import '../../../core/extensions/color_extension.dart';
+import '../../../core/services/remote_config_service.dart';
+
+part 'remote_colors_state.dart';
 
 class RemoteColorsCubit extends Cubit<RemoteColorsState> {
   final RemoteConfigService _remoteConfigService;

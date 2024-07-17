@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list/features/settings/domain/storage/settings_storage.dart';
+
+import '../domain/storage/storage.dart';
 
 class SettingsStorageImpl implements SettingsStorage {
   final SharedPreferences _prefs;

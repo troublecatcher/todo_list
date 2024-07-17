@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/ui/layout/app_shimmer.dart';
-import 'package:todo_list/core/ui/layout/custom_card.dart';
+
+import '../../../../../../../core/core.dart';
 
 class TodoShimmerList extends StatelessWidget {
   const TodoShimmerList({super.key});

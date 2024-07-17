@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/ui/layout/custom_card.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
+
+import '../../../../../../config/l10n/generated/l10n.dart';
+import '../../../../../../core/core.dart';
+import '../../../../../features.dart';
 
 class TodoContentTextField extends StatefulWidget {
   const TodoContentTextField({super.key});

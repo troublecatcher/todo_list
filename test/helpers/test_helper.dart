@@ -1,10 +1,6 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
-import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
-import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
-import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
-import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/core/core.dart';
+import 'package:todo_list/features/features.dart';
 import '../features/todo/domain/state_management/todo_list_bloc/todo_list_bloc_test.dart';
 import 'sample_local_todo.dart';
 import 'sample_remote_todo.dart';
