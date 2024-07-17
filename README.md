@@ -1,10 +1,10 @@
 # Just Todo It v4.0.3
 
-Last updated 11 Jul, 2024
+Last updated 18 Jul, 2024
 
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/960073d1-e883-4f0c-8eb6-4efbf37e434e" width="12%" height="12%"/>
 
-[Скачать .apk](https://drive.google.com/file/d/1ACFuFoptodD-zjXWBC9zxTLZOqtUQ274/view?usp=sharing)
+[Скачать .apk](https://drive.google.com/file/d/1gGPHk1aULaWXpamtvBIYgIWeBuScg4e_/view?usp=sharing)
 
 Приложение для отслеживания выполненных дел.
 Что может быть проще?
@@ -20,7 +20,7 @@ Last updated 11 Jul, 2024
 - [Firebase](#firebase)
 - [CI](#ci)
 - [Landscape & Tablet](#landscape--tablet)
-- [Уточка =)](#уточка)
+- [Уточка](#уточка)
 
 ### Работа с делами
 
