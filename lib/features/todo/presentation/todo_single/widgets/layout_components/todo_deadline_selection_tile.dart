@@ -15,22 +15,25 @@ class TodoDeadlineSelectionTile extends StatelessWidget {
       builder: (context, todo) {
         return AnimatedSize(
           duration: Durations.medium1,
-          child: SwitchListTile(
-            value: todo.deadline != null,
-            onChanged: (value) async =>
-                await _handleDateSelection(value, context),
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              S.of(context).todoDeadline,
-              style: context.textTheme.bodyMedium,
+          child: Material(
+            color: Colors.transparent,
+            child: SwitchListTile(
+              value: todo.deadline != null,
+              onChanged: (value) async =>
+                  await _handleDateSelection(value, context),
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                S.of(context).todoDeadline,
+                style: context.textTheme.bodyMedium,
+              ),
+              subtitle: todo.deadline != null
+                  ? Text(
+                      todo.deadline!.formattedDate,
+                      style: context.textTheme.labelMedium!
+                          .copyWith(color: context.colorScheme.primary),
+                    )
+                  : null,
             ),
-            subtitle: todo.deadline != null
-                ? Text(
-                    todo.deadline!.formattedDate,
-                    style: context.textTheme.labelMedium!
-                        .copyWith(color: context.colorScheme.primary),
-                  )
-                : null,
           ),
         );
       },

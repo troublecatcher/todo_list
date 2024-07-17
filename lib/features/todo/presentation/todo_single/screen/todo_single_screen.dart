@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/core/ui/widget/custom_back_button.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_info_layout.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_single_screen_layout.dart';
 
 class TodoSingleScreen extends StatelessWidget {
   final Todo? todo;
@@ -17,7 +17,7 @@ class TodoSingleScreen extends StatelessWidget {
       ),
       body: SafeArea(
         bottom: false,
-        child: TodoInfoLayout(todo: todo),
+        child: TodoSingleScreenLayout(todo: todo),
       ),
     );
   }

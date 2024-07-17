@@ -23,19 +23,22 @@ class _TodoImportanceSelectionTileState
       builder: (context, todo) {
         return Builder(
           builder: (ctx) {
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                S.of(context).todoImportance,
-                style: context.textTheme.bodyMedium,
-              ),
-              subtitle: Text(
-                Intl.message(
-                  todo.importance.name,
-                  name: 'todoImportance_${todo.importance.name}',
+            return Material(
+              color: Colors.transparent,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  S.of(context).todoImportance,
+                  style: context.textTheme.bodyMedium,
                 ),
+                subtitle: Text(
+                  Intl.message(
+                    todo.importance.name,
+                    name: 'todoImportance_${todo.importance.name}',
+                  ),
+                ),
+                onTap: () => _onPriorityTileTap(ctx),
               ),
-              onTap: () => _onPriorityTileTap(ctx),
             );
           },
         );

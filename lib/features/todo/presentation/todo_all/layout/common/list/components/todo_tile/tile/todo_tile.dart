@@ -47,93 +47,96 @@ class _TodoTileState extends State<TodoTile> {
       builder: (context, state) {
         final bool isBeingProcessed = state is TodoOperationProcessingState &&
             state.todo.id == widget.todo.id;
-        return AbsorbPointer(
-          absorbing: isBeingProcessed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).add(
-              const EdgeInsets.only(bottom: 8),
-            ),
-            child: CustomButtonBase(
-              shrinkFactor: 0.95,
-              padding: EdgeInsets.zero,
-              onPressed: switch (layoutType) {
-                LayoutType.mobile => () =>
-                    context.nav.goTodoSingle(todo: widget.todo),
-                LayoutType.tablet => () => context
-                    .read<TabletLayoutCubit>()
-                    .set(TabletLayoutTodoSelectedState(todo: widget.todo)),
-              },
-              child: CustomCard(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Dismissible(
-                    key: ValueKey(widget.todo.id),
-                    dismissThresholds: const {
-                      DismissDirection.startToEnd: 0.3,
-                      DismissDirection.endToStart: 0.3,
-                    },
-                    onUpdate: (details) => _handleDragUpdate(details),
-                    confirmDismiss: (direction) =>
-                        _handleDismiss(direction, context, layoutType),
-                    background: ValueListenableBuilder<bool>(
-                      valueListenable: _reachedNotifier,
-                      builder: (context, reached, child) {
-                        return ValueListenableBuilder<double>(
-                          valueListenable: _progressNotifier,
-                          builder: (context, progress, child) {
-                            return DismissDoneBackground(
-                              todo: widget.todo,
-                              reached: reached,
-                              progress: progress,
-                            );
-                          },
-                        );
+        return Hero(
+          tag: widget.todo.id,
+          child: AbsorbPointer(
+            absorbing: isBeingProcessed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16).add(
+                const EdgeInsets.only(bottom: 8),
+              ),
+              child: CustomButtonBase(
+                shrinkFactor: 0.95,
+                padding: EdgeInsets.zero,
+                onPressed: switch (layoutType) {
+                  LayoutType.mobile => () =>
+                      context.nav.goTodoSingle(todo: widget.todo),
+                  LayoutType.tablet => () => context
+                      .read<TabletLayoutCubit>()
+                      .set(TabletLayoutTodoSelectedState(todo: widget.todo)),
+                },
+                child: CustomCard(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Dismissible(
+                      key: ValueKey(widget.todo.id),
+                      dismissThresholds: const {
+                        DismissDirection.startToEnd: 0.3,
+                        DismissDirection.endToStart: 0.3,
                       },
-                    ),
-                    secondaryBackground: ValueListenableBuilder<bool>(
-                      valueListenable: _reachedNotifier,
-                      builder: (context, reached, child) {
-                        return ValueListenableBuilder<double>(
-                          valueListenable: _progressNotifier,
-                          builder: (context, progress, child) {
-                            return DismissDeleteBackground(
-                              reached: reached,
-                              progress: progress,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    child: AnimatedSize(
-                      duration: Durations.long4,
-                      curve: Curves.easeInOutCirc,
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TodoLeading(todo: widget.todo),
-                              TodoContent(widget: widget),
-                              SyncWidget(isBeingProcessed: isBeingProcessed),
-                              TodoTrailing(todo: widget.todo),
-                            ],
-                          ),
-                          BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
-                            builder: (context, colors) {
-                              return AnimatedContainer(
-                                duration: Durations.medium1,
-                                height: 5,
-                                color: _determineColor(
-                                  widget.todo.importance,
-                                  colors,
-                                  context,
-                                  widget.todo.done,
-                                ),
+                      onUpdate: (details) => _handleDragUpdate(details),
+                      confirmDismiss: (direction) =>
+                          _handleDismiss(direction, context, layoutType),
+                      background: ValueListenableBuilder<bool>(
+                        valueListenable: _reachedNotifier,
+                        builder: (context, reached, child) {
+                          return ValueListenableBuilder<double>(
+                            valueListenable: _progressNotifier,
+                            builder: (context, progress, child) {
+                              return DismissDoneBackground(
+                                todo: widget.todo,
+                                reached: reached,
+                                progress: progress,
                               );
                             },
-                          ),
-                        ],
+                          );
+                        },
+                      ),
+                      secondaryBackground: ValueListenableBuilder<bool>(
+                        valueListenable: _reachedNotifier,
+                        builder: (context, reached, child) {
+                          return ValueListenableBuilder<double>(
+                            valueListenable: _progressNotifier,
+                            builder: (context, progress, child) {
+                              return DismissDeleteBackground(
+                                reached: reached,
+                                progress: progress,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      child: AnimatedSize(
+                        duration: Durations.long4,
+                        curve: Curves.easeInOutCirc,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TodoLeading(todo: widget.todo),
+                                TodoContent(widget: widget),
+                                SyncWidget(isBeingProcessed: isBeingProcessed),
+                                TodoTrailing(todo: widget.todo),
+                              ],
+                            ),
+                            BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
+                              builder: (context, colors) {
+                                return AnimatedContainer(
+                                  duration: Durations.medium1,
+                                  height: 5,
+                                  color: _determineColor(
+                                    widget.todo.importance,
+                                    colors,
+                                    context,
+                                    widget.todo.done,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

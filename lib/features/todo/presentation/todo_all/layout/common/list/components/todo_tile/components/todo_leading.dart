@@ -27,19 +27,24 @@ class TodoLeading extends StatelessWidget {
             sideColor = _getDefaultSideColor(todo, context);
           }
 
-          return Checkbox(
-            splashRadius: 0,
-            activeColor: context.customColors.green,
-            fillColor: fillColor != null
-                ? WidgetStateProperty.resolveWith<Color?>((states) => fillColor)
-                : null,
-            side: BorderSide(
-              color: sideColor ?? Colors.transparent,
-              width: sideWidth,
-            ),
-            value: todo.done,
-            onChanged: (_) => _changeTodoCompletenessStatus(
-              context.read<TodoListBloc>(),
+          return Material(
+            color: Colors.transparent,
+            child: Checkbox(
+              splashRadius: 0,
+              activeColor: context.customColors.green,
+              fillColor: fillColor != null
+                  ? WidgetStateProperty.resolveWith<Color?>(
+                      (states) => fillColor,
+                    )
+                  : null,
+              side: BorderSide(
+                color: sideColor ?? Colors.transparent,
+                width: sideWidth,
+              ),
+              value: todo.done,
+              onChanged: (_) => _changeTodoCompletenessStatus(
+                context.read<TodoListBloc>(),
+              ),
             ),
           );
         },

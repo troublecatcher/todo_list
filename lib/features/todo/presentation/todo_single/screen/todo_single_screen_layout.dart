@@ -8,10 +8,10 @@ import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_deadline_selection_tile.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/widgets/layout_components/todo_importance_selection_tile.dart';
 
-class TodoInfoLayout extends StatelessWidget {
+class TodoSingleScreenLayout extends StatelessWidget {
   final Todo? todo;
 
-  const TodoInfoLayout({super.key, required this.todo});
+  const TodoSingleScreenLayout({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {

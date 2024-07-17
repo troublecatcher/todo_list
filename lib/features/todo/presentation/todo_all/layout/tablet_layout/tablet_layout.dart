@@ -7,7 +7,7 @@ import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layo
 import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_header.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/common/list/layout/todo_list_base.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_info_layout.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/screen/todo_single_screen_layout.dart';
 
 class TabletLayout extends StatefulWidget {
   const TabletLayout({super.key});
@@ -44,12 +44,12 @@ class _TabletLayoutState extends State<TabletLayout> {
                   case TabletLayoutInitialState _:
                     return const NoSelectionPlaceholder();
                   case TabletLayoutTodoSelectedState s:
-                    return TodoInfoLayout(
+                    return TodoSingleScreenLayout(
                       key: Key(state.todo.id),
                       todo: s.todo,
                     );
                   case TabletLayoutNewTodoState _:
-                    return const TodoInfoLayout(
+                    return const TodoSingleScreenLayout(
                       todo: null,
                     );
                 }
