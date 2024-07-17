@@ -1,8 +1,11 @@
 part of '../tile/todo_tile.dart';
 
 class SyncWidget extends StatefulWidget {
+  final bool isBeingProcessed;
+
   const SyncWidget({
     super.key,
+    required this.isBeingProcessed,
   });
 
   @override
@@ -30,12 +33,30 @@ class _SyncWidgetState extends State<SyncWidget>
 
   @override
   Widget build(BuildContext context) {
-    return RotationTransition(
-      turns: Tween(begin: 1.0, end: 0.0).animate(_controller),
-      child: Icon(
-        Icons.sync,
-        size: 25,
-        color: context.colorScheme.primary,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      child: AnimatedSwitcher(
+        duration: Durations.extralong1,
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: child,
+        ),
+        child: widget.isBeingProcessed
+            ? AnimatedSize(
+                duration: Durations.medium1,
+                child: RotationTransition(
+                  turns: Tween(begin: 1.0, end: 0.0).animate(_controller),
+                  child: Icon(
+                    Icons.sync,
+                    size: 25,
+                    color: context.colorScheme.primary,
+                  ),
+                ),
+              )
+            : const SizedBox(
+                width: 25,
+                height: 25,
+              ),
       ),
     );
   }

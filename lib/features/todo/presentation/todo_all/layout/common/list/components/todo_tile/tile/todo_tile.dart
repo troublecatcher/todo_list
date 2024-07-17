@@ -115,55 +115,22 @@ class _TodoTileState extends State<TodoTile> {
                             children: [
                               TodoLeading(todo: widget.todo),
                               TodoContent(widget: widget),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                                child: AnimatedSwitcher(
-                                  duration: Durations.extralong1,
-                                  transitionBuilder: (child, animation) =>
-                                      FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  ),
-                                  child: isBeingProcessed
-                                      ? const AnimatedSize(
-                                          duration: Durations.medium1,
-                                          child: SyncWidget(),
-                                        )
-                                      : const SizedBox(
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                                ),
-                              ),
+                              SyncWidget(isBeingProcessed: isBeingProcessed),
                               TodoTrailing(todo: widget.todo),
                             ],
                           ),
                           BlocBuilder<RemoteColorsCubit, RemoteColorsState>(
                             builder: (context, colors) {
-                              if (colors is RemoteColorsLoaded) {
-                                return AnimatedContainer(
-                                  duration: Durations.medium1,
-                                  height: 5,
-                                  color: widget.todo.done
-                                      ? null
-                                      : _getColorForImportance(
-                                          widget.todo.importance,
-                                          colors,
-                                        ),
-                                );
-                              } else {
-                                return AnimatedContainer(
-                                  duration: Durations.medium1,
-                                  height: 5,
-                                  color: widget.todo.done
-                                      ? null
-                                      : _getDefaultColorForImportance(
-                                          widget.todo.importance,
-                                          context,
-                                        ),
-                                );
-                              }
+                              return AnimatedContainer(
+                                duration: Durations.medium1,
+                                height: 5,
+                                color: _determineColor(
+                                  widget.todo.importance,
+                                  colors,
+                                  context,
+                                  widget.todo.done,
+                                ),
+                              );
                             },
                           ),
                         ],
@@ -224,35 +191,36 @@ class _TodoTileState extends State<TodoTile> {
     return false;
   }
 
-  Color? _getColorForImportance(
+  Color? _determineColor(
     Importance importance,
-    RemoteColorsLoaded colors,
-  ) {
-    switch (importance) {
-      case Importance.basic:
-        return colors.basicColor;
-      case Importance.low:
-        return colors.lowColor ?? context.customColors.orange;
-      case Importance.important:
-        return colors.importantColor ?? context.customColors.red;
-      default:
-        return Colors.transparent;
-    }
-  }
-
-  Color? _getDefaultColorForImportance(
-    Importance importance,
+    RemoteColorsState colorsState,
     BuildContext context,
+    bool done,
   ) {
-    switch (importance) {
-      case Importance.basic:
-        return null;
-      case Importance.low:
-        return context.customColors.orange;
-      case Importance.important:
-        return context.customColors.red;
-      default:
-        return Colors.transparent;
+    if (done) return null;
+
+    if (colorsState is RemoteColorsLoaded) {
+      switch (importance) {
+        case Importance.basic:
+          return colorsState.basicColor;
+        case Importance.low:
+          return colorsState.lowColor ?? context.customColors.orange;
+        case Importance.important:
+          return colorsState.importantColor ?? context.customColors.red;
+        default:
+          return Colors.transparent;
+      }
+    } else {
+      switch (importance) {
+        case Importance.basic:
+          return null;
+        case Importance.low:
+          return context.customColors.orange;
+        case Importance.important:
+          return context.customColors.red;
+        default:
+          return Colors.transparent;
+      }
     }
   }
 }

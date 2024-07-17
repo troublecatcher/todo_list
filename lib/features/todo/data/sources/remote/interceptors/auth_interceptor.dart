@@ -11,4 +11,17 @@ class _AuthInterceptor extends Interceptor {
     options.headers['Authorization'] = authHeader;
     return handler.next(options);
   }
+
+  @override
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
+    if (err.response?.statusCode == 401) {
+      await _handleUnauthorizedError();
+    }
+    return handler.next(err);
+  }
+
+  Future<void> _handleUnauthorizedError() async {}
 }
