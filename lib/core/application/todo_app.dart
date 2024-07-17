@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:todo_list/features/features.dart';
+import 'package:todo_list/config/flavor/flavor.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/config/navigation/navigation.dart';
+import 'package:todo_list/config/theme/app_theme/app_theme.dart';
+import 'package:todo_list/features/settings/domain/state_management/locale/locale_cubit.dart';
+import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-
-import '../../config/config.dart';
-import '../../config/l10n/generated/l10n.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/extensions/extensions.dart';
-
-import '../../../config/log/log.dart';
-import '../../../config/l10n/generated/l10n.dart';
-import '../../../features/todo/domain/domain.dart';
-import '../../services/services.dart';
-import '../ui.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/config/log/logger.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 
 class DialogManager {
   static Future<bool?> showDeleteConfirmationDialog(

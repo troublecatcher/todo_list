@@ -1,8 +1,16 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:todo_list/core/core.dart';
-import 'package:todo_list/features/features.dart';
+import 'package:todo_list/core/services/analytics.dart';
+import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
+import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
+import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
+import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
+import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_interface.dart';
 
 import '../../../../../helpers/sample_local_todo.dart';
 import '../../../../../helpers/sample_remote_todo.dart';

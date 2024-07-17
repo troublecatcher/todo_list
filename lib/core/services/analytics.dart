@@ -1,6 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
-
-import '../../features/todo/domain/domain.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
 
 class Analytics {
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;

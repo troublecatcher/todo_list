@@ -1,11 +1,12 @@
+import 'package:todo_list/config/log/logger.dart';
+import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
+import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
+import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
+
 import 'models/local/local_todo.dart';
 import 'models/remote/remote_todo.dart';
-import 'sources/sources.dart';
-
-import '../../../core/services/services.dart';
-import '../../../config/log/log.dart';
-import '../domain/entities/todo.dart';
-import '../domain/repository/todo_repository.dart';
 
 part 'mappers/entity_mappers.dart';
 part 'mappers/local_mappers.dart';

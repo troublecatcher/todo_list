@@ -3,12 +3,22 @@ import 'package:animated_line_through/animated_line_through.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:todo_list/config/log/logger.dart';
+import 'package:todo_list/config/theme/remote_colors/remote_colors_cubit.dart';
+import 'package:todo_list/core/extensions/datetime_extension.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/services/device_info_service.dart';
+import 'package:todo_list/core/ui/dialog_manager/dialog_manager.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/core/ui/layout/custom_card.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-
-import '../../../../../../../../config/config.dart';
-import '../../../../../../../../core/core.dart';
-import '../../../../../../../features.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
 
 part 'components/swipe_delete_background.dart';
 part 'components/swipe_done_background.dart';

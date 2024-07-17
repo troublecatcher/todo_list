@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../../../core/core.dart';
-import '../../../../../features.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 
 class SettingsButton extends StatelessWidget {
   const SettingsButton({super.key, required this.collapsePercent});

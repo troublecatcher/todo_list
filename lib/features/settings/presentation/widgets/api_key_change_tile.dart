@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list/core/extensions/extensions.dart';
-
-import '../../../../config/l10n/generated/l10n.dart';
-import '../../../../core/ui/ui.dart';
-import '../../domain/domain.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/core/extensions/theme_extension.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/core/ui/layout/layout_constants.dart';
+import 'package:todo_list/features/settings/domain/state_management/auth/auth_cubit.dart';
 
 class ApiKeyChangeTile extends StatefulWidget {
   const ApiKeyChangeTile({super.key});

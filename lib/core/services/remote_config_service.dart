@@ -1,7 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-
-import '../../config/log/log.dart';
+import 'package:todo_list/config/log/logger.dart';
 
 class RemoteConfigService {
   final _remoteConfig = FirebaseRemoteConfig.instance;

@@ -1,4 +1,5 @@
-import 'package:todo_list/features/features.dart';
+import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
 
 extension SampleRemoteTodo on RemoteTodo {
   static RemoteTodo withId(String id) {

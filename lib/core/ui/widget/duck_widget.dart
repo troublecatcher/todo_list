@@ -2,11 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
-
-import '../../../features/todo/domain/domain.dart';
-import '../../../features/todo/presentation/presentation.dart';
-import '../../services/connectivity/connectivity.dart';
-import '../ui.dart';
+import 'package:todo_list/core/services/connectivity/connectivity_cubit.dart';
+import 'package:todo_list/core/ui/layout/custom_button_base.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
 
 class DuckWidget extends StatefulWidget {
   const DuckWidget({

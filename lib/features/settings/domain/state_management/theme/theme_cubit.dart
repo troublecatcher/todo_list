@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../../../../core/services/services.dart';
+import 'package:todo_list/core/services/settings_service.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
   final _theme = GetIt.I<SettingsService>().theme;
