@@ -1,4 +1,4 @@
-part of '../todo_tile.dart';
+part of '../tile/todo_tile.dart';
 
 class SyncWidget extends StatefulWidget {
   const SyncWidget({

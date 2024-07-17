@@ -10,7 +10,7 @@ import 'package:todo_list/features/settings/domain/state_management/locale/local
 import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_cubit.dart';
 
 class TodoApp extends StatelessWidget {
   const TodoApp({super.key});
@@ -22,7 +22,7 @@ class TodoApp extends StatelessWidget {
           ? LayoutType.tablet
           : LayoutType.mobile,
       child: BlocProvider(
-        create: (context) => TabletViewCubit(),
+        create: (context) => TabletLayoutCubit(),
         child: BlocBuilder<LocaleCubit, String>(
           builder: (context, locale) {
             return BlocBuilder<ThemeCubit, ThemeMode>(

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-import '../../../../../../../config/log/logger.dart';
+import '../../../../../../../../config/log/logger.dart';
 
 part 'visibility_mode.dart';
 

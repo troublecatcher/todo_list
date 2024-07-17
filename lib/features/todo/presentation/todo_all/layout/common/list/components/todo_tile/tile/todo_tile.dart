@@ -18,14 +18,14 @@ import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/t
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_cubit.dart';
 
-part 'components/swipe_delete_background.dart';
-part 'components/swipe_done_background.dart';
-part 'components/todo_content.dart';
-part 'components/todo_leading.dart';
-part 'components/todo_trailing.dart';
-part 'components/sync_widget.dart';
+part '../components/swipe_delete_background.dart';
+part '../components/swipe_done_background.dart';
+part '../components/todo_content.dart';
+part '../components/todo_leading.dart';
+part '../components/todo_trailing.dart';
+part '../components/sync_widget.dart';
 
 class TodoTile extends StatefulWidget {
   final Todo todo;
@@ -60,8 +60,8 @@ class _TodoTileState extends State<TodoTile> {
                 LayoutType.mobile => () =>
                     context.nav.goTodoSingle(todo: widget.todo),
                 LayoutType.tablet => () => context
-                    .read<TabletViewCubit>()
-                    .set(TabletViewTodoSelectedState(todo: widget.todo)),
+                    .read<TabletLayoutCubit>()
+                    .set(TabletLayoutTodoSelectedState(todo: widget.todo)),
               },
               child: CustomCard(
                 child: ClipRRect(
@@ -206,14 +206,14 @@ class _TodoTileState extends State<TodoTile> {
       );
       return false;
     } else if (direction == DismissDirection.endToStart) {
+      final layoutCubit = context.read<TabletLayoutCubit>();
       final result =
           await DialogManager.showDeleteConfirmationDialog(context, todo);
       if (result != null && result) {
         bloc.add(TodoDeleted(widget.todo));
         switch (type) {
           case LayoutType.tablet:
-            // ignore: use_build_context_synchronously
-            context.read<TabletViewCubit>().set(TabletViewInitialState());
+            layoutCubit.set(TabletLayoutInitialState());
             break;
           case LayoutType.mobile:
             break;

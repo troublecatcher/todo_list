@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/mobile/mobile_layout.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_layout.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/connectivity_indicator.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/todo_list.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/mobile_layout/mobile_layout.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/connectivity_indicator.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/visibility_toggle/visibility_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/list/layout/todo_list.dart';
 
 class TodoAllScreen extends StatelessWidget {
   const TodoAllScreen({super.key});

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/ui/widget/duck_widget.dart';
 import 'package:todo_list/features/settings/domain/state_management/duck/duck_cubit.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/list/todo_list_base.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/custom_header_delegate.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/list/layout/todo_list_base.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/mobile_layout/mobile_layout_header.dart';
 
 class MobileLayout extends StatelessWidget {
   const MobileLayout({super.key});
@@ -22,7 +22,7 @@ class MobileLayout extends StatelessWidget {
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: CustomHeaderDelegate(
+                  delegate: MobileHeader(
                     expandedHeight: 116,
                     collapsedHeight: 56,
                   ),

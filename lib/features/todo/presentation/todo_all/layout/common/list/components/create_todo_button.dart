@@ -10,7 +10,7 @@ class CreateTodoButton extends StatelessWidget {
       onPressed: () => switch (layoutType) {
         LayoutType.mobile => context.nav.goTodoSingle(),
         LayoutType.tablet =>
-          context.read<TabletViewCubit>().set(TabletViewNewTodoState()),
+          context.read<TabletLayoutCubit>().set(TabletLayoutNewTodoState()),
       },
       child: Container(
         padding: const EdgeInsets.all(12),

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:todo_list/features/todo/data/models/remote/unix_time_converter.dart';
 
 import '../../../domain/entities/importance.dart';
 
@@ -11,11 +12,11 @@ class RemoteTodo with _$RemoteTodo {
     required String id,
     required String text,
     required Importance importance,
-    int? deadline,
+    @UnixTimeConverter() int? deadline,
     required bool done,
     String? color,
-    @JsonKey(name: 'created_at') required int createdAt,
-    @JsonKey(name: 'changed_at') required int changedAt,
+    @JsonKey(name: 'created_at') @UnixTimeConverter() required int createdAt,
+    @JsonKey(name: 'changed_at') @UnixTimeConverter() required int changedAt,
     @JsonKey(name: 'last_updated_by') required String lastUpdatedBy,
   }) = _RemoteTodo;
 

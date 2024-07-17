@@ -4,15 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/done_todo_count_widget.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/settings_button.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_toggle_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/done_todo_count_widget.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/settings_button.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/visibility_toggle/visibility_toggle_button.dart';
 
-class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+class MobileHeader extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
 
-  CustomHeaderDelegate({
+  MobileHeader({
     required this.expandedHeight,
     required this.collapsedHeight,
   });

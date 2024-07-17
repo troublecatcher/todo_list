@@ -5,7 +5,7 @@ import 'package:rive/rive.dart';
 import 'package:todo_list/core/services/connectivity/connectivity_cubit.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/visibility_toggle/visibility_cubit.dart';
 
 class DuckWidget extends StatefulWidget {
   const DuckWidget({

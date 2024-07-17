@@ -17,10 +17,10 @@ import 'package:todo_list/features/todo/domain/state_management/todo_operation/t
 import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/layout/animations.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/header/visibility_toggle/visibility_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/list/components/todo_tile/tile/todo_tile.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/common/list/layout/animations.dart';
 import 'package:uuid/uuid.dart';
 
 part '../components/create_todo_button.dart';

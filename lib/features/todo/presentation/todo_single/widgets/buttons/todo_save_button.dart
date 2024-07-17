@@ -8,7 +8,7 @@ import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/layout/layout_type/layout_type_provider.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet/tablet_view_cubit.dart';
+import 'package:todo_list/features/todo/presentation/todo_all/layout/tablet_layout/tablet_layout_cubit.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
 
 class TodoSaveButton extends StatelessWidget {
@@ -56,7 +56,7 @@ class TodoSaveButton extends StatelessWidget {
         context.nav.goBack();
         break;
       case LayoutType.tablet:
-        context.read<TabletViewCubit>().set(TabletViewInitialState());
+        context.read<TabletLayoutCubit>().set(TabletLayoutInitialState());
         break;
     }
   }
