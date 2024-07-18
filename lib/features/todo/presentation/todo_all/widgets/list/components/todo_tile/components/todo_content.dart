@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/helpers/formatting_helper.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/list/components/todo_tile/todo_tile.dart';
+part of '../todo_tile.dart';
 
 class TodoContent extends StatelessWidget {
   const TodoContent({
@@ -24,24 +19,6 @@ class TodoContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (!widget.todo.done)
-                  switch (widget.todo.importance) {
-                    Importance.important => Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/priority/high.svg',
-                          ),
-                          const SizedBox(width: 3),
-                        ],
-                      ),
-                    Importance.low => Row(
-                        children: [
-                          SvgPicture.asset('assets/icons/priority/low.svg'),
-                          const SizedBox(width: 3),
-                        ],
-                      ),
-                    Importance.basic => const SizedBox.shrink(),
-                  },
                 Expanded(
                   child: Text(
                     widget.todo.text,

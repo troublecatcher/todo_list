@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
+part of '../todo_tile.dart';
 
 class DismissDoneBackground extends StatelessWidget {
   final Todo todo;
@@ -25,9 +23,10 @@ class DismissDoneBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            left: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
+          left: reached
+              ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+              : (24 * (4 * progress)),
+        ),
         child: Icon(
           todo.done ? Icons.close_rounded : Icons.check,
           color: context.customColors.white,

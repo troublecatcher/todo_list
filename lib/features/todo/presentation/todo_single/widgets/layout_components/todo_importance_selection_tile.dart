@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/features/todo/domain/entities/importance.dart';
+import 'package:todo_list/features/todo/domain/entities/todo.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class TodoImportanceSelectionTile extends StatefulWidget {
   const TodoImportanceSelectionTile({super.key});
@@ -46,7 +47,9 @@ class _TodoImportanceSelectionTileState
     final renderBox = context.findRenderObject() as RenderBox;
     final offset = renderBox.localToGlobal(Offset.zero);
     _showPriorityMenu(
-        context, Offset(offset.dx, offset.dy + renderBox.size.height));
+      context,
+      Offset(offset.dx, offset.dy + renderBox.size.height),
+    );
   }
 
   Future<void> _showPriorityMenu(BuildContext context, Offset offset) async {

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/generated/l10n.dart';
+part of '../layout/todo_list.dart';
 
 class NoTodosPlaceholder extends StatelessWidget {
   const NoTodosPlaceholder({

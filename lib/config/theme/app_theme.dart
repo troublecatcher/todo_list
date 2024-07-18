@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/config/theme/app_colors.dart';
-import 'package:todo_list/config/theme/custom_colors.dart';
+import 'package:flutter/services.dart';
+
+part 'app_colors.dart';
+part 'custom_colors.dart';
 
 class AppTheme {
   static ThemeData getLightTheme() {
@@ -13,6 +15,9 @@ class AppTheme {
       disabledColor: lightThemeColors.labelDisabled,
       appBarTheme: AppBarTheme(
         backgroundColor: lightThemeColors.backgroundPrimary,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+        ),
       ),
       dividerColor: lightThemeColors.supportSeparator,
       colorScheme: ColorScheme.light(
@@ -35,6 +40,9 @@ class AppTheme {
       textTheme: _textTheme,
       disabledColor: darkThemeColors.labelDisabled,
       appBarTheme: AppBarTheme(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+        ),
         backgroundColor: darkThemeColors.backgroundPrimary,
       ),
       dividerColor: darkThemeColors.supportSeparator,
@@ -50,19 +58,18 @@ class AppTheme {
     );
   }
 
-  // I believe this is not the best solution, I'm open to hear your opinion
-
   static bool get _useMaterial3 => false;
 
   static List<ThemeExtension> get _extensions => [
         CustomColors(
           red: const Color.fromRGBO(255, 59, 48, 1),
+          orange: const Color.fromRGBO(252, 172, 111, 1),
           green: const Color.fromRGBO(52, 199, 89, 1),
           blue: const Color.fromRGBO(0, 122, 255, 1),
           grey: const Color.fromRGBO(142, 142, 147, 1),
           lightGrey: const Color.fromRGBO(209, 209, 214, 1),
           white: const Color.fromRGBO(255, 255, 255, 1),
-        )
+        ),
       ];
 
   static TextTheme get _textTheme => const TextTheme(

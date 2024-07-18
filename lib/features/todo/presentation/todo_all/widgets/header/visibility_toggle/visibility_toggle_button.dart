@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
 import 'package:todo_list/core/ui/widget/loading_widget.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_state.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
 import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_cubit.dart';
-import 'package:todo_list/features/todo/presentation/todo_all/widgets/header/visibility_toggle/visibility_mode.dart';
 
 class VisibilityToggleButton extends StatelessWidget {
   const VisibilityToggleButton({super.key, required this.collapsePercent});
@@ -18,7 +16,7 @@ class VisibilityToggleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TodoListBloc, TodoState>(
       builder: (context, state) {
-        if (state is! TodoLoading) {
+        if (state is! TodoLoadInProgress) {
           return BlocBuilder<VisibilityCubit, VisibilityMode>(
             builder: (context, mode) {
               return CustomIconButton(

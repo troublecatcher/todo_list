@@ -1,24 +1,28 @@
-import 'package:flutter/material.dart';
+part of 'app_theme.dart';
 
 class CustomColors extends ThemeExtension<CustomColors> {
   final Color red;
+  final Color orange;
   final Color green;
   final Color blue;
   final Color grey;
   final Color lightGrey;
   final Color white;
 
-  CustomColors(
-      {required this.red,
-      required this.green,
-      required this.blue,
-      required this.grey,
-      required this.lightGrey,
-      required this.white});
+  CustomColors({
+    required this.red,
+    required this.orange,
+    required this.green,
+    required this.blue,
+    required this.grey,
+    required this.lightGrey,
+    required this.white,
+  });
 
   @override
   CustomColors copyWith({
     Color? red,
+    Color? orange,
     Color? green,
     Color? blue,
     Color? grey,
@@ -27,6 +31,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   }) {
     return CustomColors(
       red: red ?? this.red,
+      orange: orange ?? this.orange,
       green: green ?? this.green,
       blue: blue ?? this.blue,
       grey: grey ?? this.grey,
@@ -40,6 +45,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     if (other is! CustomColors) return this;
     return CustomColors(
       red: Color.lerp(red, other.red, t)!,
+      orange: Color.lerp(orange, other.orange, t)!,
       green: Color.lerp(green, other.green, t)!,
       blue: Color.lerp(blue, other.blue, t)!,
       grey: Color.lerp(grey, other.grey, t)!,

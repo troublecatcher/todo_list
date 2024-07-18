@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/ui/layout/custom_button_base.dart';
-import 'package:todo_list/features/todo/presentation/common/todo_intent.dart';
+part of '../layout/todo_list.dart';
 
 class CreateTodoButton extends StatelessWidget {
   const CreateTodoButton({
@@ -11,10 +8,7 @@ class CreateTodoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomButtonBase(
-      onPressed: () => Navigator.of(context).pushNamed(
-        '/todo',
-        arguments: CreateTodoIntent(),
-      ),
+      onPressed: () => context.push('/todo'),
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(

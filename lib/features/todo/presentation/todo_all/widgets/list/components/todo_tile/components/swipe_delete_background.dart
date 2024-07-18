@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
+part of '../todo_tile.dart';
 
 class DismissDeleteBackground extends StatelessWidget {
   const DismissDeleteBackground({
@@ -19,9 +18,10 @@ class DismissDeleteBackground extends StatelessWidget {
       child: AnimatedPadding(
         duration: const Duration(milliseconds: 50),
         padding: EdgeInsets.only(
-            right: reached
-                ? MediaQuery.of(context).size.width / 15 * (10 * progress)
-                : (24 * (4 * progress))),
+          right: reached
+              ? MediaQuery.of(context).size.width / 15 * (10 * progress)
+              : (24 * (4 * progress)),
+        ),
         child: Icon(Icons.delete, color: context.customColors.white),
       ),
     );

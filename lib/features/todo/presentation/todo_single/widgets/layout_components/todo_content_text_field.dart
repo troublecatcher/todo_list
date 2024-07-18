@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/ui/layout/custom_card.dart';
-import 'package:todo_list/features/todo/presentation/todo_single/cubit/todo_single_cubit.dart';
-import 'package:todo_list/generated/l10n.dart';
+import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class TodoContentTextField extends StatefulWidget {
   const TodoContentTextField({super.key});
@@ -32,6 +32,7 @@ class _TodoContentTextFieldState extends State<TodoContentTextField> {
     return CustomCard(
       padding: const EdgeInsets.all(16),
       child: TextField(
+        key: const Key('todoTextField'),
         controller: textController,
         style: context.textTheme.bodyMedium,
         decoration: InputDecoration(

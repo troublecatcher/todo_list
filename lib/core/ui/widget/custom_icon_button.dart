@@ -3,7 +3,7 @@ import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 
 class CustomIconButton extends StatefulWidget {
   final IconData icon;
-  final Function()? onPressed;
+  final void Function()? onPressed;
   final Color color;
   final EdgeInsets? padding;
   final EdgeInsets? margin;

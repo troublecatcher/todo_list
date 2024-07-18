@@ -1,19 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:todo_list/core/extensions/theme_extension.dart';
-import 'package:todo_list/core/services/device_info_service.dart';
-import 'package:todo_list/core/ui/layout/app_shimmer.dart';
-import 'package:todo_list/core/ui/layout/custom_card.dart';
-import 'package:todo_list/core/ui/widget/custom_icon_button.dart';
-import 'package:todo_list/core/ui/widget/loading_widget.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/todo_list_bloc/todo_list_event.dart';
-import 'package:todo_list/features/todo/domain/entity/todo.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_cubit.dart';
-import 'package:todo_list/features/todo/domain/todo_operation_cubit/todo_operation_state.dart';
-import 'package:todo_list/generated/l10n.dart';
-import 'package:uuid/uuid.dart';
+part of '../layout/todo_list.dart';
 
 class FastTodoCreationTile extends StatefulWidget {
   const FastTodoCreationTile({super.key});
@@ -70,7 +55,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                     },
                     child: isTextPresent
                         ? Padding(
-                            padding: const EdgeInsets.only(left: 16, right: 12),
+                            padding: const EdgeInsets.all(12),
                             child: Icon(
                               Icons.check_box_outline_blank,
                               color: context.dividerColor,
@@ -80,6 +65,7 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                   ),
                   Expanded(
                     child: TextField(
+                      key: const Key('fastTodoTextField'),
                       controller: fastTodoNameController,
                       style: context.textTheme.bodyMedium,
                       decoration: InputDecoration(
@@ -124,25 +110,27 @@ class _FastTodoCreationTileState extends State<FastTodoCreationTile> {
                               } else {
                                 return CustomIconButton(
                                   padding: const EdgeInsets.only(
-                                      left: 12, right: 16),
+                                    left: 12,
+                                    right: 12 + 5,
+                                  ),
                                   icon: Icons.arrow_circle_up_rounded,
                                   onPressed: () async {
                                     const uuid = Uuid();
                                     newTodoId = uuid.v4();
                                     context.read<TodoListBloc>().add(
-                                          AddTodoEvent(
+                                          TodoAdded(
                                             Todo(
+                                              id: newTodoId!,
                                               text: fastTodoNameController.text,
                                               importance: Importance.basic,
                                               deadline: null,
                                               done: false,
-                                            )
-                                              ..id = newTodoId!
-                                              ..createdAt = DateTime.now()
-                                              ..changedAt = DateTime.now()
-                                              ..lastUpdatedBy =
+                                              createdAt: DateTime.now(),
+                                              changedAt: DateTime.now(),
+                                              lastUpdatedBy:
                                                   GetIt.I<DeviceInfoService>()
                                                       .info,
+                                            ),
                                           ),
                                         );
                                   },
