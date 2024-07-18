@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("My todos"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "locale_en": MessageLookupByLibrary.simpleMessage("English"),
+        "locale_ru": MessageLookupByLibrary.simpleMessage("Russian"),
         "luckyYou": MessageLookupByLibrary.simpleMessage("Lucky you!"),
         "noTodoSelected":
             MessageLookupByLibrary.simpleMessage("No todo selected"),
@@ -48,6 +50,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "theTokenIsInvalid": MessageLookupByLibrary.simpleMessage(
             "authorization – the API key is invalid"),
         "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "theme_dark": MessageLookupByLibrary.simpleMessage("Dark"),
+        "theme_light": MessageLookupByLibrary.simpleMessage("Light"),
+        "theme_system": MessageLookupByLibrary.simpleMessage("System"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Deadline"),
         "todoDeleteButtonTitle": MessageLookupByLibrary.simpleMessage("Delete"),
         "todoDeleteDialogContent":

@@ -29,5 +29,10 @@
   "apiKey": "API key",
   "duck": "Duck",
   "noTodoSelected": "No todo selected",
-  "theTokenIsInvalid": "authorization – the API key is invalid"
+  "theTokenIsInvalid": "authorization – the API key is invalid",
+  "locale_ru": "Russian",
+  "locale_en": "English",
+  "theme_system": "System",
+  "theme_light": "Light",
+  "theme_dark": "Dark"
 }

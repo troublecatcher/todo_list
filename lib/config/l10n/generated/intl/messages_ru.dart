@@ -39,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "homeHeaderTitle": MessageLookupByLibrary.simpleMessage("Мои дела"),
         "language": MessageLookupByLibrary.simpleMessage("Язык"),
         "loading": MessageLookupByLibrary.simpleMessage("Загрузка..."),
+        "locale_en": MessageLookupByLibrary.simpleMessage("Английский"),
+        "locale_ru": MessageLookupByLibrary.simpleMessage("Русский"),
         "luckyYou":
             MessageLookupByLibrary.simpleMessage("Счастливый Вы человек!"),
         "noTodoSelected":
@@ -50,6 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "theTokenIsInvalid": MessageLookupByLibrary.simpleMessage(
             "авторизация – API ключ недействителен"),
         "theme": MessageLookupByLibrary.simpleMessage("Тема"),
+        "theme_dark": MessageLookupByLibrary.simpleMessage("Темная"),
+        "theme_light": MessageLookupByLibrary.simpleMessage("Светлая"),
+        "theme_system": MessageLookupByLibrary.simpleMessage("Системная"),
         "todoDeadline": MessageLookupByLibrary.simpleMessage("Дедлайн"),
         "todoDeleteButtonTitle":
             MessageLookupByLibrary.simpleMessage("Удалить"),

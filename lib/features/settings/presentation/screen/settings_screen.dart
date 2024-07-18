@@ -12,23 +12,8 @@ import 'package:todo_list/features/settings/domain/state_management/locale/local
 import 'package:todo_list/features/settings/domain/state_management/theme/theme_cubit.dart';
 import 'package:todo_list/features/settings/presentation/widgets/api_key_change_tile.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  final bearerController = TextEditingController();
-  final oauthController = TextEditingController();
-
-  @override
-  void dispose() {
-    bearerController.dispose();
-    oauthController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,19 +44,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           builder: (context, state) {
                             return DropdownButtonHideUnderline(
                               child: DropdownButton(
+                                alignment: Alignment.centerRight,
                                 borderRadius: LayoutConstants.borderRadius,
                                 value: state,
-                                items: List.generate(
-                                  S.delegate.supportedLocales.length,
-                                  (index) {
-                                    final String lang = S.delegate
-                                        .supportedLocales[index].languageCode;
-                                    return DropdownMenuItem(
-                                      value: lang,
-                                      child: Text(lang),
-                                    );
-                                  },
-                                ),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: 'ru',
+                                    child: Text(S.of(context).locale_ru),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'en',
+                                    child: Text(S.of(context).locale_en),
+                                  ),
+                                ],
                                 onChanged: (value) =>
                                     context.read<LocaleCubit>().set(value!),
                               ),
@@ -88,19 +73,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           builder: (context, state) {
                             return DropdownButtonHideUnderline(
                               child: DropdownButton(
+                                alignment: Alignment.centerRight,
                                 borderRadius: LayoutConstants.borderRadius,
                                 value: state,
-                                items: List.generate(
-                                  ThemeMode.values.length,
-                                  (index) {
-                                    final ThemeMode pref =
-                                        ThemeMode.values[index];
-                                    return DropdownMenuItem(
-                                      value: pref,
-                                      child: Text(pref.name),
-                                    );
-                                  },
-                                ),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: ThemeMode.system,
+                                    child: Text(S.of(context).theme_system),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: ThemeMode.light,
+                                    child: Text(S.of(context).theme_light),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: ThemeMode.dark,
+                                    child: Text(S.of(context).theme_dark),
+                                  ),
+                                ],
                                 onChanged: (value) =>
                                     context.read<ThemeCubit>().set(value!),
                               ),

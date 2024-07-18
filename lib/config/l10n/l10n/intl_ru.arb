@@ -29,5 +29,10 @@
   "apiKey": "API ключ",
   "duck": "Утка",
   "noTodoSelected": "Дело не выбрано",
-  "theTokenIsInvalid": "авторизация – API ключ недействителен"
+  "theTokenIsInvalid": "авторизация – API ключ недействителен",
+  "locale_ru": "Русский",
+  "locale_en": "Английский",
+  "theme_system": "Системная",
+  "theme_light": "Светлая",
+  "theme_dark": "Темная"
 }
