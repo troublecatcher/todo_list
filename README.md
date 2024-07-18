@@ -4,7 +4,7 @@ Last updated 18 Jul, 2024
 
 <img src="https://github.com/troublecatcher/todo_list/assets/91335963/960073d1-e883-4f0c-8eb6-4efbf37e434e" width="12%" height="12%"/>
 
-[Скачать .apk](https://drive.google.com/file/d/1gGPHk1aULaWXpamtvBIYgIWeBuScg4e_/view?usp=sharing)
+[Скачать .apk](https://drive.google.com/file/d/1WfH4XDNfB50XpuPhfjalYcgviETpjo8k/view?usp=sharing)
 
 Приложение для отслеживания выполненных дел.
 Что может быть проще?
