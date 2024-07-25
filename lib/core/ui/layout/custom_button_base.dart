@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomButtonBase extends StatefulWidget {
   final Widget child;
-  final void Function()? onPressed;
+  final VoidCallback? onPressed;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final double? shrinkFactor;

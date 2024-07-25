@@ -8,9 +8,9 @@ part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final _auth = GetIt.I<SettingsService>().auth;
-  AuthCubit() : super(AuthState(source: AuthSource.env, key: '')) {
-    init();
-  }
+
+  AuthCubit() : super(AuthState(source: AuthSource.env, key: ''));
+
   void init() {
     if (_auth.value != null) {
       emit(AuthState(source: AuthSource.manual, key: _auth.value!));

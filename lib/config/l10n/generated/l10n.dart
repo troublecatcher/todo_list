@@ -329,6 +329,86 @@ class S {
       args: [],
     );
   }
+
+  /// `Утка`
+  String get duck {
+    return Intl.message(
+      'Утка',
+      name: 'duck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дело не выбрано`
+  String get noTodoSelected {
+    return Intl.message(
+      'Дело не выбрано',
+      name: 'noTodoSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `авторизация – API ключ недействителен`
+  String get theTokenIsInvalid {
+    return Intl.message(
+      'авторизация – API ключ недействителен',
+      name: 'theTokenIsInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Русский`
+  String get locale_ru {
+    return Intl.message(
+      'Русский',
+      name: 'locale_ru',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Английский`
+  String get locale_en {
+    return Intl.message(
+      'Английский',
+      name: 'locale_en',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Системная`
+  String get theme_system {
+    return Intl.message(
+      'Системная',
+      name: 'theme_system',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Светлая`
+  String get theme_light {
+    return Intl.message(
+      'Светлая',
+      name: 'theme_light',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Темная`
+  String get theme_dark {
+    return Intl.message(
+      'Темная',
+      name: 'theme_dark',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

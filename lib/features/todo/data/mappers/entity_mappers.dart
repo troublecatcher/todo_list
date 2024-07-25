@@ -17,7 +17,7 @@ extension EntityMapper on Todo {
 
   LocalTodo toLocal() {
     return LocalTodo(
-      id: id,
+      uuid: id,
       text: text,
       importance: importance,
       deadline: deadline,

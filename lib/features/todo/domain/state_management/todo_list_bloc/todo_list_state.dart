@@ -1,8 +1,10 @@
 part of 'todo_list_bloc.dart';
 
 sealed class TodoState extends Equatable {
+  const TodoState();
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class TodoInitial extends TodoState {}
@@ -12,18 +14,19 @@ class TodoLoadInProgress extends TodoState {}
 class TodoLoadSuccess extends TodoState {
   final List<Todo> todos;
 
-  TodoLoadSuccess(List<Todo> todos)
-      : todos = (todos..sort((a, b) => a.createdAt.compareTo(b.createdAt)));
+  const TodoLoadSuccess(this.todos);
 
   @override
-  List<Object> get props => [todos];
+  List<Object?> get props => [todos];
 }
 
 class TodoFailure extends TodoState {
-  final String message;
+  final String error;
 
-  TodoFailure(this.message);
+  const TodoFailure(this.error);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [error];
 }
+
+class TodoUnauthorized extends TodoState {}

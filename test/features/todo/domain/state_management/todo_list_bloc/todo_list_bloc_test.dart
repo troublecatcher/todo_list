@@ -1,15 +1,16 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:todo_list/core/services/analytics.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
+import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
-import 'package:todo_list/features/todo/data/todo_repository_impl.dart';
 import 'package:todo_list/features/todo/domain/state_management/todo_list_bloc/todo_list_bloc.dart';
-import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation.dart';
+import 'package:todo_list/features/todo/domain/state_management/todo_operation/todo_operation_interface.dart';
 
 import '../../../../../helpers/sample_local_todo.dart';
 import '../../../../../helpers/sample_remote_todo.dart';
@@ -25,7 +26,9 @@ class MockRevisionSetting extends Mock implements RevisionSetting {}
 
 class MockInitSyncSetting extends Mock implements InitSyncSetting {}
 
-class MockTodoOperation extends Mock implements TodoOperation {}
+class MockTodoOperation extends Mock implements TodoOperationInterface {}
+
+class MockAnalytics extends Mock implements Analytics {}
 
 void main() {
   late MockTodoRepository mockTodoRepository;
@@ -34,6 +37,7 @@ void main() {
   late MockRevisionSetting mockRevisionSetting;
   late MockInitSyncSetting mockInitSyncSetting;
   late MockTodoOperation mockTodoOperation;
+  late MockAnalytics mockAnalytics;
 
   setUp(() {
     mockTodoRepository = MockTodoRepository();
@@ -42,10 +46,15 @@ void main() {
     mockRevisionSetting = MockRevisionSetting();
     mockInitSyncSetting = MockInitSyncSetting();
     mockTodoOperation = MockTodoOperation();
+    mockAnalytics = MockAnalytics();
 
     registerFallbackValue(SampleTodo.withId('1'));
     registerFallbackValue(SampleRemoteTodo.withId('1'));
     registerFallbackValue(SampleLocalTodo.withId('1'));
+
+    when(() => mockAnalytics.logCreateTodo(any())).thenAnswer((_) async {});
+    when(() => mockAnalytics.logUpdateTodo(any())).thenAnswer((_) async {});
+    when(() => mockAnalytics.logDeleteTodo(any())).thenAnswer((_) async {});
 
     when(() => mockRemoteTodoSource.getTodos()).thenAnswer(
       (_) async => (<RemoteTodo>[SampleRemoteTodo.withId('3')], 1),
@@ -89,6 +98,7 @@ void main() {
             initSync: mockInitSyncSetting,
           ),
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         seed: () => TodoLoadSuccess([todo1]),
         act: (bloc) => bloc.add(TodoAdded(todo2)),
@@ -109,6 +119,7 @@ void main() {
         build: () => TodoListBloc(
           todoRepository: mockTodoRepository,
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         act: (bloc) {
           when(() => mockTodoRepository.addTodo(any()))
@@ -117,7 +128,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to add todo',
           ),
@@ -131,6 +142,7 @@ void main() {
         build: () => TodoListBloc(
           todoRepository: mockTodoRepository,
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         seed: () => TodoLoadSuccess([todo1]),
         act: (bloc) => bloc.add(TodoUpdated(todo1.copyWith(text: 'updated'))),
@@ -150,6 +162,7 @@ void main() {
         build: () => TodoListBloc(
           todoRepository: mockTodoRepository,
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         act: (bloc) {
           when(() => mockTodoRepository.updateTodo(any()))
@@ -158,7 +171,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to update todo',
           ),
@@ -172,6 +185,7 @@ void main() {
         build: () => TodoListBloc(
           todoRepository: mockTodoRepository,
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         seed: () => TodoLoadSuccess([todo1, todo1]),
         act: (bloc) => bloc.add(TodoDeleted(todo1)),
@@ -189,6 +203,7 @@ void main() {
         build: () => TodoListBloc(
           todoRepository: mockTodoRepository,
           todoOperation: mockTodoOperation,
+          analytics: mockAnalytics,
         ),
         act: (bloc) {
           when(() => mockTodoRepository.deleteTodo(any()))
@@ -197,7 +212,7 @@ void main() {
         },
         expect: () => [
           isA<TodoFailure>().having(
-            (state) => state.message,
+            (state) => state.error,
             'exception',
             'Exception: failed to delete todo',
           ),

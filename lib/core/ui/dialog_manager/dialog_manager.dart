@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
-import 'package:todo_list/config/logger/logger.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
+import 'package:todo_list/config/log/logger.dart';
+import 'package:todo_list/core/extensions/navigation_extension.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/core/services/settings_service.dart';
 import 'package:todo_list/core/ui/layout/custom_button_base.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class DialogManager {
   static Future<bool?> showDeleteConfirmationDialog(
@@ -33,14 +33,14 @@ class DialogManager {
               ),
               actions: [
                 CustomButtonBase(
-                  onPressed: () => context.pop(false),
+                  onPressed: () => context.nav.goBack(false),
                   child: Text(
                     S.of(context).cancel,
                     style: context.textTheme.bodyMedium,
                   ),
                 ),
                 CustomButtonBase(
-                  onPressed: () => context.pop(true),
+                  onPressed: () => context.nav.goBack(true),
                   child: Text(
                     S.of(context).delete,
                     style: context.textTheme.bodyMedium!

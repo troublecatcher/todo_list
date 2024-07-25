@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_list/config/l10n/generated/l10n.dart';
 import 'package:todo_list/core/extensions/theme_extension.dart';
 import 'package:todo_list/features/todo/domain/entities/importance.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/presentation/todo_single/controller/todo_single_cubit.dart';
-import 'package:todo_list/config/l10n/generated/l10n.dart';
 
 class TodoImportanceSelectionTile extends StatefulWidget {
   const TodoImportanceSelectionTile({super.key});
@@ -23,19 +23,22 @@ class _TodoImportanceSelectionTileState
       builder: (context, todo) {
         return Builder(
           builder: (ctx) {
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              title: Text(
-                S.of(context).todoImportance,
-                style: context.textTheme.bodyMedium,
-              ),
-              subtitle: Text(
-                Intl.message(
-                  todo.importance.name,
-                  name: 'todoImportance_${todo.importance.name}',
+            return Material(
+              color: Colors.transparent,
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  S.of(context).todoImportance,
+                  style: context.textTheme.bodyMedium,
                 ),
+                subtitle: Text(
+                  Intl.message(
+                    todo.importance.name,
+                    name: 'todoImportance_${todo.importance.name}',
+                  ),
+                ),
+                onTap: () => _onPriorityTileTap(ctx),
               ),
-              onTap: () => _onPriorityTileTap(ctx),
             );
           },
         );

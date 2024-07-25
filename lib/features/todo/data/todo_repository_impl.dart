@@ -1,11 +1,14 @@
-import 'package:todo_list/config/logger/logger.dart';
-import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
+import 'package:dio/dio.dart';
+import 'package:todo_list/config/log/logger.dart';
+import 'package:todo_list/core/services/settings_service.dart';
+import 'package:todo_list/features/todo/data/models/remote/unauthorized_exception.dart';
 import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
 import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
 import 'package:todo_list/features/todo/domain/entities/todo.dart';
 import 'package:todo_list/features/todo/domain/repository/todo_repository.dart';
-import 'package:todo_list/core/services/settings_service.dart';
+
+import 'models/local/local_todo.dart';
+import 'models/remote/remote_todo.dart';
 
 part 'mappers/entity_mappers.dart';
 part 'mappers/local_mappers.dart';
@@ -46,6 +49,7 @@ class TodoRepositoryImpl implements TodoRepository {
         );
       }
     } catch (e, s) {
+      if (_isUnauthorizedError(e)) throw UnauthorizedException();
       Log.e('Error fetching todos from remote: $e, $s');
       return (await _tryGetLocalTodos()).toEntities();
     }
@@ -78,12 +82,19 @@ class TodoRepositoryImpl implements TodoRepository {
     // await _revision.set(remoteRevision);
     final localTodos = await _tryGetLocalTodos();
     if (localTodos.isNotEmpty) {
+      Log.i('Device never synced and there is data, merging...');
       final mergedTodos = remoteTodos.toEntities()
         ..addAll(localTodos.toEntities());
       await _remote.putFresh(mergedTodos.toRemoteTodos());
       await _local.putFresh(mergedTodos.toLocalTodos());
+      Log.i(
+        'Both sources updated with merged list, revision is ${remoteRevision + 1} everywhere',
+      );
       return mergedTodos;
     } else {
+      Log.i(
+        'Device never synced and there is no data, returning remote. Revision is $remoteRevision everywhere',
+      );
       return remoteTodos.toEntities();
     }
   }
@@ -133,6 +144,7 @@ class TodoRepositoryImpl implements TodoRepository {
       await _revision.increment();
       incremented = true;
     } catch (e, s) {
+      if (_isUnauthorizedError(e)) throw UnauthorizedException();
       Log.e('Error in remote: $e, $s');
     }
     try {
@@ -141,5 +153,12 @@ class TodoRepositoryImpl implements TodoRepository {
     } catch (e, s) {
       Log.e('Error in local: $e, $s');
     }
+  }
+
+  bool _isUnauthorizedError(dynamic e) {
+    if (e is DioException && e.response?.statusCode == 401) {
+      return true;
+    }
+    return false;
   }
 }

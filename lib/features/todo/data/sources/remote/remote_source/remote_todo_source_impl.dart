@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:todo_list/features/todo/data/models/remote/remote_todo.dart';
-import 'package:todo_list/features/todo/data/sources/remote/remote_source/remote_todo_source.dart';
+
 import '../../../../../../core/services/settings_service.dart';
+import '../../../models/remote/remote_todo.dart';
+import 'remote_todo_source.dart';
 
 part '../interceptors/auth_interceptor.dart';
 part '../interceptors/revision_interceptor.dart';

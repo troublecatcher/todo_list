@@ -5,9 +5,8 @@ import 'package:todo_list/core/services/settings_service.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
   final _theme = GetIt.I<SettingsService>().theme;
-  ThemeCubit() : super(ThemeMode.system) {
-    init();
-  }
+  ThemeCubit() : super(ThemeMode.system);
+
   void init() =>
       emit(ThemeMode.values.firstWhere((pref) => pref.name == _theme.value));
   Future<void> set(ThemeMode preference) async {

@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:todo_list/features/todo/data/models/local/local_todo.dart';
-import 'package:todo_list/features/todo/data/sources/local/local_todo_source.dart';
+
+import '../../models/local/local_todo.dart';
+import 'local_todo_source.dart';
 
 class LocalTodoSourceImpl implements LocalTodoSource {
   final Isar _isar;
@@ -30,7 +31,7 @@ class LocalTodoSourceImpl implements LocalTodoSource {
   @override
   Future<void> deleteTodo(LocalTodo todo) async {
     await _isar.writeTxn(
-      () async => await _isar.localTodos.delete(todo.isarId),
+      () async => await _isar.localTodos.delete(todo.id),
     );
   }
 }
