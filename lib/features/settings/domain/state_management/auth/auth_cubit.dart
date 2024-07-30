@@ -15,7 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
     if (_auth.value != null) {
       emit(AuthState(source: AuthSource.manual, key: _auth.value!));
     } else {
-      emit(AuthState(source: AuthSource.env, key: dotenv.env['auth']!));
+      emit(AuthState(source: AuthSource.env, key: dotenv.env['auth'] ?? ''));
     }
   }
 
